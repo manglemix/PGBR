@@ -5,7 +5,8 @@ extends Camera
 var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
-var max_pitch := 80.0		# the largest angle by which the camera can look up or down by
+var max_pitch := 80.0		# the largest angle by which the camera can look up
+var min_pitch := - 80.0		# the largest angle by which the camera can look down
 var invert_y := false
 
 var _player_node
@@ -19,11 +20,15 @@ var _lock_onto_player := false
 func _ready():
 	_current_scene = get_tree().get_current_scene()
 	
+	# if the parent to this camera is no the current scene root node
+	# then the camera will try to follow that node when that node is ready
 	if get_parent() != _current_scene:
 		get_parent().connect("ready", self, "_set_player_from_parent")
 
 
 func set_player(node):
+	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
+	# which should also have a child called CameraTarget
 	_player_node = node
 	_pivot_node = node.get_node("CameraPivot")
 	_target_node = _pivot_node.get_node("CameraTarget")
@@ -50,7 +55,8 @@ func _input(event):
 			_player_node.rotate_object_local(Vector3.UP, - event.relative.x * mouse_sensitivity)
 			_pivot_node.rotate_object_local(Vector3.RIGHT, event.relative.y * mouse_sensitivity)
 			
-			if abs(rotation_degrees.x) >= max_pitch:
+			# this undoes the pitch rotation if it goes past the limits given
+			if _pivot_node.rotation_degrees.x >= max_pitch or _pivot_node.rotation_degrees.x <= min_pitch:
 				_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 		
 		if event.is_action_pressed("jump"):
