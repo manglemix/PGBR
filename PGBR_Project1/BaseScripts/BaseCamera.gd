@@ -17,7 +17,8 @@ var _lock_onto_player := false
 func _ready():
 	_current_scene = get_tree().get_current_scene()
 	
-	get_parent().connect("ready", self, "_set_player_from_parent")
+	if get_parent() != _current_scene:
+		get_parent().connect("ready", self, "_set_player_from_parent")
 
 
 func set_player(node):
