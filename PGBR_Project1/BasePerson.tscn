@@ -18,4 +18,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="CameraPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57944, 0 )
+
+[node name="CameraTarget" type="Spatial" parent="CameraPivot"]
+transform = Transform( -1, 0, -8.74228e-08, -2.26267e-08, 0.965926, 0.258819, 8.44439e-08, 0.258819, -0.965926, 0, 3.16612, -6.61902 )

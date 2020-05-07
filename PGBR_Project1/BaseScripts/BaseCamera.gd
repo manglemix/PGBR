@@ -8,7 +8,8 @@ var mouse_sensitivity = 0.001
 var max_pitch := 80.0		# the largest angle by which the camera can look up or down by
 
 var _player_node
-var _pivot_node						# the node the camera will move to
+var _pivot_node						# the node the camera will pivot around
+var _target_node					# the node the camera ill move to
 var _current_scene
 var _interpolate_speed := 0.1		# used whenever there is any interpolation done
 var _lock_onto_player := false
@@ -39,11 +40,11 @@ func _input(event):
 	
 	if is_instance_valid(_player_node):
 		if event is InputEventMouseMotion:
-			_player_node.rotate_object_local(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
-			rotate_object_local(Vector3.LEFT, event.relative.y * mouse_sensitivity)
+			_player_node.rotate_object_local(Vector3.UP, - event.relative.x * mouse_sensitivity)
+			_pivot_node.rotate_object_local(Vector3.RIGHT, event.relative.y * mouse_sensitivity)
 			
 			if abs(rotation_degrees.x) >= max_pitch:
-				rotate_object_local(Vector3.LEFT, - event.relative.y * mouse_sensitivity)
+				_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 		
 		if event.is_action_pressed("jump"):
 			_player_node.jump()
@@ -57,12 +58,12 @@ func _input(event):
 func _process(delta):
 	if is_instance_valid(_pivot_node):
 		# checks if the pivot node is within 5 cm
-		_lock_onto_player = global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.05
+		_lock_onto_player = global_transform.origin.distance_to(_target_node.global_transform.origin) < 0.05
 		
 		# if the pivot node is too far, interpolate towards it
 		if not _lock_onto_player:
 			# this will move the camera towards the pivot node
-			global_transform = global_transform.interpolate_with(_pivot_node.global_transform, _interpolate_speed)
+			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
 		
 		var movement_vector := Vector3.ZERO
 		if Input.is_action_pressed("forward"):
