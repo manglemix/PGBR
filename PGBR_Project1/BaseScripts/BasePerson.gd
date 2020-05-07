@@ -42,6 +42,10 @@ func jump(strength:=1.0):
 		vertical_speed = jump_speed * strength
 
 
+func shoot_guns():
+	emit_signal("shoot")
+
+
 func _physics_process(delta):
 	vertical_speed += fall_acceleration * delta
 	linear_velocity = movement_vector
