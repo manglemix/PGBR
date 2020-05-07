@@ -13,14 +13,22 @@ var _lock_onto_player := false
 
 func _ready():
 	_current_scene = get_tree().get_current_scene()
+	
+	get_parent().connect("ready", self, "_set_player_from_parent")
 
 
 func set_player(node):
 	_player_node = node
 	_pivot_node = node.get_node("CameraPivot")
+	_lock_onto_player = false
 
 
-func _process(delta):
+func _set_player_from_parent():
+	_player_node = get_parent()
+	_pivot_node = _player_node.get_node("CameraPivot")
+	_lock_onto_player = false
+
+
 	if is_instance_valid(_player_node):
 		if _lock_onto_player:
 			# locking on just means copying the position exactly
