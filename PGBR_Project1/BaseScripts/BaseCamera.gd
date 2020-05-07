@@ -46,6 +46,11 @@ func _input(event):
 		
 		if event.is_action_pressed("jump"):
 			_player_node.jump()
+	
+	else:
+		if event is InputEventMouseMotion:
+			global_rotate(Vector3.UP, - event.relative.x * mouse_sensitivity)
+			rotate_object_local(Vector3.LEFT, event.relative.y * mouse_sensitivity)
 
 
 func _process(delta):
@@ -78,3 +83,24 @@ func _process(delta):
 			
 	else:
 		global_transform.origin += linear_velocity * delta
+		
+		if Input.is_action_pressed("forward"):
+			linear_velocity -= global_transform.basis.z * move_speed * delta
+		
+		if Input.is_action_pressed("backward"):
+			linear_velocity += global_transform.basis.z * move_speed * delta
+		
+		if Input.is_action_pressed("right"):
+			linear_velocity += global_transform.basis.x * move_speed * delta
+		
+		if Input.is_action_pressed("left"):
+			linear_velocity -= global_transform.basis.x * move_speed * delta
+
+		if Input.is_action_pressed("jump"):
+			linear_velocity += global_transform.basis.y * move_speed * delta
+
+		if Input.is_action_pressed("crouch"):
+			linear_velocity -= global_transform.basis.y * move_speed * delta
+		
+		# this slows down the camera
+		linear_velocity *= 0.97
