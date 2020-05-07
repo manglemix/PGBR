@@ -40,6 +40,7 @@ func _set_player_from_parent():
 			linear_velocity = linear_velocity.linear_interpolate(_player_node.linear_velocity, _interpolate_speed)
 			# this will mvoe the camera towards the player node
 			global_transform.origin += linear_velocity * delta
+			global_transform = global_transform.interpolate_with(_pivot_node.global_transform, _interpolate_speed)
 			
 			if global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.5:
 				# if the camera and the player are close enough, then just lock onto the player
