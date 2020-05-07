@@ -5,6 +5,7 @@ extends Camera
 var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
+var max_pitch := 80.0		# the largest angle by which the camera can look up or down by
 
 var _player_node
 var _pivot_node						# the node the camera will move to
@@ -39,6 +40,9 @@ func _input(event):
 		if event is InputEventMouseMotion:
 			_player_node.rotate_object_local(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
 			rotate_object_local(Vector3.LEFT, event.relative.y * mouse_sensitivity)
+			
+			if abs(rotation_degrees.x) >= max_pitch:
+				rotate_object_local(Vector3.LEFT, - event.relative.y * mouse_sensitivity)
 		
 		if event.is_action_pressed("jump"):
 			_player_node.jump()
