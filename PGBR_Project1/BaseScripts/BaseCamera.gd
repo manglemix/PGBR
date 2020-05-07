@@ -3,6 +3,7 @@ extends Camera
 
 
 var move_speed := 20.0		# this is the speed when the camera is a spectator
+var linear_velocity := Vector3.ZERO
 
 var _player_node
 var _pivot_node						# the node the camera will move to
@@ -35,10 +36,14 @@ func _set_player_from_parent():
 			global_transform.origin = _pivot_node.global_transform.origin
 		
 		else:
+			# interpolates the camera speed with the player's speed
+			linear_velocity = linear_velocity.linear_interpolate(_player_node.linear_velocity, _interpolate_speed)
 			# this will mvoe the camera towards the player node
-			global_transform.origin += _player_node.linear_velocity * delta
-			global_transform.origin = global_transform.origin.linear_interpolate(_pivot_node.global_transform.origin, _interpolate_speed)
+			global_transform.origin += linear_velocity * delta
 			
 			if global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.5:
 				# if the camera and the player are close enough, then just lock onto the player
 				_lock_onto_player = true
+				
+	else:
+		global_transform.origin += linear_velocity * delta
