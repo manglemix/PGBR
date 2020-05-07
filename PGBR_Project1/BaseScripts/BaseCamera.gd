@@ -6,7 +6,7 @@ var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
 var max_pitch := 80.0		# the largest angle by which the camera can look up or down by
-var invert_y := true
+var invert_y := false
 
 var _player_node
 var _pivot_node						# the node the camera will pivot around
@@ -27,8 +27,10 @@ func set_player(node):
 	_player_node = node
 	_pivot_node = node.get_node("CameraPivot")
 	_target_node = _pivot_node.get_node("CameraTarget")
+	assert(is_instance_valid(_target_node))
+	
 	get_parent().remove_child(self)
-	_pivot_node.add_child(self)
+	_target_node.add_child(self)
 	_lock_onto_player = false
 
 
@@ -52,6 +54,9 @@ func _input(event):
 				_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 		
 		if event.is_action_pressed("jump"):
+			_player_node.charge_jump()
+		
+		elif event.is_action_released("jump") and _player_node.charging_jump:
 			_player_node.jump()
 	
 	else:
@@ -64,7 +69,7 @@ func _input(event):
 
 
 func _process(delta):
-	if is_instance_valid(_pivot_node):
+	if is_instance_valid(_player_node):
 		# checks if the pivot node is within 5 cm
 		_lock_onto_player = global_transform.origin.distance_to(_target_node.global_transform.origin) < 0.05
 		
