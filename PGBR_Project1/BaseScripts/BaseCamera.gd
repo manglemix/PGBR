@@ -13,13 +13,6 @@ var _lock_onto_player := false
 
 func _ready():
 	_current_scene = get_tree().get_current_scene()
-	
-	# this is an easy way to assign a player to a camera
-	# just make the player the parent, and the camera will reassign itself
-	if get_parent() != _current_scene:
-		_player_node = get_parent()
-		_player_node.remove_child(self)
-		_current_scene.add_child(self)
 
 
 func set_player(node):
