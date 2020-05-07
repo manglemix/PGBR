@@ -19,7 +19,7 @@ var fall_acceleration := - 9.8			# the rate at which the vertical speed changes,
 var linear_velocity := Vector3.ZERO
 
 
-func move_towards(vector: Vector3, movement_style:=RUN):
+func move_to_vector(vector: Vector3, movement_style:=RUN):
 	assert(vector.is_normalized())
 	assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
 	movement_vector = vector * move_speed
