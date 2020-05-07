@@ -4,6 +4,7 @@ extends Camera
 
 var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
+var mouse_sensitivity = 0.001
 
 var _player_node
 var _pivot_node						# the node the camera will move to
@@ -21,30 +22,55 @@ func _ready():
 func set_player(node):
 	_player_node = node
 	_pivot_node = node.get_node("CameraPivot")
+	get_parent().remove_child(self)
+	_pivot_node.add_child(self)
 	_lock_onto_player = false
 
 
 func _set_player_from_parent():
-	_player_node = get_parent()
-	_pivot_node = _player_node.get_node("CameraPivot")
-	_lock_onto_player = false
+	set_player(get_parent())
 
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+	
 	if is_instance_valid(_player_node):
-		if _lock_onto_player:
-			# locking on just means copying the position exactly
-			global_transform.origin = _pivot_node.global_transform.origin
+		if event is InputEventMouseMotion:
+			_player_node.rotate_object_local(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
+			rotate_object_local(Vector3.LEFT, event.relative.y * mouse_sensitivity)
 		
-		else:
-			# interpolates the camera speed with the player's speed
-			linear_velocity = linear_velocity.linear_interpolate(_player_node.linear_velocity, _interpolate_speed)
-			# this will mvoe the camera towards the player node
-			global_transform.origin += linear_velocity * delta
+		if event.is_action_pressed("jump"):
+			_player_node.jump()
+
+
+func _process(delta):
+	if is_instance_valid(_pivot_node):
+		# checks if the pivot node is within 5 cm
+		_lock_onto_player = global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.05
+		
+		# if the pivot node is too far, interpolate towards it
+		if not _lock_onto_player:
+			# this will move the camera towards the pivot node
 			global_transform = global_transform.interpolate_with(_pivot_node.global_transform, _interpolate_speed)
+		
+		var movement_vector := Vector3.ZERO
+		if Input.is_action_pressed("forward"):
+			movement_vector += _player_node.global_transform.basis.z
+		
+		if Input.is_action_pressed("backward"):
+			movement_vector -= _player_node.global_transform.basis.z
+		
+		if Input.is_action_pressed("right"):
+			movement_vector -= _player_node.global_transform.basis.x
+		
+		if Input.is_action_pressed("left"):
+			movement_vector += _player_node.global_transform.basis.x
+		
+		if is_zero_approx(movement_vector.length_squared()):
+			_player_node.stop_moving()
+		else:
+			_player_node.move_to_vector(movement_vector.normalized())
 			
-			if global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.5:
-				# if the camera and the player are close enough, then just lock onto the player
-				_lock_onto_player = true
-				
 	else:
 		global_transform.origin += linear_velocity * delta
