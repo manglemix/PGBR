@@ -6,15 +6,15 @@ var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
 var max_pitch := 80.0		# the largest angle by which the camera can look up
-var min_pitch := - 80.0		# the largest angle by which the camera can look down
+var min_pitch := - 60.0		# the largest angle by which the camera can look down
 var invert_y := false
 
-var _player_node
+var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
-var _target_node					# the node the camera ill move to
+var _target_node					# the child of the pivot node; the node the camera will move to
 var _current_scene
-var _interpolate_speed := 0.1		# used whenever there is any interpolation done
-var _lock_onto_player := false
+var _interpolate_speed := 0.1			# used whenever there is any interpolation done
+var _interpolate_to_player := false		# if true, the camera will move to the target node
 
 
 func _ready():
@@ -36,7 +36,6 @@ func set_player(node):
 	
 	get_parent().remove_child(self)
 	_target_node.add_child(self)
-	_lock_onto_player = false
 
 
 func _set_player_from_parent():
@@ -59,13 +58,17 @@ func _input(event):
 			if _pivot_node.rotation_degrees.x >= max_pitch or _pivot_node.rotation_degrees.x <= min_pitch:
 				_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 		
+		# this alerts the player to charge the jump
 		if event.is_action_pressed("jump"):
 			_player_node.charge_jump()
 		
+		# once the spacebar is released, and a jump was charging, then the player will jump
 		elif event.is_action_released("jump") and _player_node.charging_jump:
 			_player_node.jump()
 	
 	else:
+		# this is for when the camera has no player to follow
+		# it is basically a free moving camera
 		if event is InputEventMouseMotion:
 			if invert_y:
 				event.relative.y *= -1
@@ -77,10 +80,10 @@ func _input(event):
 func _process(delta):
 	if is_instance_valid(_player_node):
 		# checks if the pivot node is within 5 cm
-		_lock_onto_player = global_transform.origin.distance_to(_target_node.global_transform.origin) < 0.05
+		_interpolate_to_player = global_transform.origin.distance_to(_target_node.global_transform.origin) > 0.05
 		
 		# if the pivot node is too far, interpolate towards it
-		if not _lock_onto_player:
+		if _interpolate_to_player:
 			# this will move the camera towards the pivot node
 			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
 		
@@ -103,6 +106,8 @@ func _process(delta):
 			_player_node.move_to_vector(movement_vector.normalized())
 			
 	else:
+		# this is for when the camera has no player to follow
+		# it is basically a free moving camera
 		global_transform.origin += linear_velocity * delta
 		
 		if Input.is_action_pressed("forward"):
