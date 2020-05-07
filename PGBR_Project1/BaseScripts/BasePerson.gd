@@ -15,6 +15,7 @@ var move_speed := 10.0					# the top down speed of the person
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
 var jump_speed := 10.0					# the vertical speed given to the person when they jump
 var vertical_speed := 0.0				# we separate the vertical speed to make things easier
+var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 
 
@@ -42,6 +43,7 @@ func jump(strength:=1.0):
 
 
 func _physics_process(delta):
+	vertical_speed += fall_acceleration * delta
 	linear_velocity = movement_vector
 	linear_velocity.y = vertical_speed
 	
