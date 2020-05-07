@@ -38,8 +38,8 @@ func jump(strength:=1.0):
 	# there is a strength parameter to help control the jump height
 	# this may be controlled by how long the spacebar is held
 	
-	# TODO check if player is on the ground first
-	vertical_speed = jump_speed
+	if is_on_floor():
+		vertical_speed = jump_speed * strength
 
 
 func _physics_process(delta):
