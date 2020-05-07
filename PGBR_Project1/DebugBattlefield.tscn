@@ -1,5 +1,10 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="PlaneMesh" id=1]
+size = Vector2( 200, 200 )
 
 [node name="Draft" type="Spatial"]
 
 [node name="Terrain" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
