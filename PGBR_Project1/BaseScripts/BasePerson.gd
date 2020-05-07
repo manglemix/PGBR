@@ -48,3 +48,4 @@ func _physics_process(delta):
 	linear_velocity.y = vertical_speed
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
+	vertical_speed = linear_velocity.y
