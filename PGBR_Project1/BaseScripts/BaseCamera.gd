@@ -28,15 +28,16 @@ func set_player(node):
 
 
 func _process(delta):
-	if _lock_onto_player:
-		# locking on just means copying the position exactly
-		global_transform.origin = _pivot_node.global_transform.origin
-	
-	else:
-		# this will mvoe the camera towards the player node
-		global_transform.origin += _pivot_node.linear_velocity * delta
-		global_transform.origin = global_transform.origin.linear_interpolate(_pivot_node.global_transform.origin, _interpolate_speed)
+	if is_instance_valid(_player_node):
+		if _lock_onto_player:
+			# locking on just means copying the position exactly
+			global_transform.origin = _pivot_node.global_transform.origin
 		
-		if global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.5:
-			# if the camera and the player are close enough, then just lock onto the player
-			_lock_onto_player = true
+		else:
+			# this will mvoe the camera towards the player node
+			global_transform.origin += _player_node.linear_velocity * delta
+			global_transform.origin = global_transform.origin.linear_interpolate(_pivot_node.global_transform.origin, _interpolate_speed)
+			
+			if global_transform.origin.distance_to(_pivot_node.global_transform.origin) < 0.5:
+				# if the camera and the player are close enough, then just lock onto the player
+				_lock_onto_player = true
