@@ -16,6 +16,7 @@ var vertical_speed := 0.0				# we separate the vertical speed to make things eas
 var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false
+var on_floor: bool
 
 var _jump_charge_start: int
 var _jump_charge_target: float
@@ -69,6 +70,7 @@ func _process(delta):
 func _physics_process(delta):
 	vertical_speed += fall_acceleration * delta
 	linear_velocity = movement_vector
+	on_floor = test_move(global_transform, Vector3.DOWN * 0.001)
 	linear_velocity.y = vertical_speed
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
