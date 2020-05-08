@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://BaseScripts/BasePerson.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=1]
 
 [sub_resource type="CapsuleMesh" id=2]
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 0.5, 0.5, 2 )
 
 [node name="Person" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -22,3 +25,14 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57944, 0 )
 
 [node name="CameraTarget" type="Spatial" parent="CameraPivot"]
 transform = Transform( -1, 0, -8.74228e-08, -2.26267e-08, 0.965926, 0.258819, 8.44439e-08, 0.258819, -0.965926, 0, 3.16612, -6.61902 )
+
+[node name="RightArm" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.06505, 1.96321, 0 )
+
+[node name="ArmMesh" type="MeshInstance" parent="RightArm"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115826, 0.0881953, 0.885254 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="Hand" type="Spatial" parent="RightArm"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115826, 0.0881953, 1.25055 )

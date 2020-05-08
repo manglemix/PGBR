@@ -1,14 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BaseScripts/BaseCamera.gd" type="Script" id=3]
+[ext_resource path="res://BaseScripts/BaseGun.gd" type="Script" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 200, 200 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 100, 0, 100 )
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.5
+height = 1.0
+
+[sub_resource type="CubeMesh" id=4]
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 1, 1, 7.91864 )
+
+[sub_resource type="CubeMesh" id=6]
 
 [node name="Draft" type="Spatial"]
 script = ExtResource( 1 )
@@ -23,8 +35,32 @@ material/0 = null
 shape = SubResource( 2 )
 
 [node name="Person" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.41301, 2.27717, -0.521326 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.41301, 10.5033, -0.521326 )
 
-[node name="BaseCamera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.41301, 2.27717, 13.4087 )
+[node name="BaseGun" type="RayCast" parent="Person"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0802797, 1.86034, 1.95324 )
+script = ExtResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Person/BaseGun"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="BaseCamera" type="InterpolatedCamera" parent="Person"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.22608, 13.9301 )
 script = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.02648, 0, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.914226, 0.405205, 0, -0.405205, 0.914226, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 5.35214, 0, 0, 0 )
+mesh = SubResource( 6 )
+material/0 = null
