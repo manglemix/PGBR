@@ -11,12 +11,12 @@ size = Vector2( 200, 200 )
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 100, 0, 100 )
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=3]
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 1, 1, 7.91864 )
 
-[sub_resource type="CubeMesh" id=6]
+[sub_resource type="CubeMesh" id=5]
 
 [node name="Draft" type="Spatial"]
 script = ExtResource( 1 )
@@ -41,16 +41,16 @@ script = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.02648, 0, 0 )
-mesh = SubResource( 4 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="StaticBody" type="StaticBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.914226, 0.405205, 0, -0.405205, 0.914226, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 5.35214, 0, 0, 0 )
-mesh = SubResource( 6 )
+mesh = SubResource( 5 )
 material/0 = null

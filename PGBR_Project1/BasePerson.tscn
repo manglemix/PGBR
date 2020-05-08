@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://BaseScripts/BasePerson.gd" type="Script" id=1]
+[ext_resource path="res://MoveableNode.gd" type="Script" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
-
-[sub_resource type="CapsuleMesh" id=2]
 
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 0.5, 0.5, 2 )
@@ -15,24 +14,15 @@ mid_height = 0.5
 radial_segments = 32
 rings = 6
 
+[sub_resource type="CapsuleMesh" id=2]
+
 [node name="Person" type="KinematicBody"]
 script = ExtResource( 1 )
 arm_paths = [ NodePath("RightArm") ]
-pivot_paths = [ NodePath("ThirdPerson"), NodePath("Head") ]
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.51222, 0 )
 shape = SubResource( 1 )
-
-[node name="MeshInstance" type="MeshInstance" parent="CollisionShape"]
-mesh = SubResource( 2 )
-material/0 = null
-
-[node name="ThirdPerson" type="Spatial" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 3.00729, 0 )
-
-[node name="ThirdPersonTarget" type="Spatial" parent="ThirdPerson"]
-transform = Transform( 1, 8.43339e-08, -2.27316e-07, -2.26267e-08, 0.965926, 0.258819, 2.41397e-07, -0.258819, 0.965926, 3.01029, 1.78587, 6.04718 )
 
 [node name="RightArm" type="Spatial" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.21131, 1.96321, 0 )
@@ -49,9 +39,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115826, 0.0881952, -2.10973
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 3.47928, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.915375 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24672e-08, 0, -0.65838 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="FirstPersonTarget" type="Spatial" parent="Head"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+[node name="CameraTarget" type="Spatial" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+script = ExtResource( 2 )
+transforms = [ Transform( 1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, 3.957, 1.888, 5.698 ), Transform( 1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, -3.957, 1.888, 5.698 ) ]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.51222, 0 )
+mesh = SubResource( 2 )
+material/0 = null
