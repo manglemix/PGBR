@@ -15,7 +15,6 @@ var move_speed := 10.0					# the top down speed of the person
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
 var acceleration := 6
 var jump_speed := 10.0					# the vertical speed given to the person when they jump
-var vertical_speed := 0.0				# we separate the vertical speed to make things easier
 var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false				# if true, the Person will try to charge up its jump strength
@@ -66,18 +65,25 @@ func _physics_process(delta):
 	on_floor = is_instance_valid(_floor_collision)
 	
 	if on_floor:
+		# we rotate the movement_vector so that it is along the floor plane
 		var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
-		var angle := Vector3.UP.angle_to(_floor_collision.normal)
-		movement_vector = movement_vector.rotated(axis, angle)
+		# usually if the axis is still not normalized, the floor normal is pointing straight up already
+		if axis.is_normalized():
+			var angle := Vector3.UP.angle_to(_floor_collision.normal)
+			movement_vector = movement_vector.rotated(axis, angle)
+		
 		linear_velocity = linear_velocity.linear_interpolate(movement_vector, acceleration * delta)
 		
-		vertical_speed = 0.0
+		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
 		if charging_jump and (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor >= _jump_charge_target - 1:
 			jump()
 	
 	else:
+		# cannot charge jump while in the air
 		charging_jump = false
+		# this is strafing
 		linear_velocity += movement_vector * delta
+		# this is just gravity
 		linear_velocity.y += fall_acceleration * delta
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
