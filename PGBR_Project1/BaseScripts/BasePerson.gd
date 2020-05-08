@@ -47,7 +47,7 @@ func charge_jump(strength:=1.5):
 
 
 func jump():
-	if is_on_floor():
+	if on_floor:
 		print((OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor + 1)
 		vertical_speed = jump_speed
 		
@@ -59,15 +59,6 @@ func jump():
 
 func shoot_guns():
 	emit_signal("shoot")
-
-
-func _process(delta):
-	if charging_jump:
-		if is_on_floor():
-			if (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor >= _jump_charge_target - 1:
-				jump()
-		else:
-			charging_jump = false
 
 
 func _physics_process(delta):
