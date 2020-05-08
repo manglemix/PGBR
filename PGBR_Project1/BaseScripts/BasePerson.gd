@@ -7,6 +7,7 @@ signal died			# may or may not be needed, we'll be watched by the current scene
 signal aim
 
 export(Array, NodePath) var arm_paths
+export(Array, NodePath) var pivot_paths
 
 var SPRINT := 20.0
 var RUN := 10.0
@@ -34,6 +35,20 @@ func _ready():
 	for path in arm_paths:
 		arms[get_node(path)] = false
 
+	for path in pivot_paths:
+		_pivots.append(get_node(path))
+
+
+func request_camera_targets(name: String) -> Array:
+	var targets := []
+	for pivot in _pivots:
+		if pivot.name == name:
+			for child in pivot.get_children():
+				if child is Spatial:
+					targets.append(child)
+			break
+	return targets
+
 
 func move_to_vector(vector: Vector3, speed:=RUN):
 	assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
@@ -41,6 +56,7 @@ func move_to_vector(vector: Vector3, speed:=RUN):
 	if not vector.is_normalized():
 		push_warning("move_to_vector in " + str(self) + " is not normalized")
 		vector = vector.normalized()
+	
 	if on_floor:
 		movement_vector = vector * speed
 	else:
