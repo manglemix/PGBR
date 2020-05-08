@@ -1,10 +1,11 @@
 extends Control
 
 
-var enabled := false setget set_enabled
+var enabled := true setget set_enabled
 
 var _textboxes := []
 var _queued_points := {}
+var _dots := {}
 
 
 func set_enabled(value: bool):
@@ -30,17 +31,20 @@ func create_PropertyObserver(observed_object, property: String):
 
 
 func draw_points(points, colour:=Color.white, width := 1.0):
-	if not enabled:
-		return
-	
-	var screen_space_points := PoolVector2Array()
-	var camera = get_viewport().get_camera()
-	
-	for point in points:
-		if camera.is_position_behind(point):
-			return
-		screen_space_points.append(camera.unproject_position(point))
-	_queued_points[screen_space_points] = [colour, width]
+	if enabled:
+		var screen_points := PoolVector2Array()
+		var camera = get_viewport().get_camera()
+		
+		for point in points:
+			if camera.is_position_behind(point):
+				return
+			screen_points.append(camera.unproject_position(point))
+		_queued_points[screen_points] = [colour, width]
+
+
+func draw_dot(position, colour:=Color.white, radius:=5):
+	if enabled:
+		_dots[position] = [radius, colour]
 
 
 func _draw():
@@ -49,6 +53,14 @@ func _draw():
 		for lines in _queued_points:
 			metadata = _queued_points[lines]
 			draw_polyline(lines, metadata[0], metadata[1], true)
+		
+		var camera = get_viewport().get_camera()
+		for dot in _dots:
+			if camera.is_position_behind(dot):
+				continue
+			
+			metadata = _dots[dot]
+			draw_circle(camera.unproject_position(dot), metadata[0], metadata[1])
 	
 	_queued_points.clear()
 
