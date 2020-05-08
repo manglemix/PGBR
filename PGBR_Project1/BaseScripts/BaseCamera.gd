@@ -8,6 +8,7 @@ var mouse_sensitivity = 0.001
 var max_pitch := 80.0		# the largest angle by which the camera can look up
 var min_pitch := - 60.0		# the largest angle by which the camera can look down
 var invert_y := false
+var screen_centre: Vector2
 
 var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
@@ -15,9 +16,15 @@ var _target_node					# the child of the pivot node; the node the camera will mov
 var _current_scene
 var _interpolate_speed := 0.1			# used whenever there is any interpolation done
 var _interpolate_to_player := false		# if true, the camera will move to the target node
+var _raycast := RayCast.new()
 
 
 func _ready():
+	screen_centre = get_viewport().size / 2
+	print(screen_centre)
+	add_child(_raycast)
+	_raycast.enabled = true
+	
 	_current_scene = get_tree().get_current_scene()
 	
 	# if the parent to this camera is no the current scene root node
@@ -40,6 +47,18 @@ func set_player(node):
 
 func _set_player_from_parent():
 	set_player(get_parent())
+
+
+func project_raycast(screen_point:=screen_centre, distance:=far):
+	_raycast.cast_to = _raycast.to_local(project_position(screen_point, distance))
+
+
+func get_collider():
+	return _raycast.get_collider()
+
+
+func get_collision_point():
+	return _raycast.get_collision_point()
 
 
 func _input(event):
