@@ -60,6 +60,10 @@ func shoot_guns():
 	emit_signal("shoot")
 
 
+func aim_guns(target: Vector3):
+	emit_signal("aim", target)
+
+
 func _physics_process(delta):
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)
@@ -72,6 +76,7 @@ func _physics_process(delta):
 			var angle := Vector3.UP.angle_to(_floor_collision.normal)
 			movement_vector = movement_vector.rotated(axis, angle)
 		
+		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(movement_vector, acceleration * delta)
 		
 		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
