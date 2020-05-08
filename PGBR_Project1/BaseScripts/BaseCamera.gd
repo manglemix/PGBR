@@ -121,6 +121,11 @@ func _process(delta):
 		
 		if not is_zero_approx(movement_vector.length_squared()):
 			_player_node.move_to_vector(movement_vector.normalized())
+		
+		if Input.is_action_pressed("shoot"):
+			project_raycast()
+			_player_node.aim_guns(get_collision_point())
+			_player_node.shoot_guns()
 			
 	else:
 		# this is for when the camera has no player to follow
