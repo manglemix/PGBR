@@ -2,6 +2,8 @@ class_name BaseCamera
 extends Camera
 
 
+export var mode := "Head"
+
 var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
@@ -12,7 +14,8 @@ var screen_centre: Vector2
 
 var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
-var _target_node					# the child of the pivot node; the node the camera will move to
+var _target_nodes
+var _current_target_node			# the child of the pivot node; the node the camera will move to
 var _current_scene
 var _interpolate_speed := 0.1			# used whenever there is any interpolation done
 var _interpolate_to_player := false		# if true, the camera will move to the target node
@@ -37,12 +40,17 @@ func set_player(node):
 	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
 	# which should also have a child called CameraTarget
 	_player_node = node
-	_pivot_node = node.get_node("CameraPivot")
-	_target_node = _pivot_node.get_node("CameraTarget")
-	assert(is_instance_valid(_target_node))
+	_target_nodes = node.request_camera_targets(mode)
+	
+	_current_target_node = _target_nodes[0]
+	_pivot_node = _current_target_node.get_parent()
+	assert(is_instance_valid(_current_target_node))
 	
 	get_parent().remove_child(self)
-	_target_node.add_child(self)
+	_current_target_node.add_child(self)
+	
+	_raycast.clear_exceptions()
+	_raycast.add_exception(_player_node)
 
 
 func _set_player_from_parent():
@@ -99,12 +107,12 @@ func _input(event):
 func _process(delta):
 	if is_instance_valid(_player_node):
 		# checks if the pivot node is within 5 cm
-		_interpolate_to_player = global_transform.origin.distance_to(_target_node.global_transform.origin) > 0.05
+		_interpolate_to_player = global_transform.origin.distance_to(_current_target_node.global_transform.origin) > 0.05
 		
 		# if the pivot node is too far, interpolate towards it
 		if _interpolate_to_player:
 			# this will move the camera towards the pivot node
-			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
+			global_transform = global_transform.interpolate_with(_current_target_node.global_transform, _interpolate_speed)
 		
 		var movement_vector := Vector3.ZERO
 		if Input.is_action_pressed("forward"):
@@ -124,7 +132,9 @@ func _process(delta):
 		
 		if Input.is_action_pressed("shoot"):
 			project_raycast()
-			_player_node.aim_guns(get_collision_point())
+			var target := get_collision_point()
+			Debug.draw_dot(target, Color.red)
+			_player_node.aim_guns(target)
 			_player_node.shoot_guns()
 			
 	else:
