@@ -72,6 +72,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	on_floor = test_move(global_transform, Vector3.DOWN * 0.001)
+	# flatten the linear velocity first so the interpolation is only along the x and z axes
+	linear_velocity.y = 0.0
 	linear_velocity = linear_velocity.linear_interpolate(movement_vector, 0.1)
 	
 	if on_floor:
