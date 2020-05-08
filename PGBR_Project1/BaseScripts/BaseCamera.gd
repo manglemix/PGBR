@@ -101,7 +101,7 @@ func _input(event):
 		elif event.is_action_released("jump") and _player_node.charging_jump:
 			_player_node.jump()
 		
-		if event.is_action_pressed("set_viewpoint"):
+		if event.is_action_pressed("change viewpoint"):
 			_target_node.increment_transform()
 	
 	else:
