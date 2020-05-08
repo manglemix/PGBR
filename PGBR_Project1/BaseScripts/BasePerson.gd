@@ -23,15 +23,18 @@ var _jump_charge_target: float
 var _jump_charge_factor := 0.001
 
 
-func move_to_vector(vector: Vector3, movement_style:=RUN):
-	if is_on_floor():
-		assert(vector.is_normalized())
-		assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
-		movement_vector = vector * move_speed
+func move_to_vector(vector: Vector3, speed:=RUN):
+	assert(vector.is_normalized())
+	assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
+	
+	if on_floor:
+		movement_vector = vector * speed
+	else:
+		movement_vector += vector * AIR * get_physics_process_delta_time()
 
 
 func stop_moving():
-	if is_on_floor():
+	if on_floor:
 		movement_vector = Vector3.ZERO
 
 
@@ -68,9 +71,17 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	vertical_speed += fall_acceleration * delta
-	linear_velocity = movement_vector
 	on_floor = test_move(global_transform, Vector3.DOWN * 0.001)
+	linear_velocity = linear_velocity.linear_interpolate(movement_vector, 0.1)
+	
+	if on_floor:
+		if charging_jump and (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor >= _jump_charge_target - 1:
+			jump()
+		
+	else:
+		vertical_speed += fall_acceleration * delta
+		charging_jump = false
+	
 	linear_velocity.y = vertical_speed
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
