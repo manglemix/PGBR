@@ -47,6 +47,9 @@ func set_player(node):
 	_raycast.clear_exceptions()
 	_raycast.add_exception(_player_node)
 
+	get_parent().remove_child(self)
+	_pivot_node.add_child(self)
+
 
 func change_perspective(new_perspective: int):
 	if not is_instance_valid(_player_node):
@@ -54,9 +57,7 @@ func change_perspective(new_perspective: int):
 	
 	current_perspective = new_perspective
 	_target_node.set_transform_index(current_perspective)
-	
-	get_parent().remove_child(self)
-	_target_node.add_child(self)
+
 
 func _set_player_from_parent():
 	set_player(get_parent())
@@ -97,6 +98,9 @@ func _input(event):
 		# once the spacebar is released, and a jump was charging, then the player will jump
 		elif event.is_action_released("jump") and _player_node.charging_jump:
 			_player_node.jump()
+		
+		if event.is_action_pressed("change_perspective"):
+			_target_node.increment_transform()
 	
 	else:
 		# this is for when the camera has no player to follow
