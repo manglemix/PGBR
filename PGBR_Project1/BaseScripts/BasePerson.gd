@@ -5,9 +5,10 @@ extends KinematicBody
 signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
 
-const SPRINT := 2.0		# these correspond to multiples of move_speed
-const RUN := 1.0
-const WALK := 0.5
+var SPRINT := 20.0
+var RUN := 10.0
+var WALK := 5.0
+var AIR := 5.0
 
 var move_speed := 10.0					# the top down speed of the person
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
