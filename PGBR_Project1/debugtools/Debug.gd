@@ -1,8 +1,19 @@
 extends Control
 
 
+var enabled := false setget set_enabled
+
 var _textboxes := []
 var _queued_points := {}
+
+
+func set_enabled(value: bool):
+	for node in _textboxes:
+		if value:
+			node.show()
+		else:
+			node.hide()
+	enabled = value
 
 
 func append_textboxes(textbox: RichTextLabel):
@@ -19,6 +30,9 @@ func create_PropertyObserver(observed_object, property: String):
 
 
 func draw_points(points, colour:=Color.white, width := 1.0):
+	if not enabled:
+		return
+	
 	var screen_space_points := PoolVector2Array()
 	var camera = get_viewport().get_camera()
 	
@@ -30,13 +44,15 @@ func draw_points(points, colour:=Color.white, width := 1.0):
 
 
 func _draw():
-	var metadata: Array
-	for lines in _queued_points:
-		metadata = _queued_points[lines]
-		draw_polyline(lines, metadata[0], metadata[1], true)
+	if enabled:
+		var metadata: Array
+		for lines in _queued_points:
+			metadata = _queued_points[lines]
+			draw_polyline(lines, metadata[0], metadata[1], true)
 	
 	_queued_points.clear()
 
 
 func _process(_delta):
-	update()
+	if enabled:
+		update()
