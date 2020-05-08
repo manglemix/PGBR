@@ -85,6 +85,26 @@ func aim_guns(target: Vector3):
 
 
 func _physics_process(delta):
+	var head_rotation = $Head.rotation_degrees
+	
+	# sets the measured rotation in the y axis to be 0 if pointing in the same direction as this node
+	# this is because the Head node has to be rotated 180 degrees because the Camera looks at the -z axis
+	if head_rotation.y < 0:
+		head_rotation.y = - 180 - head_rotation.y
+	else:
+		head_rotation.y = 180 - head_rotation.y
+	
+	# rotates the Person node so that the Head does not rotate past the max_head_yaw
+	if head_rotation.y < - max_head_yaw:
+		$Head.global_rotate(Vector3.UP, head_rotation.y * turn_speed * delta)
+		global_rotate(Vector3.UP, - head_rotation.y * turn_speed * delta)
+		
+	elif head_rotation.y > max_head_yaw:
+		$Head.global_rotate(Vector3.UP, head_rotation.y * turn_speed * delta)
+		global_rotate(Vector3.UP, - head_rotation.y * turn_speed * delta)
+	
+	# TODO Add code that turns the body towards the where the Head is pointing when moving
+	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)
 	
