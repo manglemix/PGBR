@@ -24,6 +24,8 @@ var _raycast := RayCast.new()
 
 
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	
 	screen_centre = get_viewport().size / 2
 	add_child(_raycast)
 	_raycast.enabled = true
