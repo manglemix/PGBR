@@ -6,6 +6,8 @@ signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
 signal aim
 
+export(Array, NodePath) var arm_paths
+
 var SPRINT := 20.0
 var RUN := 10.0
 var WALK := 5.0
@@ -19,11 +21,18 @@ var fall_acceleration := - 9.8			# the rate at which the vertical speed changes,
 var linear_velocity := Vector3.ZERO
 var charging_jump := false				# if true, the Person will try to charge up its jump strength
 var on_floor: bool						# if true, the KinematicBody is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var arms := {}
 
 var _floor_collision: KinematicCollision
 var _jump_charge_start: int				# the system time in msecs when a jump began to charge
 var _jump_charge_target: float			# the target strength of the jump
 var _jump_charge_factor := 0.001		# jump strength units per millisecond
+var _orientation_vector: Vector3		# the vector the Person is trying to turn towards
+
+
+func _ready():
+	for path in arm_paths:
+		arms[get_node(path)] = false
 
 
 func move_to_vector(vector: Vector3, speed:=RUN):
