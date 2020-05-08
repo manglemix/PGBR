@@ -2,7 +2,9 @@ class_name BaseCamera
 extends Camera
 
 
-export var mode := "Head"
+enum PERSPECTIVE {FPS, TPS}
+
+export(PERSPECTIVE) var current_perspective := PERSPECTIVE.FPS
 
 var move_speed := 20.0		# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
@@ -14,8 +16,7 @@ var screen_centre: Vector2
 
 var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
-var _target_nodes
-var _current_target_node			# the child of the pivot node; the node the camera will move to
+var _target_node: Spatial			# the child of the pivot node; the node the camera will move to
 var _current_scene
 var _interpolate_speed := 0.1			# used whenever there is any interpolation done
 var _interpolate_to_player := false		# if true, the camera will move to the target node
@@ -24,7 +25,6 @@ var _raycast := RayCast.new()
 
 func _ready():
 	screen_centre = get_viewport().size / 2
-	print(screen_centre)
 	add_child(_raycast)
 	_raycast.enabled = true
 	
@@ -40,18 +40,23 @@ func set_player(node):
 	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
 	# which should also have a child called CameraTarget
 	_player_node = node
-	_target_nodes = node.request_camera_targets(mode)
-	
-	_current_target_node = _target_nodes[0]
-	_pivot_node = _current_target_node.get_parent()
-	assert(is_instance_valid(_current_target_node))
-	
-	get_parent().remove_child(self)
-	_current_target_node.add_child(self)
+	_pivot_node = _player_node.get_node("Head")
+	_target_node = _pivot_node.get_node("CameraTarget")
+	change_perspective(current_perspective)
 	
 	_raycast.clear_exceptions()
 	_raycast.add_exception(_player_node)
 
+
+func change_perspective(new_perspective: int):
+	if not is_instance_valid(_player_node):
+		return
+	
+	current_perspective = new_perspective
+	_target_node.set_transform_index(current_perspective)
+	
+	get_parent().remove_child(self)
+	_target_node.add_child(self)
 
 func _set_player_from_parent():
 	set_player(get_parent())
@@ -65,7 +70,7 @@ func get_collider():
 	return _raycast.get_collider()
 
 
-func get_collision_point():
+func get_collision_point() -> Vector3:
 	return _raycast.get_collision_point()
 
 
@@ -78,8 +83,8 @@ func _input(event):
 			if invert_y:
 				event.relative.y *= -1
 			
-			_player_node.rotate_object_local(Vector3.UP, - event.relative.x * mouse_sensitivity)
-			_pivot_node.rotate_object_local(Vector3.RIGHT, event.relative.y * mouse_sensitivity)
+			_pivot_node.global_rotate(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
+			_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 			
 			# this undoes the pitch rotation if it goes past the limits given
 			if _pivot_node.rotation_degrees.x >= max_pitch or _pivot_node.rotation_degrees.x <= min_pitch:
@@ -107,12 +112,12 @@ func _input(event):
 func _process(delta):
 	if is_instance_valid(_player_node):
 		# checks if the pivot node is within 5 cm
-		_interpolate_to_player = global_transform.origin.distance_to(_current_target_node.global_transform.origin) > 0.05
+		_interpolate_to_player = global_transform.origin.distance_to(_target_node.global_transform.origin) > 0.05
 		
 		# if the pivot node is too far, interpolate towards it
 		if _interpolate_to_player:
 			# this will move the camera towards the pivot node
-			global_transform = global_transform.interpolate_with(_current_target_node.global_transform, _interpolate_speed)
+			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
 		
 		var movement_vector := Vector3.ZERO
 		if Input.is_action_pressed("forward"):
