@@ -14,20 +14,21 @@ var WALK := 5.0
 var AIR := 5.0
 
 var move_speed := 10.0					# the top down speed of the person
+var turn_speed := 0.05					# used for interpolating turns (like when turning the head)
+var max_head_yaw := 60.0				# the maximum angle the head can turn by on the y axis, both left and right
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
-var acceleration := 6
+var acceleration := 6					# used for interpolating the Person's speed to the movement_vector
 var jump_speed := 10.0					# the vertical speed given to the person when they jump
 var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false				# if true, the Person will try to charge up its jump strength
-var on_floor: bool						# if true, the KinematicBody is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
-var arms := []
+var on_floor: bool						# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var arms := []							# a list of nodes which were considered arms (from arm_paths)
 
-var _floor_collision: KinematicCollision
+var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
 var _jump_charge_start: int				# the system time in msecs when a jump began to charge
 var _jump_charge_target: float			# the target strength of the jump
 var _jump_charge_factor := 0.001		# jump strength units per millisecond
-var _target_transform: Transform
 
 
 func _ready():
@@ -35,17 +36,17 @@ func _ready():
 		arms.append(get_node(path))
 
 
-func move_to_vector(vector: Vector3, speed:=RUN):
-	assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
+func move_to_vector(rel_vec: Vector3, speed:=RUN):
+	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
 	
-	if not vector.is_normalized():
+	if not rel_vec.is_normalized():
 		push_warning("move_to_vector in " + str(self) + " is not normalized")
-		vector = vector.normalized()
+		rel_vec = rel_vec.normalized()
 	
 	if on_floor:
-		movement_vector = vector * speed
+		movement_vector = rel_vec * speed
 	else:
-		movement_vector += vector * AIR * get_physics_process_delta_time()
+		movement_vector += rel_vec * AIR * get_physics_process_delta_time()
 
 
 func charge_jump(strength:=1.5):
@@ -69,6 +70,8 @@ func jump():
 
 
 func request_hand():
+	# searches through the available arms, and checks their Hand node
+	# if the Hand node has no children, it is considered free and is therefore returned
 	var hand
 	for arm in arms:
 		hand = arm.get_node("Hand")
@@ -80,7 +83,7 @@ func shoot_guns():
 	emit_signal("shoot")
 
 
-func aim_guns(target: Vector3):
+func aim_towards(target: Vector3):
 	emit_signal("aim", target)
 
 
