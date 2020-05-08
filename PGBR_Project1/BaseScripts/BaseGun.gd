@@ -15,18 +15,20 @@ func _ready():
 		get_parent().connect("ready", self, "_equip_parent")
 
 
-func equip_node(node):
+func equip_node(node) -> bool:
 	node.connect("shoot", self, "shoot")
 	node.connect("aim", self, "aim_towards")
 	
-	arm = node.get_node("RightArm")
-	_hand = arm.get_node("Hand")
-	assert(is_instance_valid(_hand))
-	# if the Hand is occupied, then there should be a check to move to the other arm(s)
+	_hand = node.request_hand()
 	
-	get_parent().remove_child(self)
-	_hand.add_child(self)
-	transform = Transform.IDENTITY
+	if is_instance_valid(_hand):
+		get_parent().remove_child(self)
+		_hand.add_child(self)
+		arm = _hand.get_parent()
+		transform = Transform.IDENTITY
+		return true
+	else:
+		return false
 
 
 func _equip_parent():
@@ -35,7 +37,7 @@ func _equip_parent():
 
 func set_distance(distance: float):
 	assert(distance > 0)
-	cast_to = Vector3.BACK * distance
+	cast_to = Vector3.FORWARD * distance
 
 
 func aim_towards(target: Vector3):
