@@ -119,9 +119,7 @@ func _process(delta):
 		if Input.is_action_pressed("left"):
 			movement_vector += _player_node.global_transform.basis.x
 		
-		if is_zero_approx(movement_vector.length_squared()):
-			_player_node.stop_moving()
-		else:
+		if not is_zero_approx(movement_vector.length_squared()):
 			_player_node.move_to_vector(movement_vector.normalized())
 			
 	else:
