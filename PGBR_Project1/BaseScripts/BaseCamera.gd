@@ -2,15 +2,15 @@ class_name BaseCamera
 extends Camera
 
 
-enum PERSPECTIVE {FPS, TPS}
+enum VIEWPOINT {FPS, TPS}	# First Person, Third Person
 
-export(PERSPECTIVE) var current_perspective := PERSPECTIVE.FPS
+export(VIEWPOINT) var current_viewpoint := VIEWPOINT.FPS setget set_viewpoint
 
-var move_speed := 20.0		# this is the speed when the camera is a spectator
+var move_speed := 20.0			# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
-var max_pitch := 80.0		# the largest angle by which the camera can look up
-var min_pitch := - 60.0		# the largest angle by which the camera can look down
+var max_pitch := 80.0			# the largest angle by which the camera can look up
+var min_pitch := - 60.0			# the largest angle by which the camera can look down
 var invert_y := false
 var screen_centre: Vector2
 
@@ -42,7 +42,7 @@ func set_player(node):
 	_player_node = node
 	_pivot_node = _player_node.get_node("Head")
 	_target_node = _pivot_node.get_node("CameraTarget")
-	change_perspective(current_perspective)
+	set_viewpoint(current_viewpoint)
 	
 	_raycast.clear_exceptions()
 	_raycast.add_exception(_player_node)
@@ -51,12 +51,12 @@ func set_player(node):
 	_pivot_node.add_child(self)
 
 
-func change_perspective(new_perspective: int):
+func set_viewpoint(new_viewpoint: int):
 	if not is_instance_valid(_player_node):
 		return
 	
-	current_perspective = new_perspective
-	_target_node.set_transform_index(current_perspective)
+	current_viewpoint = new_viewpoint
+	_target_node.set_transform_index(current_viewpoint)
 
 
 func _set_player_from_parent():
@@ -99,7 +99,7 @@ func _input(event):
 		elif event.is_action_released("jump") and _player_node.charging_jump:
 			_player_node.jump()
 		
-		if event.is_action_pressed("change_perspective"):
+		if event.is_action_pressed("set_viewpoint"):
 			_target_node.increment_transform()
 	
 	else:
@@ -140,10 +140,12 @@ func _process(delta):
 			_player_node.move_to_vector(movement_vector.normalized())
 		
 		if Input.is_action_pressed("shoot"):
+			# casts the raycast node towards the crosshair (centre of screen)
 			project_raycast()
 			var target := get_collision_point()
+			# this line only draws a dot if Debug.enabled is true
 			Debug.draw_dot(target, Color.red)
-			_player_node.aim_guns(target)
+			_player_node.aim_towards(target)
 			_player_node.shoot_guns()
 			
 	else:
