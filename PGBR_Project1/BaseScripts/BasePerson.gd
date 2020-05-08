@@ -27,9 +27,11 @@ var _jump_charge_factor := 0.001		# jump strength units per millisecond
 
 
 func move_to_vector(vector: Vector3, speed:=RUN):
-	assert(vector.is_normalized())
 	assert(is_zero_approx(vector.y))	# to make sure the vector is only top down
 	
+	if not vector.is_normalized():
+		push_warning("move_to_vector in " + str(self) + " is not normalized")
+		vector = vector.normalized()
 	if on_floor:
 		movement_vector = vector * speed
 	else:
