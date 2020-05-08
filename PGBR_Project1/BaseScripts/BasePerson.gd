@@ -16,12 +16,12 @@ var jump_speed := 10.0					# the vertical speed given to the person when they ju
 var vertical_speed := 0.0				# we separate the vertical speed to make things easier
 var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
-var charging_jump := false
-var on_floor: bool
+var charging_jump := false				# if true, the Person will try to charge up its jump strength
+var on_floor: bool						# if true, the KinematicBody is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
 
-var _jump_charge_start: int
-var _jump_charge_target: float
-var _jump_charge_factor := 0.001
+var _jump_charge_start: int				# the system time in msecs when a jump began to charge
+var _jump_charge_target: float			# the target strength of the jump
+var _jump_charge_factor := 0.001		# jump strength units per millisecond
 
 
 func move_to_vector(vector: Vector3, speed:=RUN):
