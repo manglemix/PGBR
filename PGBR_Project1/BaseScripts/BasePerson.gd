@@ -28,6 +28,7 @@ var _jump_charge_start: int				# the system time in msecs when a jump began to c
 var _jump_charge_target: float			# the target strength of the jump
 var _jump_charge_factor := 0.001		# jump strength units per millisecond
 var _target_vector: Vector3
+var _head_target_vector: Vector3
 
 
 func _ready():
@@ -45,6 +46,16 @@ func turn_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
 	_target_vector = rel_vec.normalized()
+func head_to_vector(rel_vec: Vector3):
+	# turns the body towards the relative vector given
+	# there is no need to flatten the vector as the head can look in any direction
+	_head_target_vector = rel_vec.normalized()
+
+
+func global_head_to_vector(position: Vector3):
+	# the same as turn to vector, except it turns the head to a global position
+	_head_target_vector = (position - $Head.global_transform.origin)
+	_head_target_vector = _head_target_vector.normalized()
 
 
 func charge_jump(strength:=1.5):
