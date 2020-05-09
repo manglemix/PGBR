@@ -24,16 +24,28 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
+"base": "Control",
+"class": "HealthBar",
+"language": "GDScript",
+"path": "res://Scenes/HUD/HealthBar.gd"
+}, {
 "base": "RichTextLabel",
 "class": "PropertyWatcher",
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
+}, {
+"base": "Control",
+"class": "StaminaBar",
+"language": "GDScript",
+"path": "res://Scenes/HUD/StaminaBar.gd"
 } ]
 _global_script_class_icons={
 "BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
-"PropertyWatcher": ""
+"HealthBar": "",
+"PropertyWatcher": "",
+"StaminaBar": ""
 }
 
 [application]
@@ -45,6 +57,11 @@ config/icon="res://icon.png"
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
 
 [input]
 

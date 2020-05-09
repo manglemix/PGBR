@@ -5,6 +5,9 @@ extends KinematicBody
 signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
 signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+signal update_health(dmg_value)
+signal sprint_time(sprint_time)
+
 
 enum SPEEDS {WALK, RUN, SPRINT}
 
@@ -15,25 +18,48 @@ var run_speed := 10.0
 var walk_speed := 5.0
 var strafe_speed := 3.0
 
-var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
-var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
+# Character
+export var max_health := 100.0
+export var max_stamina := 3.0 # seconds
+export var stamina_regen := 0.5 # seconds
+export var health_regen := 1.0
+var curr_health := max_health setget curr_health_set
+var curr_stamina := max_stamina setget curr_stamina_set
+
+var sprinting := false
+var crouching := false
+
+var turn_speed := 10.0								# used for interpolating turns (like when turning the head)
+var max_head_yaw := 50.0							# the maximum angle the head can turn by on the y axis, both left and right
 var max_head_pitch := 60.0
 var min_head_pitch := -60.0
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
-var acceleration := 6					# used for interpolating the Person's speed to the movement_vector
-var jump_speed := 10.0					# the vertical speed given to the person when they jump
-var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
+var acceleration := 6									# used for interpolating the Person's speed to the movement_vector
+var jump_speed := 10.0								# the vertical speed given to the person when they jump
+var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
-var charging_jump := false				# if true, the Person will try to charge up its jump strength
-var on_floor: bool						# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
-var arms := []							# a list of nodes which were considered arms (from arm_paths)
+var charging_jump := false						# if true, the Person will try to charge up its jump strength
+var on_floor: bool										# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var arms := []												# a list of nodes which were considered arms (from arm_paths)
 
 var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
-var _jump_charge_start: int					# the system time in msecs when a jump began to charge
-var _jump_charge_target: float				# the target strength of the jump
-var _jump_charge_factor := 0.001			# jump strength units per millisecond
-var _body_target_vector: Vector3			# the vector the body tries to turn to
-var _head_target_vector: Vector3			# the vector the head tries to turn to
+var _jump_charge_start: int								# the system time in msecs when a jump began to charge
+var _jump_charge_target: float						# the target strength of the jump
+var _jump_charge_factor := 0.001					# jump strength units per millisecond
+var _body_target_vector: Vector3					# the vector the body tries to turn to
+var _head_target_vector: Vector3					# the vector the head tries to turn to
+
+
+# getters and setters
+func curr_health_set(new_val: float) -> void:
+	print("new val", new_val)
+	curr_health = clamp(new_val, 0, max_health)
+	emit_signal("update_health", curr_health)
+
+
+func curr_stamina_set(new_val: float) -> void:
+	curr_stamina = clamp(new_val, 0, max_stamina)
+	emit_signal("sprint_time", curr_stamina)
 
 
 func _ready():
@@ -195,3 +221,8 @@ func _physics_process(delta):
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	movement_vector *= 0.0
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
+
+
+
+func _on_SprintTimer_timeout():
+	sprinting = false
