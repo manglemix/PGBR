@@ -8,7 +8,8 @@ func get_score() -> float:
 	var max_score: float
 	
 	for child in get_children():
-		var score = child.get_score(employee, scene)
+		child.employee = employee
+		var score = child.get_score()
 		
 		if is_inf(score):
 			best_action = child
