@@ -48,6 +48,13 @@ func turn_to_vector(rel_vec: Vector3):
 	_body_target_vector = rel_vec.normalized()
 
 
+func global_turn_to_vector(position: Vector3):
+	# the same as turn to vector, except it turns the body to a global position
+	_body_target_vector = (position - global_transform.origin)
+	_body_target_vector.y = 0.0
+	_body_target_vector = _head_target_vector.normalized()
+
+
 func head_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	# there is no need to flatten the vector as the head can look in any direction
