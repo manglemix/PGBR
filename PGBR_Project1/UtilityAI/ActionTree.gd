@@ -12,8 +12,8 @@ var assigned_nodes := {}
 
 
 func get_best_action(employee):
-	assert(get_child_count() == 0)
-	get_child(0).get_score(employee)
+	assert(get_child_count() == 1)
+	get_child(0).get_score()
 	return get_child(0).best_action
 
 
