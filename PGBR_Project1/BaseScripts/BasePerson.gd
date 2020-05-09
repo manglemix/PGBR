@@ -11,6 +11,7 @@ export(Array, NodePath) var arm_paths
 var SPRINT := 20.0			# these correspond to speeds, for move_to_vector
 var RUN := 10.0
 var WALK := 5.0
+var AIR := 5.0
 
 var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
 var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
@@ -38,8 +39,12 @@ func _ready():
 
 func move_to_vector(rel_vec: Vector3, speed:=RUN):
 	# moves the node towards the relative vector given
-	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
-	movement_vector = rel_vec.normalized() * speed
+	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
+	
+	if on_floor:
+		movement_vector = rel_vec.normalized() * speed
+	else:
+		movement_vector = rel_vec.normalized() * AIR
 
 
 func turn_to_vector(rel_vec: Vector3):
