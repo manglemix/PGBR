@@ -29,11 +29,11 @@ var on_floor: bool						# if true, this node is on top of a floor. is_on_floor()
 var arms := []							# a list of nodes which were considered arms (from arm_paths)
 
 var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
-var _jump_charge_start: int				# the system time in msecs when a jump began to charge
-var _jump_charge_target: float			# the target strength of the jump
-var _jump_charge_factor := 0.001		# jump strength units per millisecond
-var _body_target_vector: Vector3
-var _head_target_vector: Vector3
+var _jump_charge_start: int					# the system time in msecs when a jump began to charge
+var _jump_charge_target: float				# the target strength of the jump
+var _jump_charge_factor := 0.001			# jump strength units per millisecond
+var _body_target_vector: Vector3			# the vector the body tries to turn to
+var _head_target_vector: Vector3			# the vector the head tries to turn to
 
 
 func _ready():
