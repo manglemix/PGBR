@@ -13,8 +13,8 @@ var RUN := 10.0
 var WALK := 5.0
 
 var move_speed := 10.0					# the top down speed of the person
-var turn_speed := 0.05					# used for interpolating turns (like when turning the head)
-var max_head_yaw := 60.0				# the maximum angle the head can turn by on the y axis, both left and right
+var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
+var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
 var acceleration := 6					# used for interpolating the Person's speed to the movement_vector
 var jump_speed := 10.0					# the vertical speed given to the person when they jump
@@ -104,12 +104,12 @@ func _physics_process(delta):
 	
 	# rotates the Person node so that the Head does not rotate past the max_head_yaw
 	if head_rotation.y < - max_head_yaw:
-		$Head.global_rotate(Vector3.UP, head_rotation.y * turn_speed * delta)
-		global_rotate(Vector3.UP, - head_rotation.y * turn_speed * delta)
+		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
+		global_rotate(Vector3.UP, - deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
 		
 	elif head_rotation.y > max_head_yaw:
-		$Head.global_rotate(Vector3.UP, head_rotation.y * turn_speed * delta)
-		global_rotate(Vector3.UP, - head_rotation.y * turn_speed * delta)
+		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
+		global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 	
 	var moving := not is_zero_approx(movement_vector.length_squared())
 	
