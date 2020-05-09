@@ -38,12 +38,7 @@ func _ready():
 
 func move_to_vector(rel_vec: Vector3, speed:=RUN):
 	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
-	
-	if not rel_vec.is_normalized():
-		push_warning("move_to_vector in " + str(self) + " is not normalized")
-		rel_vec = rel_vec.normalized()
-	
-	movement_vector = rel_vec * speed
+	movement_vector = rel_vec.normalized() * speed
 
 
 func turn_to_vector(rel_vec: Vector3):
