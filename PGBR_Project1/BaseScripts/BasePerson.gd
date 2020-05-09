@@ -11,7 +11,7 @@ export(Array, NodePath) var arm_paths
 var SPRINT := 20.0			# these correspond to speeds, for move_to_vector
 var RUN := 10.0
 var WALK := 5.0
-var AIR := 5.0
+var AIR := 3.0
 
 var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
 var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
