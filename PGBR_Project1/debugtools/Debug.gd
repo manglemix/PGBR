@@ -42,6 +42,23 @@ func draw_points(points, colour:=Color.white, width := 1.0):
 		_queued_points[screen_points] = [colour, width]
 
 
+func draw_points_from_origin(points, colour:=Color.white, width := 1.0):
+	if enabled:
+		var screen_points := PoolVector2Array()
+		var camera = get_viewport().get_camera()
+		
+		var point: Vector3
+		for i in range(len(points)):
+			point = points[i]
+			if i > 0:
+				point += points[0]
+			
+			if camera.is_position_behind(point):
+				return
+			screen_points.append(camera.unproject_position(point))
+		_queued_points[screen_points] = [colour, width]
+
+
 func draw_dot(position, colour:=Color.white, radius:=5):
 	if enabled:
 		_dots[position] = [radius, colour]
