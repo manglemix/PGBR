@@ -28,6 +28,7 @@ var _floor_collision: KinematicCollision	# holds information about the floor col
 var _jump_charge_start: int				# the system time in msecs when a jump began to charge
 var _jump_charge_target: float			# the target strength of the jump
 var _jump_charge_factor := 0.001		# jump strength units per millisecond
+var _target_vector: Vector3
 
 
 func _ready():
@@ -43,6 +44,11 @@ func move_to_vector(rel_vec: Vector3, speed:=RUN):
 		rel_vec = rel_vec.normalized()
 	
 	movement_vector = rel_vec * speed
+
+
+func turn_to_vector(rel_vec: Vector3):
+	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
+	_target_vector = rel_vec.normalized()
 
 
 func charge_jump(strength:=1.5):
@@ -80,6 +86,9 @@ func shoot_guns():
 
 
 func aim_towards(target: Vector3):
+	_target_vector = target - global_transform.origin
+	_target_vector.y = 0.0
+	_target_vector = _target_vector.normalized()
 	emit_signal("aim", target)
 
 
@@ -102,7 +111,23 @@ func _physics_process(delta):
 		$Head.global_rotate(Vector3.UP, head_rotation.y * turn_speed * delta)
 		global_rotate(Vector3.UP, - head_rotation.y * turn_speed * delta)
 	
-	# TODO Add code that turns the body towards the where the Head is pointing when moving
+	var moving := not is_zero_approx(movement_vector.length_squared())
+	
+	if moving or _target_vector.is_normalized():
+		if moving:
+			_target_vector = - $Head.global_transform.basis.z
+			_target_vector.y = 0.0
+			_target_vector.normalized()
+		
+		var turn_axis := global_transform.basis.z.cross(_target_vector).normalized()
+		
+		if turn_axis.is_normalized():
+			var turn_angle := global_transform.basis.z.angle_to(_target_vector)
+			global_rotate(turn_axis, turn_angle * turn_speed * delta)
+			$Head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			
+		Debug.draw_points_from_origin([global_transform.origin, global_transform.basis.z], Color.blue, 3)
+		Debug.draw_points_from_origin([global_transform.origin, _target_vector], Color.yellow, 3)
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)
