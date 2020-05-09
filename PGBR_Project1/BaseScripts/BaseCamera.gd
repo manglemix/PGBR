@@ -138,12 +138,12 @@ func _process(delta):
 			
 			var speed: float
 			if Input.is_action_pressed("sprint"):
-				speed = _player_node.SPRINT
+				speed = _player_node.SPEEDS.SPRINT
 			elif Input.is_action_pressed("crouch"):
 				# TODO add crouch mechanic
-				speed = _player_node.WALK
+				speed = _player_node.SPEEDS.WALK
 			else:
-				speed = _player_node.RUN
+				speed = _player_node.SPEEDS.RUN
 			
 			_player_node.move_to_vector(movement_vector, speed)
 		

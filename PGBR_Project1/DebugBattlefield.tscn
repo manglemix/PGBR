@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BaseScripts/BaseCamera.gd" type="Script" id=3]
 [ext_resource path="res://DebugGun.tscn" type="PackedScene" id=4]
+[ext_resource path="res://HUD_Draft1.tscn" type="PackedScene" id=5]
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 200, 200 )
@@ -21,6 +22,8 @@ extents = Vector3( 1, 1, 7.91864 )
 [node name="Draft" type="Spatial"]
 script = ExtResource( 1 )
 enable_debug = true
+
+[node name="HUD" parent="." instance=ExtResource( 5 )]
 
 [node name="Terrain" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
