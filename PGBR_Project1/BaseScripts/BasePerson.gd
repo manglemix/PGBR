@@ -157,4 +157,4 @@ func _physics_process(delta):
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	movement_vector *= 0.0
-	Debug.draw_points([global_transform.origin, global_transform.origin + linear_velocity], Color.red)
+	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
