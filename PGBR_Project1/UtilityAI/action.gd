@@ -9,7 +9,7 @@ var best_action = self
 var employee					# this value is forcefully set by Maximiser or ActionTree
 
 
-func get_score(employee, scene) -> float:
+func get_score() -> float:
 	# employee is the node that is asking for the best action to do
 	# this function returns how much 'value' there is when using the best_action offered by this script
 	return 0.0
@@ -21,6 +21,6 @@ func reset() -> void:
 
 
 func execute() -> int:
-	# runs the code which causes my_employee to complete a task
+	# runs the code which causes employee to complete a task
 	# must return an error code to alert the ActionTree to check for the best action again
 	return OK
