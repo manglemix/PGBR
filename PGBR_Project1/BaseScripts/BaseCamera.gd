@@ -140,10 +140,7 @@ func _process(delta):
 		
 		if not is_zero_approx(movement_vector.length_squared()):
 			var direction = - _pivot_node.global_transform.basis.z
-			direction.y = 0.0
 			_player_node.turn_to_vector(direction)
-			
-			movement_vector.y = 0.0
 			_player_node.move_to_vector(movement_vector)
 		
 		if Input.is_action_pressed("shoot"):
