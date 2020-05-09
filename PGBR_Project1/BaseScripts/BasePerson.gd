@@ -111,14 +111,7 @@ func _physics_process(delta):
 		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 		global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 	
-	var moving := not is_zero_approx(movement_vector.length_squared())
-	
-	if moving or _target_vector.is_normalized():
-		if moving:
-			_target_vector = - $Head.global_transform.basis.z
-			_target_vector.y = 0.0
-			_target_vector.normalized()
-		
+	if _target_vector.is_normalized():
 		var turn_axis := global_transform.basis.z.cross(_target_vector).normalized()
 		
 		if turn_axis.is_normalized():
@@ -133,7 +126,7 @@ func _physics_process(delta):
 	on_floor = is_instance_valid(_floor_collision)
 	
 	if on_floor:
-		if moving:
+		if not is_zero_approx(movement_vector.length_squared()):
 			# we rotate the movement_vector so that it is along the floor plane
 			var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
 			# usually if the axis is still not normalized, the floor normal is pointing straight up already

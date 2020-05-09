@@ -127,19 +127,24 @@ func _process(delta):
 		
 		var movement_vector := Vector3.ZERO
 		if Input.is_action_pressed("forward"):
-			movement_vector += _player_node.global_transform.basis.z
+			movement_vector -= _pivot_node.global_transform.basis.z
 		
 		if Input.is_action_pressed("backward"):
-			movement_vector -= _player_node.global_transform.basis.z
+			movement_vector += _pivot_node.global_transform.basis.z
 		
 		if Input.is_action_pressed("right"):
-			movement_vector -= _player_node.global_transform.basis.x
+			movement_vector += _pivot_node.global_transform.basis.x
 		
 		if Input.is_action_pressed("left"):
-			movement_vector += _player_node.global_transform.basis.x
+			movement_vector -= _pivot_node.global_transform.basis.x
 		
 		if not is_zero_approx(movement_vector.length_squared()):
-			_player_node.move_to_vector(movement_vector.normalized())
+			var direction = - _pivot_node.global_transform.basis.z
+			direction.y = 0.0
+			_player_node.turn_to_vector(direction)
+			
+			movement_vector.y = 0.0
+			_player_node.move_to_vector(movement_vector)
 		
 		if Input.is_action_pressed("shoot"):
 			# casts the raycast node towards the crosshair (centre of screen)
