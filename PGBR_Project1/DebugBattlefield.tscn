@@ -20,6 +20,7 @@ extents = Vector3( 1, 1, 7.91864 )
 
 [node name="Draft" type="Spatial"]
 script = ExtResource( 1 )
+enable_debug = true
 
 [node name="Terrain" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
