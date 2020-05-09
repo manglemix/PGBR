@@ -133,13 +133,13 @@ func _physics_process(delta):
 	on_floor = is_instance_valid(_floor_collision)
 	
 	if on_floor:
-		# we rotate the movement_vector so that it is along the floor plane
-		var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
-		# usually if the axis is still not normalized, the floor normal is pointing straight up already
-		if axis.is_normalized():
-			var angle := Vector3.UP.angle_to(_floor_collision.normal)
-			movement_vector = movement_vector.rotated(axis, angle)
-		
+		if moving:
+			# we rotate the movement_vector so that it is along the floor plane
+			var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
+			# usually if the axis is still not normalized, the floor normal is pointing straight up already
+			if axis.is_normalized():
+				movement_vector = movement_vector.rotated(axis, Vector3.UP.angle_to(_floor_collision.normal))
+			
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(movement_vector, acceleration * delta)
 		
