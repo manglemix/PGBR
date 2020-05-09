@@ -9,8 +9,6 @@ export(VIEWPOINT) var current_viewpoint := VIEWPOINT.FPS setget set_viewpoint
 var move_speed := 20.0			# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
-var max_pitch := 80.0			# the largest angle by which the camera can look up
-var min_pitch := - 60.0			# the largest angle by which the camera can look down
 var invert_y := false
 var screen_centre: Vector2
 
@@ -88,10 +86,6 @@ func _input(event):
 			
 			_pivot_node.global_rotate(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
 			_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
-			
-			# this undoes the pitch rotation if it goes past the limits given
-			if _pivot_node.rotation_degrees.x >= max_pitch or _pivot_node.rotation_degrees.x <= min_pitch:
-				_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 		
 		# this alerts the player to charge the jump
 		if event.is_action_pressed("jump"):

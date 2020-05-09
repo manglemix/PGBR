@@ -15,6 +15,8 @@ var AIR := 3.0
 
 var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
 var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
+var max_head_pitch := 60.0
+var min_head_pitch := -60.0
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
 var acceleration := 6					# used for interpolating the Person's speed to the movement_vector
 var jump_speed := 10.0					# the vertical speed given to the person when they jump
@@ -115,6 +117,9 @@ func aim_towards(target: Vector3):
 
 
 func _physics_process(delta):
+	if _head_target_vector.is_normalized():
+		$Head.global_transform = $Head.global_transform.interpolate_with($Head.global_transform.looking_at(_head_target_vector, Vector3.UP), turn_speed * delta)
+	
 	var head_rotation = $Head.rotation_degrees
 	
 	# sets the measured rotation in the y axis to be 0 if pointing in the same direction as this node
@@ -133,6 +138,12 @@ func _physics_process(delta):
 		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 		global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 	
+	if head_rotation.x < min_head_pitch:
+		$Head.rotation_degrees.x = min_head_pitch
+	
+	elif head_rotation.x > max_head_pitch:
+		$Head.rotation_degrees.x = max_head_pitch
+	
 	if _body_target_vector.is_normalized():
 		var turn_axis := global_transform.basis.z.cross(_body_target_vector).normalized()
 		
@@ -143,6 +154,7 @@ func _physics_process(delta):
 			
 		Debug.draw_points_from_origin([global_transform.origin, global_transform.basis.z], Color.blue, 3)
 		Debug.draw_points_from_origin([global_transform.origin, _body_target_vector], Color.yellow, 3)
+	
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)
