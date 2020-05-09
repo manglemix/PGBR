@@ -14,6 +14,21 @@ func get_best_action(employee):
 	return get_child(0).best_action
 
 
+func assign_node(node, action):
+	if node in assigned_nodes:
+		unassign_node(node)
+	
+	assigned_nodes[node] = action
+	action.employee = node
+	action.reset()
+
+
+func unassign_node(node):
+	var action = assigned_nodes[node]
+	action.end()
+	assigned_nodes.erase(node)
+
+
 func _process(delta):
 	if active:
 		var nodes := get_tree().get_nodes_in_group(group)
