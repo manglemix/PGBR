@@ -141,7 +141,17 @@ func _process(delta):
 		if not is_zero_approx(movement_vector.length_squared()):
 			var direction = - _pivot_node.global_transform.basis.z
 			_player_node.turn_to_vector(direction)
-			_player_node.move_to_vector(movement_vector)
+			
+			var speed: float
+			if Input.is_action_pressed("sprint"):
+				speed = _player_node.SPRINT
+			elif Input.is_action_pressed("crouch"):
+				# TODO add crouch mechanic
+				speed = _player_node.WALK
+			else:
+				speed = _player_node.RUN
+			
+			_player_node.move_to_vector(movement_vector, speed)
 		
 		if Input.is_action_pressed("shoot"):
 			# casts the raycast node towards the crosshair (centre of screen)
