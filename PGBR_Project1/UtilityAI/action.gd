@@ -24,3 +24,7 @@ func execute() -> int:
 	# runs the code which causes employee to complete a task
 	# must return an error code to alert the ActionTree to check for the best action again
 	return OK
+
+
+func end() -> void:
+	return
