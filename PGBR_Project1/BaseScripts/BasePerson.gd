@@ -4,15 +4,14 @@ extends KinematicBody
 
 signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
-signal aim
+signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
 
 export(Array, NodePath) var arm_paths
 
-var SPRINT := 20.0
+var SPRINT := 20.0			# these correspond to speeds, for move_to_vector
 var RUN := 10.0
 var WALK := 5.0
 
-var move_speed := 10.0					# the top down speed of the person
 var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
 var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
@@ -37,11 +36,13 @@ func _ready():
 
 
 func move_to_vector(rel_vec: Vector3, speed:=RUN):
+	# moves the node towards the relative vector given
 	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
 	movement_vector = rel_vec.normalized() * speed
 
 
 func turn_to_vector(rel_vec: Vector3):
+	# turns the body towards the relative vector given
 	assert(is_zero_approx(rel_vec.y))	# to make sure the rel_vec is only top down
 	_target_vector = rel_vec.normalized()
 
@@ -81,6 +82,7 @@ func shoot_guns():
 
 
 func aim_towards(target: Vector3):
+	# this turns both the body and the arms towards the global vector given
 	_target_vector = target - global_transform.origin
 	_target_vector.y = 0.0
 	_target_vector = _target_vector.normalized()
