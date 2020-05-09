@@ -32,7 +32,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115826, 0.0881952, -0.87620
 mesh = SubResource( 3 )
 material/0 = null
 
-[node name="Hand" type="Spatial" parent="RightArm"]
+[node name="Hand" type="Position3D" parent="RightArm"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115826, 0.0881952, -2.10973 )
 
 [node name="Head" type="Spatial" parent="."]
@@ -43,7 +43,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.24672e-08, 0, -0.65838 )
 mesh = SubResource( 4 )
 material/0 = null
 
-[node name="CameraTarget" type="Spatial" parent="Head"]
+[node name="CameraTarget" type="Position3D" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 script = ExtResource( 2 )
 transforms = [ Transform( 1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, 3.957, 1.888, 5.698 ), Transform( 1, 0, 0, 0, 0.966, 0.259, 0, -0.259, 0.966, -3.957, 1.888, 5.698 ) ]
