@@ -11,7 +11,6 @@ export(Array, NodePath) var arm_paths
 var SPRINT := 20.0
 var RUN := 10.0
 var WALK := 5.0
-var AIR := 5.0
 
 var move_speed := 10.0					# the top down speed of the person
 var turn_speed := 0.05					# used for interpolating turns (like when turning the head)
@@ -43,10 +42,7 @@ func move_to_vector(rel_vec: Vector3, speed:=RUN):
 		push_warning("move_to_vector in " + str(self) + " is not normalized")
 		rel_vec = rel_vec.normalized()
 	
-	if on_floor:
-		movement_vector = rel_vec * speed
-	else:
-		movement_vector += rel_vec * AIR * get_physics_process_delta_time()
+	movement_vector = rel_vec * speed
 
 
 func charge_jump(strength:=1.5):
