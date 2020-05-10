@@ -147,6 +147,7 @@ func kill(code):
 	emit_signal("died", code)
 	queue_free()
 
+
 func _physics_process(delta):
 	if _turn_head_to_target:
 		var target_transform = $Head.global_transform
@@ -186,6 +187,9 @@ func _physics_process(delta):
 			var turn_angle := global_transform.basis.z.angle_to(_body_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			$Head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			
+			if turn_angle <= 0.0872:		# this is 5 degrees in radians
+				_body_target_vector *= 0.0
 			
 		Debug.draw_points_from_origin([global_transform.origin, global_transform.basis.z], Color.blue, 3)
 		Debug.draw_points_from_origin([global_transform.origin, _body_target_vector], Color.yellow, 3)
