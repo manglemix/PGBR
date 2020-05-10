@@ -139,7 +139,7 @@ func get_collision_point() -> Vector3:
 
 
 func make_current_camera():
-	accept_user_input = true
+	set_user_input(true)
 	current = true
 
 
