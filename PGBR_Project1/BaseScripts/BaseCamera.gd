@@ -3,6 +3,7 @@ extends Camera
 
 
 enum VIEWPOINT {FPS, TPS}	# First Person, Third Person
+enum KILLCODE {KILLED, SUICIDE, GLITCHED}		# Same as KILLCODE in Person
 
 export(VIEWPOINT) var current_viewpoint := VIEWPOINT.FPS setget set_viewpoint
 
@@ -105,7 +106,7 @@ func handle_death(code):
 		camera.target_transform = global_transform
 		camera.current = true
 		
-		camera.connect("reached_target", self, "_make_current_camera")
+		camera.connect("reached_target", self, "make_current_camera")
 		camera.connect("reached_target", camera, "queue_free")
 		set_process_input(false)
 		return
@@ -135,6 +136,11 @@ func get_collider():
 
 func get_collision_point() -> Vector3:
 	return _raycast.get_collision_point()
+
+
+func make_current_camera():
+	accept_user_input = true
+	current = true
 
 
 func _input(event):
