@@ -11,6 +11,7 @@ var linear_velocity := Vector3.ZERO
 var mouse_sensitivity = 0.001
 var invert_y := false
 var screen_centre: Vector2
+var accept_user_input := true setget set_user_input
 
 var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
@@ -34,6 +35,11 @@ func _ready():
 	# then the camera will try to follow that node when that node is ready
 	if get_parent() != _current_scene:
 		get_parent().connect("ready", self, "_set_player_from_parent")
+
+
+func set_user_input(value: bool):
+	accept_user_input = value
+	set_process_input(value)
 
 
 func set_player(node):
@@ -119,65 +125,67 @@ func _process(delta):
 			# this will move the camera towards the pivot node
 			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
 		
-		var movement_vector := Vector3.ZERO
-		if Input.is_action_pressed("forward"):
-			movement_vector -= _pivot_node.global_transform.basis.z
-		
-		if Input.is_action_pressed("backward"):
-			movement_vector += _pivot_node.global_transform.basis.z
-		
-		if Input.is_action_pressed("right"):
-			movement_vector += _pivot_node.global_transform.basis.x
-		
-		if Input.is_action_pressed("left"):
-			movement_vector -= _pivot_node.global_transform.basis.x
-		
-		if not is_zero_approx(movement_vector.length_squared()):
-			var direction = - _pivot_node.global_transform.basis.z
-			_player_node.turn_to_vector(direction)
+		if accept_user_input:
+			var movement_vector := Vector3.ZERO
+			if Input.is_action_pressed("forward"):
+				movement_vector -= _pivot_node.global_transform.basis.z
 			
-			var speed: float
-			if Input.is_action_pressed("sprint"):
-				speed = _player_node.SPEEDS.SPRINT
-			elif Input.is_action_pressed("crouch"):
-				# TODO add crouch mechanic
-				speed = _player_node.SPEEDS.WALK
-			else:
-				speed = _player_node.SPEEDS.RUN
+			if Input.is_action_pressed("backward"):
+				movement_vector += _pivot_node.global_transform.basis.z
 			
-			_player_node.move_to_vector(movement_vector, speed)
-		
-		if Input.is_action_pressed("shoot"):
-			# casts the raycast node towards the crosshair (centre of screen)
-			project_raycast()
-			var target := get_collision_point()
-			# this line only draws a dot if Debug.enabled is true
-			Debug.draw_dot(target, Color.red)
-			_player_node.aim_towards(target)
-			_player_node.shoot_guns()
+			if Input.is_action_pressed("right"):
+				movement_vector += _pivot_node.global_transform.basis.x
+			
+			if Input.is_action_pressed("left"):
+				movement_vector -= _pivot_node.global_transform.basis.x
+			
+			if not is_zero_approx(movement_vector.length_squared()):
+				var direction = - _pivot_node.global_transform.basis.z
+				_player_node.turn_to_vector(direction)
+				
+				var speed: float
+				if Input.is_action_pressed("sprint"):
+					speed = _player_node.SPEEDS.SPRINT
+				elif Input.is_action_pressed("crouch"):
+					# TODO add crouch mechanic
+					speed = _player_node.SPEEDS.WALK
+				else:
+					speed = _player_node.SPEEDS.RUN
+				
+				_player_node.move_to_vector(movement_vector, speed)
+			
+			if Input.is_action_pressed("shoot"):
+				# casts the raycast node towards the crosshair (centre of screen)
+				project_raycast()
+				var target := get_collision_point()
+				# this line only draws a dot if Debug.enabled is true
+				Debug.draw_dot(target, Color.red)
+				_player_node.aim_towards(target)
+				_player_node.shoot_guns()
 			
 	else:
 		# this is for when the camera has no player to follow
 		# it is basically a free moving camera
 		global_transform.origin += linear_velocity * delta
 		
-		if Input.is_action_pressed("forward"):
-			linear_velocity -= global_transform.basis.z * move_speed * delta
-		
-		if Input.is_action_pressed("backward"):
-			linear_velocity += global_transform.basis.z * move_speed * delta
-		
-		if Input.is_action_pressed("right"):
-			linear_velocity += global_transform.basis.x * move_speed * delta
-		
-		if Input.is_action_pressed("left"):
-			linear_velocity -= global_transform.basis.x * move_speed * delta
-
-		if Input.is_action_pressed("jump"):
-			linear_velocity += global_transform.basis.y * move_speed * delta
-
-		if Input.is_action_pressed("crouch"):
-			linear_velocity -= global_transform.basis.y * move_speed * delta
+		if accept_user_input:
+			if Input.is_action_pressed("forward"):
+				linear_velocity -= global_transform.basis.z * move_speed * delta
+			
+			if Input.is_action_pressed("backward"):
+				linear_velocity += global_transform.basis.z * move_speed * delta
+			
+			if Input.is_action_pressed("right"):
+				linear_velocity += global_transform.basis.x * move_speed * delta
+			
+			if Input.is_action_pressed("left"):
+				linear_velocity -= global_transform.basis.x * move_speed * delta
+	
+			if Input.is_action_pressed("jump"):
+				linear_velocity += global_transform.basis.y * move_speed * delta
+	
+			if Input.is_action_pressed("crouch"):
+				linear_velocity -= global_transform.basis.y * move_speed * delta
 		
 		# this slows down the camera
 		linear_velocity *= 0.97
