@@ -57,6 +57,18 @@ func set_player(node):
 	_pivot_node.add_child(self)
 
 
+func clear_player():
+	if is_instance_valid(_player_node) and "linear_velocity" in _player_node:
+		linear_velocity = _player_node.linear_velocity
+	
+	_player_node = null
+	_pivot_node = null
+	_target_node = null
+	
+	get_parent().remove_child(self)
+	_current_scene.add_child(self)
+
+
 func handle_death(code):
 	if code == KILLCODE.KILLED:
 		# some code if the player was killed normally
