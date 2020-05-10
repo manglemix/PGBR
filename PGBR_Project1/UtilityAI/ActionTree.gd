@@ -18,14 +18,14 @@ func get_best_action(employee) -> Reference:
 	return get_child(0).get_action(employee) as Reference
 
 
-func assign_node(node, action):
+func assign_node(node, action: Reference) -> void:
 	if node in assigned_nodes:
 		unassign_node(node)
 	
 	assigned_nodes[node] = action
 
 
-func unassign_node(node):
+func unassign_node(node) -> void:
 	var action = assigned_nodes[node]
 	action.end()
 	assigned_nodes.erase(node)
