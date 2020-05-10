@@ -64,6 +64,12 @@ func draw_dot(position, colour:=Color.white, radius:=5):
 		_dots[position] = [radius, colour]
 
 
+func draw_transform(transform: Transform, width := 1.0):
+	draw_points_from_origin([transform.origin, transform.basis.x], Color.red, width)
+	draw_points_from_origin([transform.origin, transform.basis.y], Color.green, width)
+	draw_points_from_origin([transform.origin, transform.basis.z], Color.blue, width)
+
+
 func _draw():
 	if enabled:
 		var metadata: Array
