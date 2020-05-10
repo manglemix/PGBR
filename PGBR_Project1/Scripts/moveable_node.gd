@@ -2,9 +2,14 @@ class_name MoveableNode
 extends Spatial
 
 
+signal reached_target
+
 export(Array, Transform) var transforms := []
+export var interpolate_speed := 6.0
+export var interpolated := false setget set_interpolated
 
 var transform_index := 0 setget set_transform_index
+var target_transform: Transform setget goto
 
 
 func _ready():
@@ -54,3 +59,10 @@ func decrement_transform():
 		target_transform = transforms[transform_index]
 	else:
 		transform = transforms[transform_index]
+
+
+func _process(delta):
+	global_transform = global_transform.interpolate_with(target_transform, interpolate_speed * delta)
+	
+	if global_transform.origin.distance_to(target_transform.origin) < 0.05 and global_transform.basis.tdotz(target_transform.basis.z) >= 0.99:
+		emit_signal("reached_target")
