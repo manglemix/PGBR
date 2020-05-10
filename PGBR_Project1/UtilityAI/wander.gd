@@ -14,6 +14,16 @@ func get_score(employee) -> float:
 	return 0.0
 
 
+func get_action(employee):
+	return WanderAction.new(employee, max_distance, min_distance, scene)
+
+
+class WanderAction:
+	var employee
+	var path: PoolVector3Array
+	var max_distance: float
+	var min_distance: float
+	var scene
 	
 	func _init(node, max_distance: float, min_distance: float, scene):
 		employee = node
