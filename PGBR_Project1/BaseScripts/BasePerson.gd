@@ -97,7 +97,6 @@ func charge_jump(strength:=1.5):
 
 
 func jump():
-	kill(KILLCODE.GLITCHED)
 	if on_floor:
 		print((OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor + 1)
 		linear_velocity.y += jump_speed
