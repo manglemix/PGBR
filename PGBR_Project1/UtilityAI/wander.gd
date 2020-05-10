@@ -14,7 +14,7 @@ func get_score(employee) -> float:
 	return 0.0
 
 
-func get_action(employee):
+func get_action(employee) -> Reference:
 	return WanderAction.new(employee, max_distance, min_distance, scene)
 
 
@@ -52,5 +52,5 @@ class WanderAction:
 		
 		return 1		# CAN_CHANGE
 	
-	func end():
+	func end() -> void:
 		return

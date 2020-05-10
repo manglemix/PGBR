@@ -17,7 +17,7 @@ func get_score(employee) -> float:
 	return 0.0
 
 
-func get_action(employee):
+func get_action(employee) -> Reference:
 	return ActionInterface.new(employee)
 
 
@@ -30,6 +30,6 @@ class ActionInterface:
 	func process(delta) -> int:
 		return OK
 	
-	func end():
+	func end() -> void:
 		return
 

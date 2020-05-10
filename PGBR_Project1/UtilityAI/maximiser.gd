@@ -25,5 +25,5 @@ func get_score() -> float:
 	return max_score
 
 
-func get_action(employee):
-	return _best_node.get_action(employee)
+func get_action(employee) -> Reference:
+	return _best_node.get_action(employee) as Reference
