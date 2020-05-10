@@ -2,11 +2,12 @@ class_name BasePerson
 extends KinematicBody
 
 
-signal shoot		# when emitted, all gun nodes connected to this should shoot
-signal died			# may or may not be needed, we'll be watched by the current scene
-signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+signal shoot			# when emitted, all gun nodes connected to this should shoot
+signal died(code)		# may or may not be needed, we'll be watched by the current scene
+signal aim(target)		# when emitted, all guns and hands will aim towards the target (a global vector)
 
 enum SPEEDS {WALK, RUN, SPRINT}
+enum KILLCODE {KILLED, SUICIDE, GLITCHED}
 
 export(Array, NodePath) var arm_paths
 
@@ -96,6 +97,7 @@ func charge_jump(strength:=1.5):
 
 
 func jump():
+	kill(KILLCODE.GLITCHED)
 	if on_floor:
 		print((OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor + 1)
 		linear_velocity.y += jump_speed
@@ -128,6 +130,23 @@ func aim_towards(target: Vector3):
 	_body_target_vector = _body_target_vector.normalized()
 	emit_signal("aim", target)
 
+
+func kill(code):
+	# handles the death of the player
+	if code == KILLCODE.KILLED:
+		# play death animation
+		pass
+	
+	elif code == KILLCODE.SUICIDE:
+		# play death animation
+		pass
+	
+	elif code == KILLCODE.GLITCHED:
+		# for when the person node dies in some weird way
+		pass
+	
+	emit_signal("died", code)
+	queue_free()
 
 func _physics_process(delta):
 	if _turn_head_to_target:
@@ -201,4 +220,8 @@ func _physics_process(delta):
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	movement_vector *= 0.0
+	
+	if global_transform.origin.y < -100.0:
+		kill(KILLCODE.GLITCHED)
+	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
