@@ -2,6 +2,9 @@ class_name Maximiser
 extends Action
 
 
+onready var _best_node := get_child(0)
+
+
 func get_score() -> float:
 	# this node looks at its children and finds which one has the highest score, and shows it off
 	# if that score was the highest, it will be offered as the best_action
@@ -12,11 +15,15 @@ func get_score() -> float:
 		var score = child.get_score()
 		
 		if is_inf(score):
-			best_action = child
-			break
+			_best_node = child
+			return score
 		
 		if score > max_score:
-			best_action = child
+			_best_node = child
 			max_score = score
 	
 	return max_score
+
+
+func get_action(employee):
+	return _best_node.get_action(employee)
