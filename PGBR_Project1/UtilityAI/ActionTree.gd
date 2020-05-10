@@ -9,6 +9,8 @@ export var active := true		# if true, all nodes in the group will be controlled 
 
 var assigned_nodes := {}
 
+onready var scene := get_tree().get_current_scene()
+
 
 func get_best_action(employee):
 	assert(get_child_count() == 1)
