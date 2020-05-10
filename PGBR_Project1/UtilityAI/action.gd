@@ -11,6 +11,10 @@ func get_score() -> float:
 	return 0.0
 
 
+func get_action(employee):
+	return ActionInterface.new(employee)
+
+
 class ActionInterface:
 	var employee
 	
@@ -23,6 +27,3 @@ class ActionInterface:
 	func end():
 		return
 
-
-func get_best_action(employee) -> Reference:
-	return ActionInterface.new(employee)
