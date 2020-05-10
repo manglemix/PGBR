@@ -14,8 +14,8 @@ onready var scene := get_tree().get_current_scene()
 
 func get_best_action(employee):
 	assert(get_child_count() == 1)
-	get_child(0).get_score()
-	return get_child(0).best_action
+	get_child(0).get_score(employee)		# sometimes some nodes need to calculate their score first
+	return get_child(0).get_action(employee)
 
 
 func assign_node(node, action):
