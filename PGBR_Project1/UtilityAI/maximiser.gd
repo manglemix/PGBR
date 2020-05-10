@@ -5,7 +5,7 @@ extends Action
 onready var _best_node := get_child(0)
 
 
-func get_score() -> float:
+func get_score(employee) -> float:
 	# this node looks at its children and finds which one has the highest score, and shows it off
 	# if that score was the highest, it will be offered as the best_action
 	var max_score: float
