@@ -2,11 +2,12 @@ class_name BasePerson
 extends KinematicBody
 
 
-signal shoot		# when emitted, all gun nodes connected to this should shoot
-signal died			# may or may not be needed, we'll be watched by the current scene
-signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+signal shoot			# when emitted, all gun nodes connected to this should shoot
+signal died(code)		# may or may not be needed, we'll be watched by the current scene
+signal aim(target)		# when emitted, all guns and hands will aim towards the target (a global vector)
 
 enum SPEEDS {WALK, RUN, SPRINT}
+enum KILLCODE {KILLED, SUICIDE, GLITCHED}
 
 export(Array, NodePath) var arm_paths
 
@@ -33,7 +34,8 @@ var _jump_charge_start: int					# the system time in msecs when a jump began to 
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
-var _head_target_vector: Vector3			# the vector the head tries to turn to
+var _head_target_basis: Basis				# the basis the head tries to turn to
+var _turn_head_to_target := false
 
 
 func _ready():
@@ -46,7 +48,7 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
 	if on_floor:
-		assert(speed > 0 and speed <= 2)
+		assert(speed >= 0 and speed <= 2)
 		if speed == SPEEDS.SPRINT:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			# decrement stamina
@@ -59,6 +61,10 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 		movement_vector = rel_vec.normalized() * strafe_speed
 
 
+func global_move_to_vector(position: Vector3, speed:=SPEEDS.RUN):
+	move_to_vector(position - global_transform.origin)
+
+
 func turn_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
@@ -67,21 +73,19 @@ func turn_to_vector(rel_vec: Vector3):
 
 func global_turn_to_vector(position: Vector3):
 	# the same as turn to vector, except it turns the body to a global position
-	_body_target_vector = (position - global_transform.origin)
-	_body_target_vector.y = 0.0
-	_body_target_vector = _head_target_vector.normalized()
+	turn_to_vector(position - global_transform.origin)
 
 
 func head_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	# there is no need to flatten the vector as the head can look in any direction
-	_head_target_vector = rel_vec.normalized()
+	global_head_to_vector(rel_vec + $Head.global_transform.origin)
 
 
 func global_head_to_vector(position: Vector3):
 	# the same as turn to vector, except it turns the head to a global position
-	_head_target_vector = (position - $Head.global_transform.origin)
-	_head_target_vector = _head_target_vector.normalized()
+	_head_target_basis = $Head.global_transform.looking_at(position, Vector3.UP).basis
+	_turn_head_to_target = true
 
 
 func charge_jump(strength:=1.5):
@@ -126,9 +130,31 @@ func aim_towards(target: Vector3):
 	emit_signal("aim", target)
 
 
+func kill(code):
+	# handles the death of the player
+	if code == KILLCODE.KILLED:
+		# play death animation
+		pass
+	
+	elif code == KILLCODE.SUICIDE:
+		# play death animation
+		pass
+	
+	elif code == KILLCODE.GLITCHED:
+		# for when the person node dies in some weird way
+		pass
+	
+	emit_signal("died", code)
+	queue_free()
+
+
 func _physics_process(delta):
-	if _head_target_vector.is_normalized():
-		$Head.global_transform = $Head.global_transform.interpolate_with($Head.global_transform.looking_at(_head_target_vector, Vector3.UP), turn_speed * delta)
+	if _turn_head_to_target:
+		var target_transform = $Head.global_transform
+		target_transform.basis = _head_target_basis
+		$Head.global_transform = $Head.global_transform.interpolate_with(target_transform, turn_speed / 2 * delta)
+		
+		_turn_head_to_target = $Head.global_transform.basis.tdotz(target_transform.basis.z) < 0.99
 	
 	var head_rotation = $Head.rotation_degrees
 	
@@ -162,6 +188,9 @@ func _physics_process(delta):
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			$Head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
+			if turn_angle <= 0.0872:		# this is 5 degrees in radians
+				_body_target_vector *= 0.0
+			
 		Debug.draw_points_from_origin([global_transform.origin, global_transform.basis.z], Color.blue, 3)
 		Debug.draw_points_from_origin([global_transform.origin, _body_target_vector], Color.yellow, 3)
 	
@@ -194,4 +223,8 @@ func _physics_process(delta):
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	movement_vector *= 0.0
+	
+	if global_transform.origin.y < -100.0:
+		kill(KILLCODE.GLITCHED)
+	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
