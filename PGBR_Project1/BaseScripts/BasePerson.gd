@@ -33,7 +33,7 @@ var _jump_charge_start: int					# the system time in msecs when a jump began to 
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
-var _head_target_vector: Vector3			# the vector the head tries to turn to
+var _head_target_basis: Basis				# the basis the head tries to turn to
 
 
 func _ready():
@@ -80,8 +80,7 @@ func head_to_vector(rel_vec: Vector3):
 
 func global_head_to_vector(position: Vector3):
 	# the same as turn to vector, except it turns the head to a global position
-	_head_target_vector = (position - $Head.global_transform.origin)
-	_head_target_vector = _head_target_vector.normalized()
+	_head_target_basis = $Head.global_transform.looking_at(position, Vector3.UP).basis
 
 
 func charge_jump(strength:=1.5):
@@ -127,8 +126,10 @@ func aim_towards(target: Vector3):
 
 
 func _physics_process(delta):
-	if _head_target_vector.is_normalized():
-		$Head.global_transform = $Head.global_transform.interpolate_with($Head.global_transform.looking_at(_head_target_vector, Vector3.UP), turn_speed * delta)
+	var target_transform = $Head.global_transform
+	target_transform.basis = _head_target_basis
+	$Head.global_transform = $Head.global_transform.interpolate_with(target_transform, turn_speed * delta)
+	Debug.draw_transform(target_transform)
 	
 	var head_rotation = $Head.rotation_degrees
 	
