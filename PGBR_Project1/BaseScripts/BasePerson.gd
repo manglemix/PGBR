@@ -34,6 +34,7 @@ var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
 var _head_target_basis: Basis				# the basis the head tries to turn to
+var _turn_head_to_target := false
 
 
 func _ready():
@@ -83,6 +84,7 @@ func head_to_vector(rel_vec: Vector3):
 func global_head_to_vector(position: Vector3):
 	# the same as turn to vector, except it turns the head to a global position
 	_head_target_basis = $Head.global_transform.looking_at(position, Vector3.UP).basis
+	_turn_head_to_target = true
 
 
 func charge_jump(strength:=1.5):
