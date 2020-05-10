@@ -57,6 +57,39 @@ func set_player(node):
 	_pivot_node.add_child(self)
 
 
+func handle_death(code):
+	if code == KILLCODE.KILLED:
+		# some code if the player was killed normally
+		transform = global_transform
+	
+	elif code == KILLCODE.SUICIDE:
+		# some code if the player killed themselves
+		transform = global_transform
+	
+	elif code == KILLCODE.GLITCHED:
+		# some code if the player died in a weird way
+		var camera := preload("res://AnimatedCamera.tscn").instance()
+		_current_scene.add_child(camera)
+		camera.global_transform = global_transform
+		
+		clear_player()
+		linear_velocity *= 0
+		
+		global_transform = Transform.IDENTITY
+		global_transform.origin.y = 10
+		
+		camera.interpolated = true
+		camera.target_transform = global_transform
+		camera.current = true
+		
+		camera.connect("reached_target", self, "_make_current_camera")
+		camera.connect("reached_target", camera, "queue_free")
+		set_process_input(false)
+		return
+	
+	clear_player()
+
+
 func set_viewpoint(new_viewpoint: int):
 	if not is_instance_valid(_player_node):
 		return
