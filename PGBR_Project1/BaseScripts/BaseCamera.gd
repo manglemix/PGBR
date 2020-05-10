@@ -202,6 +202,8 @@ func _process(delta):
 				movement_vector -= _pivot_node.global_transform.basis.x
 			
 			if not is_zero_approx(movement_vector.length_squared()):
+				# To make the player look less wonky while moving, the body of the player is turned to face-
+				# the head direction when moving
 				var direction = - _pivot_node.global_transform.basis.z
 				_player_node.turn_to_vector(direction)
 				
