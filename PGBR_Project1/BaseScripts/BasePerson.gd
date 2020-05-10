@@ -47,7 +47,7 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
 	if on_floor:
-		assert(speed > 0 and speed <= 2)
+		assert(speed >= 0 and speed <= 2)
 		if speed == SPEEDS.SPRINT:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			# decrement stamina
