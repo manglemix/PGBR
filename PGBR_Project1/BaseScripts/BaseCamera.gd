@@ -45,12 +45,23 @@ func set_user_input(value: bool):
 func set_player(node):
 	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
 	# which should also have a child called CameraTarget
+	if is_instance_valid(_player_node):
+		_player_node.disconnect("died", self, "handle_death")
+	
+	_raycast.clear_exceptions()
+	
+	if not is_instance_valid(node):
+		clear_player()
+		return
+	
 	_player_node = node
+	
+	_player_node.connect("died", self, "handle_death")
+	
 	_pivot_node = _player_node.get_node("Head")
 	_target_node = _pivot_node.get_node("CameraTarget")
 	set_viewpoint(current_viewpoint)
 	
-	_raycast.clear_exceptions()
 	_raycast.add_exception(_player_node)
 
 	get_parent().remove_child(self)
