@@ -23,8 +23,6 @@ func assign_node(node, action):
 		unassign_node(node)
 	
 	assigned_nodes[node] = action
-	action.employee = node
-	action.reset()
 
 
 func unassign_node(node):
