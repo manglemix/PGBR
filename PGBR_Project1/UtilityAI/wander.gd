@@ -29,7 +29,9 @@ func execute() -> int:
 	if employee.global_transform.origin.distance_to(path[0]) < 0.5:
 		path.remove(0)
 	
-	if len(path) > 1:
-		Debug.draw_points(path)
+	if Debug.enabled and len(path) > 0:
+		var debug_path := path
+		debug_path.insert(0, employee.global_transform.origin)
+		Debug.draw_points(debug_path)
 	
 	return CAN_CHANGE
