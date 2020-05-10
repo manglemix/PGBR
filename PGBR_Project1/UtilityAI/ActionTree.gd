@@ -55,7 +55,7 @@ func _process(delta):
 		var action
 		for node in assigned_nodes:
 			action = assigned_nodes[node]
-			output = action.execute()
+			output = action.process(delta)
 			
 			if output == CAN_CHANGE:
 				var new_action = get_best_action(node)
