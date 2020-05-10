@@ -2,8 +2,6 @@ class_name ActionTree
 extends Node
 
 
-const CAN_CHANGE := 1			# this node can be changed, but can also remain the as the current action without resetting
-const MUST_CHANGE := 2			# this node must be reset if ran again, or it another node can take over
 enum {CAN_CHANGE = 1, MUST_CHANGE = 2}
 
 export(String) var group
