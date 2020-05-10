@@ -11,6 +11,7 @@ func get_action_tree() -> ActionTree:
 	
 	return get_parent() as ActionTree
 
+func get_score(employee) -> float:
 	# employee is the node that is asking for the best action to do
 	# this function returns how much 'value' there is when using the best_action offered by this script
 	return 0.0
