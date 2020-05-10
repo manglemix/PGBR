@@ -2,14 +2,12 @@ class_name Action
 extends Node
 
 
-var employee					# this value is forcefully set by Maximiser or ActionTree
-
-
 func get_action_tree() -> ActionTree:
 	if not get_parent() is ActionTree:
 		return get_parent().get_action_tree()
 	
 	return get_parent() as ActionTree
+
 
 func get_score(employee) -> float:
 	# employee is the node that is asking for the best action to do

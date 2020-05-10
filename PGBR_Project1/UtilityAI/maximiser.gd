@@ -11,7 +11,6 @@ func get_score(employee) -> float:
 	var max_score: float
 	
 	for child in get_children():
-		child.employee = employee
 		var score = child.get_score()
 		
 		if is_inf(score):
