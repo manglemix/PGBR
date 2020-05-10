@@ -130,10 +130,12 @@ func aim_towards(target: Vector3):
 
 
 func _physics_process(delta):
-	var target_transform = $Head.global_transform
-	target_transform.basis = _head_target_basis
-	$Head.global_transform = $Head.global_transform.interpolate_with(target_transform, turn_speed * delta)
-	Debug.draw_transform(target_transform)
+	if _turn_head_to_target:
+		var target_transform = $Head.global_transform
+		target_transform.basis = _head_target_basis
+		$Head.global_transform = $Head.global_transform.interpolate_with(target_transform, turn_speed / 2 * delta)
+		
+		_turn_head_to_target = $Head.global_transform.basis.tdotz(target_transform.basis.z) < 0.99
 	
 	var head_rotation = $Head.rotation_degrees
 	
