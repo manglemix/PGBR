@@ -59,6 +59,10 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 		movement_vector = rel_vec.normalized() * strafe_speed
 
 
+func global_move_to_vector(position: Vector3, speed:=SPEEDS.RUN):
+	move_to_vector(position - global_transform.origin)
+
+
 func turn_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
@@ -67,15 +71,13 @@ func turn_to_vector(rel_vec: Vector3):
 
 func global_turn_to_vector(position: Vector3):
 	# the same as turn to vector, except it turns the body to a global position
-	_body_target_vector = (position - global_transform.origin)
-	_body_target_vector.y = 0.0
-	_body_target_vector = _body_target_vector.normalized()
+	turn_to_vector(position - global_transform.origin)
 
 
 func head_to_vector(rel_vec: Vector3):
 	# turns the body towards the relative vector given
 	# there is no need to flatten the vector as the head can look in any direction
-	_head_target_vector = rel_vec.normalized()
+	global_head_to_vector(rel_vec + $Head.global_transform.origin)
 
 
 func global_head_to_vector(position: Vector3):
