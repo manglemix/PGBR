@@ -86,14 +86,18 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	
 	if on_floor:
 		assert(speed > 0 and speed <= 2)
-		if speed == SPEEDS.SPRINT:
+		sprinting = false
+		
+		if speed == SPEEDS.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
-			# decrement stamina
+			sprinting = true
+			
 		elif speed == SPEEDS.WALK:
 			movement_vector = rel_vec.normalized() * walk_speed
+			
 		else:
 			movement_vector = rel_vec.normalized() * run_speed
-			
+		
 	else:
 		movement_vector = rel_vec.normalized() * strafe_speed
 
@@ -235,6 +239,8 @@ func _physics_process(delta):
 	movement_vector *= 0.0
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
+	if sprinting:
+		set_stamina(stamina - delta)
 
 
 func _on_SprintTimer_timeout():
