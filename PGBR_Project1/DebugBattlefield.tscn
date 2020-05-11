@@ -1,15 +1,15 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BaseScripts/BaseCamera.gd" type="Script" id=3]
 [ext_resource path="res://DebugGun.tscn" type="PackedScene" id=4]
-[ext_resource path="res://UtilityAI/wander.gd" type="Script" id=6]
-[ext_resource path="res://UtilityAI/ActionTree.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/HUD/HUD_Draft1.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Materials/ConcreteMat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Materials/GroundMat.tres" type="Material" id=7]
 [ext_resource path="res://default_env.tres" type="Environment" id=8]
+[ext_resource path="res://UtilityAI/ActionTree.gd" type="Script" id=9]
+[ext_resource path="res://UtilityAI/wander.gd" type="Script" id=10]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 100, 0, 100 )
@@ -81,12 +81,11 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4485, 1.06534, 0 )
 
 [node name="ActionTree" type="Node" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 9 )
 group = "Enemy"
 
 [node name="Wander" type="Node" parent="ActionTree"]
-script = ExtResource( 6 )
-max_distance = 20.0
+script = ExtResource( 10 )
 
 [node name="Navigation" type="Navigation" parent="."]
 
