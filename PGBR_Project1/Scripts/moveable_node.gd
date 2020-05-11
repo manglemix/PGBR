@@ -13,6 +13,7 @@ var target_transform: Transform setget goto
 
 
 func _ready():
+	transforms = transforms.duplicate()
 	transforms.insert(0, transform)
 	set_process(interpolated)
 
