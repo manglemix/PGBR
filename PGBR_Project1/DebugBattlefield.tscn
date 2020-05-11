@@ -28,6 +28,8 @@ material = ExtResource( 6 )
 script = ExtResource( 1 )
 enable_debug = true
 
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
 [node name="TerrainCollider" type="StaticBody" parent="."]
 
 [node name="CollisionShape" type="CollisionShape" parent="TerrainCollider"]
@@ -61,8 +63,6 @@ shape = SubResource( 4 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 7.92, 0, 0, 0 )
 mesh = SubResource( 5 )
 material/0 = null
-
-[node name="HUD" parent="." instance=ExtResource( 5 )]
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.646737, 0.762713, 0, -0.762713, -0.646737, 0, 18.6483, 0 )
