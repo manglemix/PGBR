@@ -23,6 +23,7 @@ class WanderAction:
 	var path: PoolVector3Array
 	var max_distance: float
 	var min_distance: float
+	var goto
 	var scene
 	
 	func _init(node, max_distance: float, min_distance: float, scene):
@@ -31,24 +32,12 @@ class WanderAction:
 		self.min_distance = min_distance
 		self.scene = scene
 	
-	func process(delta) -> int:
-		if len(path) == 0:
-			var destination = employee.global_transform.basis.z.rotated(Vector3.UP, rand_range(0, TAU)) * rand_range(min_distance, max_distance)
-			destination += employee.global_transform.origin
-			destination = scene.get_node("Navigation").get_closest_point(destination)
-			
-			path = scene.get_node("Navigation").get_simple_path(scene.get_node("Navigation").get_closest_point(employee.global_transform.origin), destination)
-		
-		employee.move_to_vector(path[0] - employee.global_transform.origin)
-		employee.global_head_to_vector(path[0])
-		
-		if employee.global_transform.origin.distance_to(path[0]) < 0.5:
-			path.remove(0)
-		
-		if Debug.enabled and len(path) > 0:
-			var debug_path := path
-			debug_path.insert(0, employee.global_transform.origin)
-			Debug.draw_points(debug_path)
+	func process(_delta) -> int:
+		if is_instance_valid(goto):
+			if not goto.process():
+				goto = null
+		else:
+			goto = scene.get_node("Navigation").auto_goto(employee, Vector3.BACK.rotated(Vector3.UP, rand_range(0, TAU)) * rand_range(min_distance, max_distance))
 		
 		return 1		# CAN_CHANGE
 	
