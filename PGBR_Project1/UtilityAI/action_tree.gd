@@ -5,9 +5,11 @@ extends Node
 enum {CAN_CHANGE = 1, MUST_CHANGE = 2}
 
 export(String) var my_group
+export(PoolStringArray) var opponent_groups
 export var active := true		# if true, all employees in the my_group will be controlled by this node
 
 var assigned_nodes := {}
+var opponent_nodes := []
 
 onready var scene := get_tree().get_current_scene()
 
@@ -49,6 +51,11 @@ func _process(delta):
 		for node in employees:
 			if not node in assigned_nodes:
 				assign_node(node, get_best_action(node))
+		
+		# update opponent_nodes for children to access
+		opponent_nodes.clear()
+		for group in opponent_groups:
+			opponent_nodes += get_tree().get_nodes_in_group(group)
 		
 		# this executes all the assigned actions
 		var output: int
