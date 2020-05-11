@@ -49,6 +49,9 @@ func set_player(node):
 
 	get_parent().remove_child(self)
 	_pivot_node.add_child(self)
+	
+	if node != _current_scene:
+		_current_scene.player = node
 
 
 func set_viewpoint(new_viewpoint: int):
