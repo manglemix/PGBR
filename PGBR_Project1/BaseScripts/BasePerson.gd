@@ -23,8 +23,8 @@ export var max_health := 100.0
 export var max_stamina := 3.0 # seconds
 export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
-var curr_health := max_health setget curr_health_set
-var curr_stamina := max_stamina setget curr_stamina_set
+var health := max_health setget set_health
+var stamina := max_stamina setget set_stamina
 
 var sprinting := false
 var crouching := false
@@ -51,15 +51,14 @@ var _head_target_vector: Vector3					# the vector the head tries to turn to
 
 
 # getters and setters
-func curr_health_set(new_val: float) -> void:
-	print("new val", new_val)
-	curr_health = clamp(new_val, 0, max_health)
-	emit_signal("update_health", curr_health)
+func set_health(new_val: float):
+	health = clamp(new_val, 0, max_health)
+	emit_signal("update_health", health)
 
 
-func curr_stamina_set(new_val: float) -> void:
-	curr_stamina = clamp(new_val, 0, max_stamina)
-	emit_signal("update_stamina", curr_stamina)
+func set_stamina(new_val: float):
+	stamina = clamp(new_val, 0, max_stamina)
+	emit_signal("update_stamina", stamina)
 
 
 func _ready():
