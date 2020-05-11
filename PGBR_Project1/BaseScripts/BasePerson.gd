@@ -6,7 +6,9 @@ signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
 signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
 signal update_health(health)
+signal update_max_health(max_health)
 signal update_stamina(stamina)
+signal update_max_stamina(max_stamina)
 
 
 enum SPEEDS {WALK, RUN, SPRINT}
@@ -59,6 +61,18 @@ func set_health(new_val: float):
 func set_stamina(new_val: float):
 	stamina = clamp(new_val, 0, max_stamina)
 	emit_signal("update_stamina", stamina)
+
+
+func set_max_health(new_val: float):
+	assert(max_health > 0)
+	max_health = new_val
+	emit_signal("update_max_health", max_health)
+
+
+func set_max_stamina(new_val: float):
+	assert(max_stamina > 0)
+	max_stamina = new_val
+	emit_signal("update_max_stamina", max_stamina)
 
 
 func _ready():
