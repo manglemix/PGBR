@@ -4,8 +4,8 @@ extends Node
 
 enum {CAN_CHANGE = 1, MUST_CHANGE = 2}
 
-export(String) var group
-export var active := true		# if true, all nodes in the group will be controlled by this node
+export(String) var my_group
+export var active := true		# if true, all employees in the my_group will be controlled by this node
 
 var assigned_nodes := {}
 
@@ -14,7 +14,7 @@ onready var scene := get_tree().get_current_scene()
 
 func get_best_action(employee) -> Reference:
 	assert(get_child_count() == 1)
-	get_child(0).get_score(employee)		# sometimes some nodes need to calculate their score first
+	get_child(0).get_score(employee)		# sometimes some employees need to calculate their score first
 	return get_child(0).get_action(employee) as Reference
 
 
@@ -33,20 +33,20 @@ func unassign_node(node) -> void:
 
 func _process(delta):
 	if active:
-		var nodes := get_tree().get_nodes_in_group(group)
+		var employees := get_tree().get_nodes_in_group(my_group)
 		
-		# checks if the employees (nodes to be controlled) are still valid, and are still in the same group
+		# checks if the employees (employees to be controlled) are still valid, and are still in the same my_group
 		var remove_nodes := []
 		for node in assigned_nodes:
-			if (not node in nodes) or (not is_instance_valid(node)):
+			if (not node in employees) or (not is_instance_valid(node)):
 				remove_nodes.append(node)
 		
-		# nodes must be removed in a separate loop otherwise it may cause the iteration to crash
+		# employees must be removed in a separate loop otherwise it may cause the iteration to crash
 		for node in remove_nodes:
 			unassign_node(node)
 		
-		# if a node in the group is not assigned, assign it with the best action
-		for node in nodes:
+		# if a node in the my_group is not assigned, assign it with the best action
+		for node in employees:
 			if not node in assigned_nodes:
 				assign_node(node, get_best_action(node))
 		
