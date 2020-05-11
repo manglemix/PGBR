@@ -104,7 +104,7 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 
 
 func global_move_to_vector(position: Vector3, speed:=SPEEDS.RUN):
-	move_to_vector(position - global_transform.origin)
+	move_to_vector(position - global_transform.origin, speed)
 
 
 func turn_to_vector(rel_vec: Vector3):
