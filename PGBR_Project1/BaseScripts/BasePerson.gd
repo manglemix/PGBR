@@ -5,8 +5,8 @@ extends KinematicBody
 signal shoot		# when emitted, all gun nodes connected to this should shoot
 signal died			# may or may not be needed, we'll be watched by the current scene
 signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
-signal update_health(dmg_value)
-signal sprint_time(sprint_time)
+signal update_health(health)
+signal update_stamina(stamina)
 
 
 enum SPEEDS {WALK, RUN, SPRINT}
@@ -59,7 +59,7 @@ func curr_health_set(new_val: float) -> void:
 
 func curr_stamina_set(new_val: float) -> void:
 	curr_stamina = clamp(new_val, 0, max_stamina)
-	emit_signal("sprint_time", curr_stamina)
+	emit_signal("update_stamina", curr_stamina)
 
 
 func _ready():
