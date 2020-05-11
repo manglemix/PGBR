@@ -85,10 +85,10 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
+	
+	sprinting = false
 	if on_floor:
 		assert(speed >= 0 and speed <= 2)
-		sprinting = false
-		
 		if speed == SPEEDS.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
