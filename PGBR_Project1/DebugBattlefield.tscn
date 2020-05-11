@@ -4,7 +4,7 @@
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BaseScripts/BaseCamera.gd" type="Script" id=3]
 [ext_resource path="res://DebugGun.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/HUD/HUD.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/HUD/HUD_Draft1.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Materials/ConcreteMat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/Materials/GroundMat.tres" type="Material" id=7]
 [ext_resource path="res://default_env.tres" type="Environment" id=8]
@@ -46,7 +46,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.41301, 10.5033, -0.521326 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.22608, 13.9301 )
 script = ExtResource( 3 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="FloorMarker" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6.02648, 0, 0 )
 mesh = SubResource( 3 )
 material/0 = null
