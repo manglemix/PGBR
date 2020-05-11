@@ -272,7 +272,7 @@ func _physics_process(delta):
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
 	if sprinting:
-		set_stamina(stamina - delta)
+		self.stamina -= delta
 
 
 func _on_SprintTimer_timeout():
