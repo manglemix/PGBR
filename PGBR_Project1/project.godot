@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
+"base": "Control",
+"class": "HealthBar",
+"language": "GDScript",
+"path": "res://Scenes/HUD/HealthBar.gd"
+}, {
 "base": "Action",
 "class": "Maximiser",
 "language": "GDScript",
@@ -44,25 +49,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/moveable_node.gd"
 }, {
-"base": "Control",
-"class": "HealthBar",
-"language": "GDScript",
-"path": "res://Scenes/HUD/HealthBar.gd"
-}, {
 "base": "RichTextLabel",
 "class": "PropertyWatcher",
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
 }, {
-"base": "Action",
-"class": "Wander",
-"language": "GDScript",
-"path": "res://UtilityAI/wander.gd"
-}, {
 "base": "Control",
 "class": "StaminaBar",
 "language": "GDScript",
 "path": "res://Scenes/HUD/StaminaBar.gd"
+}, {
+"base": "Action",
+"class": "Wander",
+"language": "GDScript",
+"path": "res://UtilityAI/wander.gd"
 } ]
 _global_script_class_icons={
 "Action": "",
@@ -70,26 +70,26 @@ _global_script_class_icons={
 "BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
-}, {
+"HealthBar": "",
 "Maximiser": "",
 "MoveableNode": "",
 "PropertyWatcher": "",
+"StaminaBar": "",
 "Wander": ""
-}, {
-"HealthBar": "",
-"PropertyWatcher": "",
-"StaminaBar": ""
 }
 
 [application]
 
-config/name="PGBR_Project1"
+config/name="PGBR"
 run/main_scene="res://DebugBattlefield.tscn"
-config/icon="res://icon.png"
 
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
+
+[config]
+
+icon="res://icon.png"
 
 [display]
 
@@ -156,3 +156,11 @@ sprint={
 [rendering]
 
 environment/default_environment="res://default_env.tres"
+
+[run]
+
+main_scene="res://DebugBattlefield.tscn"
+
+[}[application]
+
+config]name="PGBR_Project1"
