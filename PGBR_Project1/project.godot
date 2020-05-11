@@ -9,6 +9,16 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "Action",
+"language": "GDScript",
+"path": "res://UtilityAI/action.gd"
+}, {
+"base": "Node",
+"class": "ActionTree",
+"language": "GDScript",
+"path": "res://UtilityAI/ActionTree.gd"
+}, {
 "base": "Camera",
 "class": "BaseCamera",
 "language": "GDScript",
@@ -24,6 +34,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
+"base": "Action",
+"class": "Maximiser",
+"language": "GDScript",
+"path": "res://UtilityAI/maximiser.gd"
+}, {
+"base": "Spatial",
+"class": "MoveableNode",
+"language": "GDScript",
+"path": "res://Scripts/moveable_node.gd"
+}, {
 "base": "Control",
 "class": "HealthBar",
 "language": "GDScript",
@@ -34,15 +54,28 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
 }, {
+"base": "Action",
+"class": "Wander",
+"language": "GDScript",
+"path": "res://UtilityAI/wander.gd"
+}, {
 "base": "Control",
 "class": "StaminaBar",
 "language": "GDScript",
 "path": "res://Scenes/HUD/StaminaBar.gd"
 } ]
 _global_script_class_icons={
+"Action": "",
+"ActionTree": "",
 "BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
+}, {
+"Maximiser": "",
+"MoveableNode": "",
+"PropertyWatcher": "",
+"Wander": ""
+}, {
 "HealthBar": "",
 "PropertyWatcher": "",
 "StaminaBar": ""
