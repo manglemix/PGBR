@@ -2,9 +2,13 @@ class_name BasePerson
 extends KinematicBody
 
 
-signal shoot			# when emitted, all gun nodes connected to this should shoot
+signal shoot		    # when emitted, all gun nodes connected to this should shoot
 signal died(code)		# may or may not be needed, we'll be watched by the current scene
-signal aim(target)		# when emitted, all guns and hands will aim towards the target (a global vector)
+signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+signal update_health(health)
+signal update_max_health(max_health)
+signal update_stamina(stamina)
+signal update_max_stamina(max_stamina)
 
 enum SPEEDS {WALK, RUN, SPRINT}
 enum KILLCODE {KILLED, SUICIDE, GLITCHED}
@@ -16,18 +20,29 @@ var run_speed := 10.0
 var walk_speed := 5.0
 var strafe_speed := 3.0
 
-var turn_speed := 10.0					# used for interpolating turns (like when turning the head)
-var max_head_yaw := 50.0				# the maximum angle the head can turn by on the y axis, both left and right
+# Character
+export var max_health := 100.0
+export var max_stamina := 3.0 # seconds
+export var stamina_regen := 0.5 # seconds
+export var health_regen := 1.0
+var health := max_health setget set_health
+var stamina := max_stamina setget set_stamina
+
+var sprinting := false
+var crouching := false
+
+var turn_speed := 10.0								# used for interpolating turns (like when turning the head)
+var max_head_yaw := 50.0							# the maximum angle the head can turn by on the y axis, both left and right
 var max_head_pitch := 60.0
 var min_head_pitch := -60.0
 var movement_vector := Vector3.ZERO		# the top down velocity of the person
-var acceleration := 6					# used for interpolating the Person's speed to the movement_vector
-var jump_speed := 10.0					# the vertical speed given to the person when they jump
-var fall_acceleration := - 9.8			# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
+var acceleration := 6									# used for interpolating the Person's speed to the movement_vector
+var jump_speed := 10.0								# the vertical speed given to the person when they jump
+var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
-var charging_jump := false				# if true, the Person will try to charge up its jump strength
-var on_floor: bool						# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
-var arms := []							# a list of nodes which were considered arms (from arm_paths)
+var charging_jump := false						# if true, the Person will try to charge up its jump strength
+var on_floor: bool										# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var arms := []												# a list of nodes which were considered arms (from arm_paths)
 
 var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
@@ -36,6 +51,29 @@ var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
 var _head_target_basis: Basis				# the basis the head tries to turn to
 var _turn_head_to_target := false
+
+
+# getters and setters
+func set_health(new_val: float):
+	health = clamp(new_val, 0, max_health)
+	emit_signal("update_health", health)
+
+
+func set_stamina(new_val: float):
+	stamina = clamp(new_val, 0, max_stamina)
+	emit_signal("update_stamina", stamina)
+
+
+func set_max_health(new_val: float):
+	assert(max_health > 0)
+	max_health = new_val
+	emit_signal("update_max_health", max_health)
+
+
+func set_max_stamina(new_val: float):
+	assert(max_stamina > 0)
+	max_stamina = new_val
+	emit_signal("update_max_stamina", max_stamina)
 
 
 func _ready():
@@ -49,14 +87,18 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	
 	if on_floor:
 		assert(speed >= 0 and speed <= 2)
-		if speed == SPEEDS.SPRINT:
+		sprinting = false
+		
+		if speed == SPEEDS.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
-			# decrement stamina
+			sprinting = true
+			
 		elif speed == SPEEDS.WALK:
 			movement_vector = rel_vec.normalized() * walk_speed
+			
 		else:
 			movement_vector = rel_vec.normalized() * run_speed
-			
+		
 	else:
 		movement_vector = rel_vec.normalized() * strafe_speed
 
@@ -228,3 +270,10 @@ func _physics_process(delta):
 		kill(KILLCODE.GLITCHED)
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
+
+	if sprinting:
+		set_stamina(stamina - delta)
+
+
+func _on_SprintTimer_timeout():
+	sprinting = false
