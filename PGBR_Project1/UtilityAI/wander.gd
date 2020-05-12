@@ -9,12 +9,13 @@ onready var scene = get_tree().get_current_scene()
 
 
 func get_score(employee) -> float:
-	if len(get_tree().get_nodes_in_group("Friendly")) == 0:
+	if len(get_action_tree().opponent_nodes) == 0:
 		return INF
 	return 0.0
 
 
 func get_action(employee) -> Reference:
+	randomize()
 	return WanderAction.new(employee, max_distance, min_distance, scene)
 
 
