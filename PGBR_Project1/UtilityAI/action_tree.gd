@@ -68,7 +68,7 @@ func _process(delta):
 				var new_action = get_best_action(node)
 				# if the new best action is actually just the same action, then don't reset
 				# however if it is different, replace the current action
-				if typeof(action) != typeof(new_action):
+				if action.get_script() != new_action.get_script():
 					assign_node(node, new_action)
 			
 			elif output == MUST_CHANGE:
