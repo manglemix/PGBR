@@ -47,10 +47,12 @@ class ShootAction:
 		self.target = target
 	
 	func process(delta) -> int:
+		if not is_instance_valid(target):
+			return 2
+		
 		employee.fully_face_target(target.global_transform.origin)
 		employee.shoot_guns()
 		return 1
 	
 	func end() -> void:
 		return
-
