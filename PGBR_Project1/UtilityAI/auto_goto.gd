@@ -12,6 +12,14 @@ export var turn_head := true
 
 var path: PoolVector3Array
 
+var _optimize := true
+
+
+func _init(from: Vector3, to: Vector3, optimize:=true):
+	origin = from
+	destination = to
+	_optimize = optimize
+
 
 func _ready():
 	set_path(origin, destination)
