@@ -13,6 +13,7 @@ export var turn_head := true
 var path: PoolVector3Array
 
 var _optimize := true
+onready var _navigation := get_tree().get_current_scene().get_node("Navigation") as Navigation
 
 
 func _init(from: Vector3, to: Vector3, optimize:=true):
@@ -22,7 +23,7 @@ func _init(from: Vector3, to: Vector3, optimize:=true):
 
 
 func _ready():
-	set_path(origin, destination)
+	set_path(origin, destination, _optimize)
 
 
 func set_enabled(value: bool):
@@ -31,20 +32,19 @@ func set_enabled(value: bool):
 
 
 func set_origin(position: Vector3):
-	origin = position
-	set_path(position, destination)
+	set_path(position, destination, _optimize)
 
 
 func set_destination(position: Vector3):
-	destination = position
-	set_path(origin, position)
+	set_path(origin, position, _optimize)
 
 
 func set_path(from: Vector3, to: Vector3, optimize:=true):
-	origin = from
-	destination = to
+	origin = _navigation.get_closest_point(from)
+	destination = _navigation.get_closest_point(to)
+	_optimize = optimize
 	
-	path = get_tree().get_current_scene().get_node("Navigation").get_global_path(from, to, optimize)
+	path = _navigation.get_simple_path(origin, destination, _optimize)
 	enabled = true
 
 
