@@ -4,8 +4,8 @@ extends Node
 
 signal destination_reached
 
-export var origin: Vector3 setget set_origin
-export var destination: Vector3 setget set_destination
+export var _origin: Vector3
+export var _destination: Vector3
 export var completion_distance := 2.0
 export var enabled := true setget set_enabled
 export var turn_head := true
@@ -17,13 +17,13 @@ onready var _navigation := get_tree().get_current_scene().get_node("Navigation")
 
 
 func _init(from: Vector3, to: Vector3, optimize:=true):
-	origin = from
-	destination = to
+	_origin = from
+	_destination = to
 	_optimize = optimize
 
 
 func _ready():
-	set_path(origin, destination, _optimize)
+	set_path(_origin, _destination, _optimize)
 
 
 func set_enabled(value: bool):
@@ -31,20 +31,12 @@ func set_enabled(value: bool):
 	set_process(value)
 
 
-func set_origin(position: Vector3):
-	set_path(position, destination, _optimize)
-
-
-func set_destination(position: Vector3):
-	set_path(origin, position, _optimize)
-
-
 func set_path(from: Vector3, to: Vector3, optimize:=true):
-	origin = _navigation.get_closest_point(from)
-	destination = _navigation.get_closest_point(to)
+	_origin = _navigation.get_closest_point(from)
+	_destination = _navigation.get_closest_point(to)
 	_optimize = optimize
 	
-	path = _navigation.get_simple_path(origin, destination, _optimize)
+	path = _navigation.get_simple_path(_origin, _destination, _optimize)
 	enabled = true
 
 
@@ -54,7 +46,7 @@ func _process(delta):
 		
 		if len(path) == 0:
 			emit_signal("destination_reached")
-			enabled = false
+			set_enabled(false)
 			return
 	
 	get_parent().global_move_to_vector(path[0])
