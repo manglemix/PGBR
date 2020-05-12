@@ -3,10 +3,14 @@ extends Node
 
 
 func get_action_tree() -> ActionTree:
-	if not get_parent() is ActionTree:
+	if get_parent() is ActionTree:
+		return get_parent() as ActionTree
+	
+	elif get_parent().has_method("get_action_tree"):
 		return get_parent().get_action_tree()
 	
-	return get_parent() as ActionTree
+	else:
+		return null
 
 
 func get_score(employee) -> float:
