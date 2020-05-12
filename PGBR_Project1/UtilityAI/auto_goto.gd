@@ -41,13 +41,14 @@ func set_path(from: Vector3, to: Vector3, optimize:=true):
 
 
 func _process(delta):
+	if len(path) == 0:
+		emit_signal("destination_reached")
+		set_enabled(false)
+		return
+	
 	if get_parent().global_transform.origin.distance_to(path[0]) < completion_distance:
 		path.remove(0)
-		
-		if len(path) == 0:
-			emit_signal("destination_reached")
-			set_enabled(false)
-			return
+		return
 	
 	get_parent().global_move_to_vector(path[0])
 	
