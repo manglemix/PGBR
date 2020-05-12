@@ -25,7 +25,7 @@ class AutoGoto:
 	
 	func process() -> bool:
 		# returns true if still working, false if done and should be deleted
-		if node.global_transform.origin.distance_to(path[0]) < 0.5:
+		if node.global_transform.origin.distance_to(path[0]) < 2.0:
 			path.remove(0)
 		
 		if len(path) == 0:
