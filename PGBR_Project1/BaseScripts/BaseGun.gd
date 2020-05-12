@@ -47,7 +47,8 @@ func aim_towards(target: Vector3):
 
 func shoot():
 	var node = get_collider()
-	print(node)
 	
 	if is_instance_valid(node) and node.has_method("damage"):
 		node.damage(self)
+	
+	Debug.draw_dot(get_collision_point(), Color.red)
