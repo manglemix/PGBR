@@ -225,9 +225,8 @@ func _process(delta):
 				# casts the raycast node towards the crosshair (centre of screen)
 				project_raycast()
 				var target := get_collision_point()
-				# this line only draws a dot if Debug.enabled is true
-				Debug.draw_dot(target, Color.red)
-				_player_node.aim_towards(target)
+				_player_node.global_turn_to_vector(target)
+				_player_node.aim_guns(target)
 				_player_node.shoot_guns()
 			
 	else:

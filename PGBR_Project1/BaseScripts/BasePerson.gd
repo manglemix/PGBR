@@ -164,12 +164,15 @@ func shoot_guns():
 	emit_signal("shoot")
 
 
-func aim_towards(target: Vector3):
+func aim_guns(position: Vector3):
+	emit_signal("aim", position)
+
+
+func fully_face_target(target: Vector3):
 	# this turns both the body and the arms towards the global vector given
-	_body_target_vector = target - global_transform.origin
-	_body_target_vector.y = 0.0
-	_body_target_vector = _body_target_vector.normalized()
-	emit_signal("aim", target)
+	global_turn_to_vector(target)
+	global_head_to_vector(target)
+	aim_guns(target)
 
 
 func kill(code):
