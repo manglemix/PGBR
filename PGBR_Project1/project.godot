@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ActionTree",
 "language": "GDScript",
-"path": "res://UtilityAI/ActionTree.gd"
+"path": "res://UtilityAI/action_tree.gd"
 }, {
 "base": "Camera",
 "class": "BaseCamera",
