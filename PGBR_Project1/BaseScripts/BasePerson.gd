@@ -15,9 +15,9 @@ enum KILLCODE {KILLED, SUICIDE, GLITCHED}
 
 export(Array, NodePath) var arm_paths
 
-var sprint_speed := 20.0			# these correspond to speeds, for move_to_vector
-var run_speed := 10.0
-var walk_speed := 5.0
+var sprint_speed := 10.0			# these correspond to speeds, for move_to_vector
+var run_speed := 5.0
+var walk_speed := 2.5
 var strafe_speed := 3.0
 
 # Character
@@ -35,14 +35,15 @@ var turn_speed := 10.0								# used for interpolating turns (like when turning 
 var max_head_yaw := 50.0							# the maximum angle the head can turn by on the y axis, both left and right
 var max_head_pitch := 60.0
 var min_head_pitch := -60.0
-var movement_vector := Vector3.ZERO		# the top down velocity of the person
-var acceleration := 6									# used for interpolating the Person's speed to the movement_vector
-var jump_speed := 10.0								# the vertical speed given to the person when they jump
+var movement_vector := Vector3.ZERO			# the top down velocity of the person
+var acceleration := 6						# used for interpolating the Person's speed to the movement_vector
+var jump_speed := 10.0						# the vertical speed given to the person when they jump
 var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
-var charging_jump := false						# if true, the Person will try to charge up its jump strength
-var on_floor: bool										# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
-var arms := []												# a list of nodes which were considered arms (from arm_paths)
+var charging_jump := false					# if true, the Person will try to charge up its jump strength
+var on_floor: bool							# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var arms := []								# a list of nodes which were considered arms (from arm_paths)
+var guns := []
 
 var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
@@ -242,6 +243,12 @@ func _physics_process(delta):
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)
+	
+	if not on_floor:
+		_floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
+		on_floor = is_instance_valid(_floor_collision)
+		if on_floor:
+			global_transform.origin += _floor_collision.travel
 	
 	if on_floor:
 		if not is_zero_approx(movement_vector.length_squared()):
