@@ -53,7 +53,7 @@ var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
 var _head_target_basis: Basis				# the basis the head tries to turn to
 var _turn_head_to_target := false
-var _relax_time: float
+var _relaxed_time: float					# amount of time the Person has not been sprinting
 
 
 # getters and setters
@@ -94,7 +94,7 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 		if speed == SPEEDS.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
-			_relax_time = 0.0
+			_relaxed_time = 0.0
 			
 		elif speed == SPEEDS.WALK:
 			movement_vector = rel_vec.normalized() * walk_speed
@@ -283,8 +283,8 @@ func _physics_process(delta):
 	if sprinting:
 		self.stamina -= delta
 	else:
-		_relax_time += delta
-		if _relax_time >= stamina_lag:
+		_relaxed_time += delta
+		if _relaxed_time >= stamina_lag:
 			self.stamina += delta
 
 
