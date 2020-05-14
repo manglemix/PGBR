@@ -21,6 +21,7 @@ var _current_scene
 var _interpolate_speed := 0.1			# used whenever there is any interpolation done
 var _interpolate_to_player := false		# if true, the camera will move to the target node
 var _raycast := RayCast.new()
+var _old_player = null
 
 
 func _ready():
@@ -149,6 +150,15 @@ func make_current_camera():
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
+	
+	if event.is_action_pressed("spectate"):
+		if is_instance_valid(_old_player):
+			set_player(_old_player)
+			_old_player = null
+		else:
+			transform = global_transform
+			_old_player = _player_node
+			set_player(null)
 	
 	if is_instance_valid(_player_node):
 		if event is InputEventMouseMotion:
