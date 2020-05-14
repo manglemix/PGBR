@@ -9,15 +9,15 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
-"class": "Action",
+"base": "State",
+"class": "Attack",
 "language": "GDScript",
-"path": "res://UtilityAI/action.gd"
+"path": "res://UtilityAI/attack.gd"
 }, {
 "base": "Node",
-"class": "ActionTree",
+"class": "AutoGoto",
 "language": "GDScript",
-"path": "res://UtilityAI/action_tree.gd"
+"path": "res://UtilityAI/auto_goto.gd"
 }, {
 "base": "Camera",
 "class": "BaseCamera",
@@ -39,7 +39,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/HUD/HealthBar.gd"
 }, {
-"base": "Action",
+"base": "Maximiser",
+"class": "HostilesEnvironment",
+"language": "GDScript",
+"path": "res://UtilityAI/hostiles_environment.gd"
+}, {
+"base": "State",
 "class": "Maximiser",
 "language": "GDScript",
 "path": "res://UtilityAI/maximiser.gd"
@@ -54,33 +59,40 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
 }, {
-"base": "Action",
-"class": "Shoot",
-"language": "GDScript",
-"path": "res://UtilityAI/shoot.gd"
-}, {
 "base": "Control",
 "class": "StaminaBar",
 "language": "GDScript",
 "path": "res://Scenes/HUD/StaminaBar.gd"
 }, {
-"base": "Action",
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://UtilityAI/state.gd"
+}, {
+"base": "Node",
+"class": "UtilityTree",
+"language": "GDScript",
+"path": "res://UtilityAI/state_tree.gd"
+}, {
+"base": "State",
 "class": "Wander",
 "language": "GDScript",
 "path": "res://UtilityAI/wander.gd"
 } ]
 _global_script_class_icons={
-"Action": "",
-"ActionTree": "",
+"Attack": "",
+"AutoGoto": "",
 "BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
 "HealthBar": "",
+"HostilesEnvironment": "",
 "Maximiser": "",
 "MoveableNode": "",
 "PropertyWatcher": "",
-"Shoot": "",
 "StaminaBar": "",
+"State": "",
+"UtilityTree": "",
 "Wander": ""
 }
 
@@ -152,6 +164,11 @@ aim={
 sprint={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+ ]
+}
+spectate={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"unicode":0,"echo":false,"script":null)
  ]
 }
 

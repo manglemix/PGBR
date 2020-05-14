@@ -1,14 +1,17 @@
 class_name Maximiser
-extends Action
+extends State
 
 
-onready var _best_node := get_child(0)
+signal calling_get_score(employee)
+
+var _best_node: State
 
 
 func get_score(employee) -> float:
+	emit_signal("calling_get_score", employee)
 	# this node looks at its children and finds which one has the highest score, and shows it off
-	# if that score was the highest, it will be offered as the best_action
-	var max_score: float
+	# if that score was the highest, it will be offered as the best state
+	var max_score := -INF
 	
 	for child in get_children():
 		var score = child.get_score(employee)
@@ -24,5 +27,5 @@ func get_score(employee) -> float:
 	return max_score
 
 
-func get_action(employee) -> Reference:
-	return _best_node.get_action(employee) as Reference
+func get_state(employee):
+	return _best_node.get_state(employee)
