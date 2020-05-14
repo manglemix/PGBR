@@ -9,7 +9,7 @@ height = 0.5
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.25, 0.25, 0.5 )
 
-[node name="BaseGun" type="RayCast"]
+[node name="DebugGun" type="RayCast"]
 cast_to = Vector3( 0, 0, 1 )
 script = ExtResource( 1 )
 
