@@ -6,6 +6,7 @@ enum VIEWPOINT {FPS, TPS}	# First Person, Third Person
 enum KILLCODE {KILLED, SUICIDE, GLITCHED}		# Same as KILLCODE in Person
 
 export(VIEWPOINT) var current_viewpoint := VIEWPOINT.FPS setget set_viewpoint
+export var _player_path: NodePath
 
 var move_speed := 20.0			# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
@@ -19,7 +20,7 @@ var _pivot_node						# the node the camera will pivot around
 var _target_node: Spatial			# the child of the pivot node; the node the camera will move to
 var _current_scene
 var _interpolate_speed := 0.1			# used whenever there is any interpolation done
-var _interpolate_to_player := false		# if true, the camera will move to the target node
+var _lock_onto_player := false
 var _raycast := RayCast.new()
 var _old_player = null
 
@@ -33,10 +34,7 @@ func _ready():
 	
 	_current_scene = get_tree().get_current_scene()
 	
-	# if the parent to this camera is no the current scene root node
-	# then the camera will try to follow that node when that node is ready
-	if get_parent() != _current_scene:
-		get_parent().connect("ready", self, "_set_player_from_parent")
+	set_player(get_node(_player_path))
 
 
 func set_user_input(value: bool):
@@ -48,74 +46,40 @@ func set_player(node):
 	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
 	# which should also have a child called CameraTarget
 	if is_instance_valid(_player_node):
+		_old_player = _player_node
 		_player_node.disconnect("died", self, "handle_death")
 	
 	_raycast.clear_exceptions()
 	
-	if not is_instance_valid(node):
-		clear_player()
-		return
-	
 	_player_node = node
+	_lock_onto_player = false
 	
-	_player_node.connect("died", self, "handle_death")
+	if is_instance_valid(_player_node):
+		_pivot_node = _player_node.get_node("Head")
+		_target_node = _pivot_node.get_node("CameraTarget")
+		set_viewpoint(current_viewpoint)
+		_player_node.connect("died", self, "handle_death")
+		_raycast.add_exception(_player_node)
 	
-	_pivot_node = _player_node.get_node("Head")
-	_target_node = _pivot_node.get_node("CameraTarget")
-	set_viewpoint(current_viewpoint)
-	
-	_raycast.add_exception(_player_node)
-
-	get_parent().remove_child(self)
-	_pivot_node.add_child(self)
-	
-	if node != _current_scene:
-		_current_scene.player = node
-
-
-func clear_player():
-	if is_instance_valid(_player_node) and "linear_velocity" in _player_node:
-		linear_velocity = _player_node.linear_velocity
-	
-	_player_node = null
-	_pivot_node = null
-	_target_node = null
-	
-	get_parent().remove_child(self)
-	_current_scene.add_child(self)
+	else:
+		_pivot_node = null
+		_target_node = null
 
 
 func handle_death(code):
 	if code == KILLCODE.KILLED:
 		# some code if the player was killed normally
-		transform = global_transform
+		pass
 	
 	elif code == KILLCODE.SUICIDE:
 		# some code if the player killed themselves
-		transform = global_transform
+		pass
 	
 	elif code == KILLCODE.GLITCHED:
 		# some code if the player died in a weird way
-		var camera := preload("res://AnimatedCamera.tscn").instance()
-		_current_scene.add_child(camera)
-		camera.global_transform = global_transform
-		
-		clear_player()
-		linear_velocity *= 0
-		
-		global_transform = Transform.IDENTITY
-		global_transform.origin.y = 10
-		
-		camera.interpolated = true
-		camera.target_transform = global_transform
-		camera.current = true
-		
-		camera.connect("reached_target", self, "make_current_camera")
-		camera.connect("reached_target", camera, "queue_free")
-		set_process_input(false)
-		return
-	
-	clear_player()
+		var target := Transform.IDENTITY
+		target.origin.y = 10.0
+		move_to(target)
 
 
 func set_viewpoint(new_viewpoint: int):
@@ -126,8 +90,24 @@ func set_viewpoint(new_viewpoint: int):
 	_target_node.set_transform_index(current_viewpoint)
 
 
-func _set_player_from_parent():
-	set_player(get_parent())
+func move_to(target_transform: Transform):
+	# replaces the current active camera with an AnimatedCamera which moves to the Transform given
+	# keep in mind this causes the camera to leave the previous player
+	var camera := preload("res://AnimatedCamera.tscn").instance()
+	_current_scene.add_child(camera)
+	
+	camera.global_transform = global_transform
+	camera.interpolated = true
+	camera.target_transform = target_transform
+	camera.current = true
+	camera.connect("reached_target", self, "set_user_input", [true])
+	camera.connect("reached_target", self, "set_current", [true])
+	camera.connect("reached_target", camera, "queue_free")
+	
+	set_player(null)
+	global_transform = target_transform
+	linear_velocity *= 0.0
+	set_user_input(false)
 
 
 func project_raycast(screen_point:=screen_centre, distance:=far):
@@ -142,11 +122,6 @@ func get_collision_point() -> Vector3:
 	return _raycast.get_collision_point()
 
 
-func make_current_camera():
-	set_user_input(true)
-	current = true
-
-
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().quit()
@@ -155,8 +130,8 @@ func _input(event):
 		if is_instance_valid(_old_player):
 			set_player(_old_player)
 			_old_player = null
+			
 		else:
-			transform = global_transform
 			_old_player = _player_node
 			set_player(null)
 	
@@ -178,6 +153,7 @@ func _input(event):
 		
 		if event.is_action_pressed("change viewpoint"):
 			_target_node.increment_transform()
+			current_viewpoint = _target_node.transform_index
 	
 	else:
 		# this is for when the camera has no player to follow
@@ -192,13 +168,9 @@ func _input(event):
 
 func _process(delta):
 	if is_instance_valid(_player_node):
-		# checks if the pivot node is within 5 cm
-		_interpolate_to_player = global_transform.origin.distance_to(_target_node.global_transform.origin) > 0.05
-		
-		# if the pivot node is too far, interpolate towards it
-		if _interpolate_to_player:
-			# this will move the camera towards the pivot node
-			global_transform = global_transform.interpolate_with(_target_node.global_transform, _interpolate_speed)
+		# save the player's linear_velocity for when the player dies
+		linear_velocity = _player_node.linear_velocity
+		global_transform = _target_node.global_transform
 		
 		if accept_user_input:
 			var movement_vector := Vector3.ZERO
@@ -238,30 +210,26 @@ func _process(delta):
 				_player_node.global_turn_to_vector(target)
 				_player_node.aim_guns(target)
 				_player_node.shoot_guns()
-			
-	else:
-		# this is for when the camera has no player to follow
-		# it is basically a free moving camera
+	
+	elif accept_user_input:
+		if Input.is_action_pressed("forward"):
+			linear_velocity -= global_transform.basis.z * move_speed * delta
+		
+		if Input.is_action_pressed("backward"):
+			linear_velocity += global_transform.basis.z * move_speed * delta
+		
+		if Input.is_action_pressed("right"):
+			linear_velocity += global_transform.basis.x * move_speed * delta
+		
+		if Input.is_action_pressed("left"):
+			linear_velocity -= global_transform.basis.x * move_speed * delta
+
+		if Input.is_action_pressed("jump"):
+			linear_velocity += global_transform.basis.y * move_speed * delta
+
+		if Input.is_action_pressed("crouch"):
+			linear_velocity -= global_transform.basis.y * move_speed * delta
+	
 		global_transform.origin += linear_velocity * delta
-		
-		if accept_user_input:
-			if Input.is_action_pressed("forward"):
-				linear_velocity -= global_transform.basis.z * move_speed * delta
-			
-			if Input.is_action_pressed("backward"):
-				linear_velocity += global_transform.basis.z * move_speed * delta
-			
-			if Input.is_action_pressed("right"):
-				linear_velocity += global_transform.basis.x * move_speed * delta
-			
-			if Input.is_action_pressed("left"):
-				linear_velocity -= global_transform.basis.x * move_speed * delta
-	
-			if Input.is_action_pressed("jump"):
-				linear_velocity += global_transform.basis.y * move_speed * delta
-	
-			if Input.is_action_pressed("crouch"):
-				linear_velocity -= global_transform.basis.y * move_speed * delta
-		
 		# this slows down the camera
 		linear_velocity *= 0.97

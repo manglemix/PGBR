@@ -6,7 +6,7 @@ signal reached_target
 
 export(Array, Transform) var transforms := []
 export var interpolate_speed := 6.0
-export var interpolated := false setget set_interpolated
+export var interpolated := false
 
 var transform_index := 0 setget set_transform_index
 var target_transform: Transform setget goto
@@ -15,16 +15,14 @@ var target_transform: Transform setget goto
 func _ready():
 	transforms = transforms.duplicate()
 	transforms.insert(0, transform)
-	set_process(interpolated)
-
-
-func set_interpolated(value: bool):
-	set_process(value)
-	interpolated = value
+	set_process(false)
 
 
 func goto(target: Transform):
 	transforms.clear()
+	if interpolated:
+		set_process(true)
+	
 	if interpolated:
 		target_transform = target
 	else:
@@ -33,6 +31,8 @@ func goto(target: Transform):
 
 func set_transform_index(index: int):
 	transform_index = index
+	if interpolated:
+		set_process(true)
 	
 	if interpolated:
 		target_transform = transforms[transform_index]
@@ -42,6 +42,9 @@ func set_transform_index(index: int):
 
 func increment_transform():
 	transform_index += 1
+	if interpolated:
+		set_process(true)
+	
 	if transform_index >= len(transforms):
 		transform_index = 0
 	
@@ -53,6 +56,9 @@ func increment_transform():
 
 func decrement_transform():
 	transform_index -= 1
+	if interpolated:
+		set_process(true)
+	
 	if transform_index <= 0:
 		transform_index = len(transform_index) - 1
 	
@@ -63,7 +69,8 @@ func decrement_transform():
 
 
 func _process(delta):
-	global_transform = global_transform.interpolate_with(target_transform, interpolate_speed * delta)
+	transform = transform.interpolate_with(target_transform, interpolate_speed * delta)
 	
-	if global_transform.origin.distance_to(target_transform.origin) < 0.05 and global_transform.basis.tdotz(target_transform.basis.z) >= 0.99:
+	if transform.origin.distance_to(target_transform.origin) < 0.01:
 		emit_signal("reached_target")
+		set_process(false)

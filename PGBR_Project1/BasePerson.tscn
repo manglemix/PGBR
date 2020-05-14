@@ -55,3 +55,4 @@ material/0 = null
 [node name="CameraTarget" type="Position3D" parent="Head"]
 script = ExtResource( 2 )
 transforms = [ Transform( 0.999, -0.012, 0.041, 0, 0.958, 0.286, -0.043, -0.285, 0.957, 1.253, 0.546, 1.913 ), Transform( 0.999, 0.012, -0.041, 0, 0.958, 0.286, 0.043, -0.285, 0.957, -1.253, 0.546, 1.913 ) ]
+interpolated = true
