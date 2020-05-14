@@ -42,6 +42,9 @@ shape = SubResource( 1 )
 ] instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9794, 6.21727, -17.092 )
 
+[node name="BaseGun" parent="Person" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.9794, -6.21727, 17.092 )
+
 [node name="Person2" parent="." groups=[
 "Enemy",
 ] instance=ExtResource( 2 )]
