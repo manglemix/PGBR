@@ -109,6 +109,10 @@ Debug="*res://debugtools/Debug.gd"
 
 icon="res://icon.png"
 
+[debug]
+
+settings/stdout/print_fps=true
+
 [display]
 
 window/size/width=1280
