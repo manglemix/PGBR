@@ -19,8 +19,6 @@ var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
 var _target_node: Spatial			# the child of the pivot node; the node the camera will move to
 var _current_scene
-var _interpolate_speed := 0.1			# used whenever there is any interpolation done
-var _lock_onto_player := false
 var _raycast := RayCast.new()
 var _old_player = null
 
@@ -52,7 +50,6 @@ func set_player(node):
 	_raycast.clear_exceptions()
 	
 	_player_node = node
-	_lock_onto_player = false
 	
 	if is_instance_valid(_player_node):
 		_pivot_node = _player_node.get_node("Head")
