@@ -47,7 +47,7 @@ func get_navigation_path() -> PoolVector3Array:
 	return _path
 
 
-func _process(delta):
+func _process(_delta):
 	if get_parent().global_transform.origin.distance_to(_path[0]) < completion_distance:
 		_path.remove(0)
 		

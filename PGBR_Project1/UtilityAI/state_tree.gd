@@ -2,7 +2,7 @@ class_name UtilityTree
 extends Node
 
 
-func _process(delta):
+func _process(_delta):
 	for group in get_groups():
 		if group == "idle_process":
 			continue

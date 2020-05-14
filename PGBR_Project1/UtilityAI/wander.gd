@@ -6,7 +6,7 @@ export var min_distance := 5.0
 export var max_distance := 10.0
 
 
-func get_score(employee) -> float:
+func get_score(_employee) -> float:
 	for group in get_parent().hostile_groups:
 		if len(get_tree().get_nodes_in_group(group)) > 0:
 			return 0.0
@@ -14,7 +14,7 @@ func get_score(employee) -> float:
 	return INF
 
 
-func _process(delta):
+func _process(_delta):
 	var goto := get_parent().get_node_or_null("Goto") as AutoGoto
 	
 	if not is_instance_valid(goto):

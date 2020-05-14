@@ -5,5 +5,5 @@ func _on_health_updated(health: float):
 	$HealthText.set_text(str(health))
 
 
-func _on_max_health_updated(health: float):
+func _on_max_health_updated(_health: float):
 	pass

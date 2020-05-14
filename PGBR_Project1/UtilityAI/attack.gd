@@ -34,7 +34,7 @@ func get_score(employee: BasePerson) -> float:
 	return value_curve.interpolate(minimum / 50)
 
 
-func get_state(employee):
+func get_state(_employee):
 	var state = duplicate()
 	state._target = _target
 	return state

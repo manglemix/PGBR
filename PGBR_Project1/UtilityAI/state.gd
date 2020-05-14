@@ -6,11 +6,11 @@ var father: UtilityTree
 onready var scene := get_tree().get_current_scene()
 
 
-func get_score(employee) -> float:
+func get_score(_employee) -> float:
 	return 0.0
 
 
-func get_state(employee):
+func get_state(_employee):
 	return duplicate()
 
 
