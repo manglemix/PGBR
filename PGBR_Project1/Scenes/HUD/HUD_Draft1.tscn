@@ -69,8 +69,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-health_nodes = [ NodePath("MainHud/StatusContainer/HealthTextBg/HealthTextWrapper/HealthTextContainer"), NodePath("MainHud/StatusContainer/BarContainer/HealthBar") ]
-stamina_nodes = [ NodePath("MainHud/StatusContainer/BarContainer/StaminaBar") ]
 
 [node name="Interact" type="Label" parent="."]
 anchor_top = 1.00131
@@ -348,3 +346,8 @@ margin_right = 45.0
 margin_bottom = 49.0
 custom_fonts/font = SubResource( 10 )
 text = "0289"
+[connection signal="health_updated" from="." to="MainHud/StatusContainer/HealthTextBg/HealthTextWrapper/HealthTextContainer" method="_on_HUD_health_updated"]
+[connection signal="health_updated" from="." to="MainHud/StatusContainer/BarContainer/HealthBar" method="_on_HUD_health_updated"]
+[connection signal="max_health_updated" from="." to="MainHud/StatusContainer/BarContainer/HealthBar" method="_on_HUD_max_health_updated"]
+[connection signal="max_stamina_updated" from="." to="MainHud/StatusContainer/BarContainer/StaminaBar" method="_on_HUD_max_stamina_updated"]
+[connection signal="stamina_updated" from="." to="MainHud/StatusContainer/BarContainer/StaminaBar" method="_on_HUD_stamina_updated"]

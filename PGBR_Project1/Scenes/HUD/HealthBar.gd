@@ -16,7 +16,7 @@ func _ready():
 	pulse_color_under.a8 = 130
 
 
-func _on_health_updated(health: float):
+func _on_HUD_health_updated(health):
 	$HealthBar.value = health
 	$UpdateTween.interpolate_property($MaxHealthBar, "value", $MaxHealthBar.value, $HealthBar.value, 0.4, Tween.TRANS_SINE, Tween.EASE_IN_OUT, 0.4)
 	$UpdateTween.start()
@@ -34,6 +34,6 @@ func _on_health_updated(health: float):
 				$PulseTween.start()
 
 
-func _on_max_health_updated(max_health: float):
+func _on_HUD_max_health_updated(max_health):
 	$HealthBar.max_value = max_health
 	$MaxHealthBar.max_value = max_health

@@ -1,9 +1,5 @@
 extends VBoxContainer
 
 
-func _on_health_updated(health: float):
+func _on_HUD_health_updated(health):
 	$HealthText.set_text(str(health))
-
-
-func _on_max_health_updated(_health: float):
-	pass

@@ -5,10 +5,10 @@ extends KinematicBody
 signal shoot		    # when emitted, all gun nodes connected to this should shoot
 signal died(code)		# may or may not be needed, we'll be watched by the current scene
 signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
-signal update_health(health)
-signal update_max_health(max_health)
-signal update_stamina(stamina)
-signal update_max_stamina(max_stamina)
+signal health_updated(health)
+signal max_health_updated(max_health)
+signal stamina_updated(stamina)
+signal max_stamina_updated(max_stamina)
 
 enum SPEEDS {WALK, RUN, SPRINT}
 enum KILLCODE {KILLED, SUICIDE, GLITCHED}
@@ -21,8 +21,8 @@ var walk_speed := 2.5
 var strafe_speed := 3.0
 
 # Character
-export var max_health := 100.0
-export var max_stamina := 3.0 # seconds
+export var max_health := 100.0 setget set_max_health
+export var max_stamina := 3.0 setget set_max_stamina# seconds
 export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
 var health := max_health setget set_health
@@ -57,24 +57,24 @@ var _turn_head_to_target := false
 # getters and setters
 func set_health(new_val: float):
 	health = clamp(new_val, 0, max_health)
-	emit_signal("update_health", health)
-
-
-func set_stamina(new_val: float):
-	stamina = clamp(new_val, 0, max_stamina)
-	emit_signal("update_stamina", stamina)
+	emit_signal("health_updated", health)
 
 
 func set_max_health(new_val: float):
 	assert(max_health > 0)
 	max_health = new_val
-	emit_signal("update_max_health", max_health)
+	emit_signal("max_health_updated", max_health)
+
+
+func set_stamina(new_val: float):
+	stamina = clamp(new_val, 0, max_stamina)
+	emit_signal("stamina_updated", stamina)
 
 
 func set_max_stamina(new_val: float):
 	assert(max_stamina > 0)
 	max_stamina = new_val
-	emit_signal("update_max_stamina", max_stamina)
+	emit_signal("max_stamina_updated", max_stamina)
 
 
 func _ready():

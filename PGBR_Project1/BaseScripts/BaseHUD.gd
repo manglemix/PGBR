@@ -1,8 +1,10 @@
 extends Control
 
 
-export(Array, NodePath) var health_nodes := []	# a list of nodes that need to have methods connected to the player
-export(Array, NodePath) var stamina_nodes := []	# a list of nodes that need to have methods connected to the player
+signal health_updated(health)
+signal max_health_updated(max_health)
+signal stamina_updated(stamina)
+signal max_stamina_updated(max_stamina)
 
 var player setget set_player
 
@@ -11,22 +13,34 @@ func _ready():
 	get_tree().get_current_scene().connect("player_changed", self, "set_player")
 
 
+func update_health(health: float):
+	emit_signal("health_updated", health)
+
+
+func update_max_health(max_health: float):
+	emit_signal("max_health_updated", max_health)
+
+
+func update_stamina(stamina: float):
+	emit_signal("stamina_updated", stamina)
+
+
+func update_max_stamina(max_stamina: float):
+	emit_signal("max_stamina_updated", max_stamina)
+
+
 func set_player(node):
 	if is_instance_valid(player):
-		for node_path in health_nodes:
-			player.disconnect("update_health", get_node(node_path), "_on_health_updated")
-			player.disconnect("update_max_health", get_node(node_path), "_on_max_health_updated")
-	
-		for node_path in stamina_nodes:
-			player.disconnect("update_stamina", get_node(node_path), "_on_stamina_updated")
-			player.disconnect("update_max_stamina", get_node(node_path), "_on_max_stamina_updated")
+		player.disconnect("health_updated", self, "update_health")
+		player.disconnect("max_health_updated", self, "update_max_health")
+		
+		player.disconnect("stamina_updated", self, "update_stamina")
+		player.disconnect("max_stamina_updated", self, "update_max_stamina")
 	
 	player = node
 	
-	for node_path in health_nodes:
-		player.connect("update_health", get_node(node_path), "_on_health_updated")
-		player.connect("update_max_health", get_node(node_path), "_on_max_health_updated")
+	player.connect("health_updated", self, "update_health")
+	player.connect("max_health_updated", self, "update_max_health")
 	
-	for node_path in stamina_nodes:
-		player.connect("update_stamina", get_node(node_path), "_on_stamina_updated")
-		player.connect("update_max_stamina", get_node(node_path), "_on_max_stamina_updated")
+	player.connect("stamina_updated", self, "update_stamina")
+	player.connect("max_stamina_updated", self, "update_max_stamina")

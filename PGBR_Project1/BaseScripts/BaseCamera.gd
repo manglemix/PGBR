@@ -57,6 +57,7 @@ func set_player(node):
 		set_viewpoint(current_viewpoint)
 		_player_node.connect("died", self, "handle_death")
 		_raycast.add_exception(_player_node)
+		_current_scene.player = _player_node
 	
 	else:
 		_pivot_node = null
