@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://default_env.tres" type="Environment" id=8]
 [ext_resource path="res://UtilityAI/state_tree.gd" type="Script" id=9]
 [ext_resource path="res://UtilityAI/wander.gd" type="Script" id=10]
-[ext_resource path="res://Scripts/navigation_plus.gd" type="Script" id=11]
 [ext_resource path="res://UtilityAI/attack.gd" type="Script" id=12]
 [ext_resource path="res://UtilityAI/hostiles_environment.gd" type="Script" id=13]
 
@@ -74,7 +73,6 @@ value_curve = SubResource( 2 )
 script = ExtResource( 10 )
 
 [node name="Navigation" type="Navigation" parent="."]
-script = ExtResource( 11 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 4 )

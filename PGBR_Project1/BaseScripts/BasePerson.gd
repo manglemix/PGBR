@@ -236,9 +236,6 @@ func _physics_process(delta):
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_body_target_vector *= 0.0
-			
-		Debug.draw_points_from_origin([global_transform.origin, global_transform.basis.z], Color.blue, 3)
-		Debug.draw_points_from_origin([global_transform.origin, _body_target_vector], Color.yellow, 3)
 	
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
