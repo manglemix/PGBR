@@ -24,7 +24,7 @@ func set_property(property_name: String):
 	properties = property.rsplit('.')
 
 
-func _process(delta):
+func _process(_delta):
 	if not is_instance_valid(observed_object):
 		queue_free()
 		return
