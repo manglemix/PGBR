@@ -16,12 +16,14 @@ func _ready():
 
 
 func equip_node(node) -> bool:
-	node.connect("shoot", self, "shoot")
-	node.connect("aim", self, "aim_towards")
-	
 	_hand = node.request_hand()
 	
 	if is_instance_valid(_hand):
+		node.connect("shoot", self, "shoot")
+		node.connect("aim", self, "aim_towards")
+		
+		node.guns.append(self)
+		
 		get_parent().remove_child(self)
 		_hand.add_child(self)
 		arm = _hand.get_parent()
