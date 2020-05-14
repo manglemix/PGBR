@@ -16,11 +16,8 @@ func _process(delta):
 			if not is_instance_valid(state):
 				# if there was no state assigned to the employee, give it one
 				get_child(0).get_score(employee)	# sometimes some nodes need their score checked first
-				state = get_child(0).get_state()
+				state = get_child(0).get_state(employee)
 				state.name = group + "State"
-				
-				if is_instance_valid(state.get_parent()):
-					state.get_parent().remove_child(state)
 				
 				employee.add_child(state)
 				state.set_process(true)
