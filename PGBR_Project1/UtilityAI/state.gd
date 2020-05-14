@@ -10,7 +10,7 @@ func get_score(employee) -> float:
 	return 0.0
 
 
-func get_state():
+func get_state(employee):
 	return duplicate()
 
 
@@ -18,9 +18,7 @@ func _ready():
 	# by default, the _process node will only activate if the State was assigned to an employee
 	# in that case, the StateTree will activate it
 	set_process(false)
-
-
-func _enter_tree():
+	
 	if get_parent() is UtilityTree:
 		father = get_parent()
 		
