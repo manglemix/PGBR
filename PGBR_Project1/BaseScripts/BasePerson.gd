@@ -25,6 +25,7 @@ export var max_health := 100.0 setget set_max_health
 export var max_stamina := 3.0 setget set_max_stamina# seconds
 export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
+export var stamina_lag := 2.0 	# the time before the stamina begins regenerating
 var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
 
@@ -52,6 +53,7 @@ var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
 var _head_target_basis: Basis				# the basis the head tries to turn to
 var _turn_head_to_target := false
+var _relax_time: float
 
 
 # getters and setters
@@ -86,13 +88,13 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
-	
 	sprinting = false
 	if on_floor:
 		assert(speed >= 0 and speed <= 2)
 		if speed == SPEEDS.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
+			_relax_time = 0.0
 			
 		elif speed == SPEEDS.WALK:
 			movement_vector = rel_vec.normalized() * walk_speed
@@ -280,6 +282,10 @@ func _physics_process(delta):
 
 	if sprinting:
 		self.stamina -= delta
+	else:
+		_relax_time += delta
+		if _relax_time >= stamina_lag:
+			self.stamina += delta
 
 
 func _on_SprintTimer_timeout():
