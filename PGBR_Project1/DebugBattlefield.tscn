@@ -77,6 +77,8 @@ navmesh = SubResource( 3 )
 
 [node name="BaseCamera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95544, 4.09902, 9.7402 )
+doppler_tracking = 2
+current = true
 script = ExtResource( 3 )
 current_viewpoint = 1
 _player_path = NodePath("../Person")
