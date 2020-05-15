@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://BasePerson.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://default_env.tres" type="Environment" id=8]
 [ext_resource path="res://UtilityAI/state_tree.gd" type="Script" id=9]
 [ext_resource path="res://UtilityAI/wander.gd" type="Script" id=10]
+[ext_resource path="res://Tom.tscn" type="PackedScene" id=11]
 [ext_resource path="res://UtilityAI/attack.gd" type="Script" id=12]
 [ext_resource path="res://UtilityAI/hostiles_environment.gd" type="Script" id=13]
 
@@ -38,13 +39,10 @@ material/0 = ExtResource( 6 )
 [node name="CollisionShape" type="CollisionShape" parent="TerrainCollider"]
 shape = SubResource( 1 )
 
-[node name="Person" parent="." groups=[
+[node name="Tom" parent="." groups=[
 "Friendly",
-] instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.9794, 6.21727, -17.092 )
-
-[node name="DebugGun" parent="Person" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.510972, 1.51728, 0.953331 )
+] instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.224377, 4.201, -18.8774 )
 
 [node name="Person2" parent="." groups=[
 "Enemy",
@@ -81,7 +79,7 @@ doppler_tracking = 2
 current = true
 script = ExtResource( 3 )
 current_viewpoint = 1
-_player_path = NodePath("../Person")
+_player_path = NodePath("../Tom")
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.646737, 0.762713, 0, -0.762713, -0.646737, 0, 18.6483, 0 )

@@ -26,9 +26,11 @@ export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
 export var stamina_lag := 2.0 	# the time before the stamina begins regenerating
 
-export var acceleration := 6	# used for interpolating the Person's speed to the movement_vector
+export var acceleration := 6.0	# used for interpolating the Person's speed to the movement_vector
 export var jump_speed := 10.0						# the vertical speed given to the person when they jump
 export var turn_speed := 10.0						# used for interpolating turns
+
+export var head_path: NodePath
 
 var sprinting := false
 var crouching := false
@@ -41,7 +43,9 @@ var fall_acceleration := - 9.8				# the rate at which the vertical speed changes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var on_floor: bool							# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
-var has_head := false
+
+var head: Spatial
+
 var arms := []								# a list of nodes which were considered arms (from arm_paths)
 var guns := []
 
@@ -76,19 +80,11 @@ func set_max_stamina(new_val: float):
 	emit_signal("max_stamina_updated", max_stamina)
 
 
-func _set_has_head(value: bool):
-	# this is only used for when the head dies and has_head needs to be set to false
-	has_head = value
-
-
 func _ready():
 	for path in arm_paths:
 		arms.append(get_node(path))
 	
-	var head = get_node_or_null("Head")
-	if is_instance_valid(head):
-		has_head = true
-		head.connect("tree_exited", self, "_set_has_head", [false])
+	head = get_node_or_null(head_path)
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN):
@@ -171,8 +167,8 @@ func fully_face_target(target: Vector3):
 	global_turn_to_vector(target)
 	aim_guns(target)
 	
-	if has_head:
-		$Head.global_head_to_vector(target)
+	if is_instance_valid(head):
+		head.global_head_to_vector(target)
 
 
 func kill(code):
@@ -200,7 +196,9 @@ func _physics_process(delta):
 		if turn_axis.is_normalized():
 			var turn_angle := global_transform.basis.z.angle_to(_body_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
-			$Head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			
+			if is_instance_valid(head):
+				head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_body_target_vector *= 0.0

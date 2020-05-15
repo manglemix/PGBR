@@ -41,11 +41,11 @@ func _physics_process(delta):
 	# rotates the Person node so that the Head does not rotate past the max_head_yaw
 	if head_rotation.y < - max_head_yaw:
 		global_rotate(Vector3.UP, deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
-		get_parent().global_rotate(Vector3.UP, - deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
+		owner.global_rotate(Vector3.UP, - deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
 		
 	elif head_rotation.y > max_head_yaw:
 		global_rotate(Vector3.UP, deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
-		get_parent().global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
+		owner.global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
 	
 	if head_rotation.x < min_head_pitch:
 		rotation_degrees.x = min_head_pitch

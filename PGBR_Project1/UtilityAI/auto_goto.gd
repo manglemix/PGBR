@@ -66,8 +66,8 @@ func _process(_delta):
 	
 	get_parent().global_move_to_vector(_path[0])
 	
-	if turn_head and get_parent().has_head:
-		get_parent().get_node("Head").global_head_to_vector(_path[0])
+	if turn_head and is_instance_valid(get_parent().head):
+		get_parent().head.global_head_to_vector(_path[0])
 	
 	if Debug.enabled:
 		var debug_path := _path

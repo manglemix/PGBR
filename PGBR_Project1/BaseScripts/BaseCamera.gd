@@ -50,8 +50,8 @@ func set_player(node):
 	
 	_player_node = node
 	
-	if is_instance_valid(_player_node) and _player_node.has_head:
-		_pivot_node = _player_node.get_node("Head")
+	if is_instance_valid(_player_node) and is_instance_valid(_player_node.head):
+		_pivot_node = _player_node.head
 		_target_node = _pivot_node.get_node("CameraTarget")
 		assert(is_instance_valid(_target_node))
 		
@@ -61,6 +61,7 @@ func set_player(node):
 		_current_scene.player = _player_node
 	
 	else:
+		_player_node = null
 		_pivot_node = null
 		_target_node = null
 
