@@ -63,12 +63,15 @@ func _process(_delta):
 			# this pushes the next path away from the parent and the next point
 			# if the next point is at a corner, this should end up pushing it away from the corner
 			_path[0] = _navigation.get_closest_point(_path[0] + ((_path[0] - get_parent().global_transform.origin).normalized() + (_path[0] - _path[1]).normalized()) * safe_distance)
-
 	
 	get_parent().global_move_to_vector(_path[0])
 	
 	if turn_head:
-		get_parent().global_head_to_vector(_path[0])
+		var head = get_parent().get_node_or_null("Head")
+		if is_instance_valid(head):
+			head.global_head_to_vector(_path[0])
+		else:
+			turn_head = false
 	
 	if Debug.enabled:
 		var debug_path := _path

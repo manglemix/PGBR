@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://BaseScripts/BasePerson.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/moveable_node.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Head.gd" type="Script" id=3]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.2
@@ -44,8 +45,9 @@ material/0 = null
 [node name="Hand" type="Position3D" parent="RightArm"]
 transform = Transform( 1, 0, -1.67038e-22, 0, 1, 0, -1.67037e-22, 0, 1, 0.0513406, 0.0881951, -0.950431 )
 
-[node name="Head" type="Spatial" parent="."]
+[node name="Head" type="Position3D" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.9035, 0 )
+script = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.63419e-09, 0, -0.194991 )

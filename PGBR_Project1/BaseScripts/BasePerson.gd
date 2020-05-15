@@ -20,7 +20,6 @@ var run_speed := 5.0
 var walk_speed := 2.5
 var strafe_speed := 3.0
 
-# Character
 export var max_health := 100.0 setget set_max_health
 export var max_stamina := 3.0 setget set_max_stamina# seconds
 export var stamina_regen := 0.5 # seconds
@@ -32,10 +31,7 @@ var stamina := max_stamina setget set_stamina
 var sprinting := false
 var crouching := false
 
-var turn_speed := 10.0								# used for interpolating turns (like when turning the head)
-var max_head_yaw := 50.0							# the maximum angle the head can turn by on the y axis, both left and right
-var max_head_pitch := 60.0
-var min_head_pitch := -60.0
+var turn_speed := 10.0						# used for interpolating turns (like when turning the head)
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
 var acceleration := 6						# used for interpolating the Person's speed to the movement_vector
 var jump_speed := 10.0						# the vertical speed given to the person when they jump
@@ -51,8 +47,6 @@ var _jump_charge_start: int					# the system time in msecs when a jump began to 
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _body_target_vector: Vector3			# the vector the body tries to turn to
-var _head_target_basis: Basis				# the basis the head tries to turn to
-var _turn_head_to_target := false
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 
 
@@ -121,18 +115,6 @@ func global_turn_to_vector(position: Vector3):
 	turn_to_vector(position - global_transform.origin)
 
 
-func head_to_vector(rel_vec: Vector3):
-	# turns the body towards the relative vector given
-	# there is no need to flatten the vector as the head can look in any direction
-	global_head_to_vector(rel_vec + $Head.global_transform.origin)
-
-
-func global_head_to_vector(position: Vector3):
-	# the same as turn to vector, except it turns the head to a global position
-	_head_target_basis = $Head.global_transform.looking_at(position, Vector3.UP).basis
-	_turn_head_to_target = true
-
-
 func charge_jump(strength:=1.5):
 	if not charging_jump:
 		charging_jump = true
@@ -174,8 +156,11 @@ func aim_guns(position: Vector3):
 func fully_face_target(target: Vector3):
 	# this turns both the body and the arms towards the global vector given
 	global_turn_to_vector(target)
-	global_head_to_vector(target)
 	aim_guns(target)
+	
+	var head = get_node_or_null("Head")
+	if is_instance_valid(head):
+		head.global_head_to_vector(target)
 
 
 func kill(code):
@@ -197,37 +182,6 @@ func kill(code):
 
 
 func _physics_process(delta):
-	if _turn_head_to_target:
-		var target_transform = $Head.global_transform
-		target_transform.basis = _head_target_basis
-		$Head.global_transform = $Head.global_transform.interpolate_with(target_transform, turn_speed / 2 * delta)
-		
-		_turn_head_to_target = $Head.global_transform.basis.tdotz(target_transform.basis.z) < 0.99
-	
-	var head_rotation = $Head.rotation_degrees
-	
-	# sets the measured rotation in the y axis to be 0 if pointing in the same direction as this node
-	# this is because the Head node has to be rotated 180 degrees because the Camera looks at the -z axis
-	if head_rotation.y < 0:
-		head_rotation.y = - 180 - head_rotation.y
-	else:
-		head_rotation.y = 180 - head_rotation.y
-	
-	# rotates the Person node so that the Head does not rotate past the max_head_yaw
-	if head_rotation.y < - max_head_yaw:
-		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
-		global_rotate(Vector3.UP, - deg2rad(head_rotation.y + max_head_yaw) * turn_speed * delta)
-		
-	elif head_rotation.y > max_head_yaw:
-		$Head.global_rotate(Vector3.UP, deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
-		global_rotate(Vector3.UP, - deg2rad(head_rotation.y - max_head_yaw) * turn_speed * delta)
-	
-	if head_rotation.x < min_head_pitch:
-		$Head.rotation_degrees.x = min_head_pitch
-	
-	elif head_rotation.x > max_head_pitch:
-		$Head.rotation_degrees.x = max_head_pitch
-	
 	if _body_target_vector.is_normalized():
 		var turn_axis := global_transform.basis.z.cross(_body_target_vector).normalized()
 		
