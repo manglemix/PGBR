@@ -78,6 +78,7 @@ func handle_death(code):
 		var target := Transform.IDENTITY
 		target.origin.y = 10.0
 		move_to(target)
+		set_player(null)
 
 
 func set_viewpoint(new_viewpoint: int):
