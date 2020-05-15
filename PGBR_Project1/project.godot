@@ -104,6 +104,7 @@ run/main_scene="res://DebugBattlefield.tscn"
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
+GlobalEnums="*res://Scripts/global_enums.gd"
 
 [config]
 

@@ -3,7 +3,6 @@ extends Camera
 
 
 enum Viewpoint {FPS, TPS}	# First Person, Third Person
-enum Killcode {KILLED, SUICIDE, GLITCHED}		# Same as Killcode in Person
 
 export(Viewpoint) var current_viewpoint := Viewpoint.FPS setget set_viewpoint
 export var _player_path: NodePath
@@ -51,9 +50,11 @@ func set_player(node):
 	
 	_player_node = node
 	
-	if is_instance_valid(_player_node):
+	if is_instance_valid(_player_node) and _player_node.has_head:
 		_pivot_node = _player_node.get_node("Head")
 		_target_node = _pivot_node.get_node("CameraTarget")
+		assert(is_instance_valid(_target_node))
+		
 		set_viewpoint(current_viewpoint)
 		_player_node.connect("died", self, "handle_death")
 		_raycast.add_exception(_player_node)
@@ -65,15 +66,15 @@ func set_player(node):
 
 
 func handle_death(code):
-	if code == Killcode.KILLED:
+	if code == GlobalEnums.Killcodes.KILLED:
 		# some code if the player was killed normally
 		pass
 	
-	elif code == Killcode.SUICIDE:
+	elif code == GlobalEnums.Killcodes.SUICIDE:
 		# some code if the player killed themselves
 		pass
 	
-	elif code == Killcode.GLITCHED:
+	elif code == GlobalEnums.Killcodes.GLITCHED:
 		# some code if the player died in a weird way
 		var target := Transform.IDENTITY
 		target.origin.y = 10.0
@@ -193,12 +194,12 @@ func _process(delta):
 				
 				var speed: float
 				if Input.is_action_pressed("sprint"):
-					speed = _player_node.SPEEDS.SPRINT
+					speed = _player_node.Speeds.SPRINT
 				elif Input.is_action_pressed("crouch"):
 					# TODO add crouch mechanic
-					speed = _player_node.SPEEDS.WALK
+					speed = _player_node.Speeds.WALK
 				else:
-					speed = _player_node.SPEEDS.RUN
+					speed = _player_node.Speeds.RUN
 				
 				_player_node.move_to_vector(movement_vector, speed)
 			

@@ -12,7 +12,6 @@ signal stamina_updated(stamina)
 signal max_stamina_updated(max_stamina)
 
 enum Speeds {WALK, RUN, SPRINT}
-enum Killcodes {KILLED, SUICIDE, GLITCHED}
 
 export(Array, NodePath) var arm_paths
 
@@ -42,6 +41,7 @@ var fall_acceleration := - 9.8				# the rate at which the vertical speed changes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var on_floor: bool							# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var has_head := false
 var arms := []								# a list of nodes which were considered arms (from arm_paths)
 var guns := []
 
@@ -76,9 +76,19 @@ func set_max_stamina(new_val: float):
 	emit_signal("max_stamina_updated", max_stamina)
 
 
+func _set_has_head(value: bool):
+	# this is only used for when the head dies and has_head needs to be set to false
+	has_head = value
+
+
 func _ready():
 	for path in arm_paths:
 		arms.append(get_node(path))
+	
+	var head = get_node_or_null("Head")
+	if is_instance_valid(head):
+		has_head = true
+		head.connect("tree_exited", self, "_set_has_head", [false])
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN):
@@ -161,22 +171,21 @@ func fully_face_target(target: Vector3):
 	global_turn_to_vector(target)
 	aim_guns(target)
 	
-	var head = get_node_or_null("Head")
-	if is_instance_valid(head):
-		head.global_head_to_vector(target)
+	if has_head:
+		$Head.global_head_to_vector(target)
 
 
 func kill(code):
 	# handles the death of the player
-	if code == Killcodes.KILLED:
+	if code == GlobalEnums.Killcodes.KILLED:
 		# play death animation
 		pass
 	
-	elif code == Killcodes.SUICIDE:
+	elif code == GlobalEnums.Killcodes.SUICIDE:
 		# play death animation
 		pass
 	
-	elif code == Killcodes.GLITCHED:
+	elif code == GlobalEnums.Killcodes.GLITCHED:
 		# for when the person node dies in some weird way
 		pass
 	
@@ -233,7 +242,7 @@ func _physics_process(delta):
 	movement_vector *= 0.0
 	
 	if global_transform.origin.y < -100.0:
-		kill(Killcodes.GLITCHED)
+		kill(GlobalEnums.Killcodes.GLITCHED)
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
