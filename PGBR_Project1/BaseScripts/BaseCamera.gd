@@ -141,8 +141,7 @@ func _input(event):
 			if invert_y:
 				event.relative.y *= -1
 			
-			_pivot_node.global_rotate(_player_node.global_transform.basis.y, - event.relative.x * mouse_sensitivity)
-			_pivot_node.rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
+			_pivot_node.biaxial_rotate(- event.relative.y * mouse_sensitivity, - event.relative.x * mouse_sensitivity)
 		
 		# this alerts the player to charge the jump
 		if event.is_action_pressed("jump"):

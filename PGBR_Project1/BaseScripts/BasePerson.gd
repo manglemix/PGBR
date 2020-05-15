@@ -198,7 +198,7 @@ func _physics_process(delta):
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			
 			if is_instance_valid(head):
-				head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+				head.axial_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_body_target_vector *= 0.0
