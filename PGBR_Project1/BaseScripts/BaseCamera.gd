@@ -31,7 +31,7 @@ func _ready():
 	
 	_current_scene = get_tree().get_current_scene()
 	
-	set_player(get_node(_player_path))
+	set_player(get_node_or_null(_player_path))
 
 
 func set_user_input(value: bool):
@@ -163,7 +163,8 @@ func _input(event):
 				event.relative.y *= -1
 			
 			global_rotate(Vector3.UP, - event.relative.x * mouse_sensitivity)
-			rotate_object_local(Vector3.LEFT, event.relative.y * mouse_sensitivity)
+			if abs(rotation.x - event.relative.y * mouse_sensitivity) < PI / 2:
+				rotate_object_local(Vector3.RIGHT, - event.relative.y * mouse_sensitivity)
 
 
 func _process(delta):
