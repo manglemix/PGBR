@@ -2,16 +2,16 @@ class_name BaseCamera
 extends Camera
 
 
-enum VIEWPOINT {FPS, TPS}	# First Person, Third Person
-enum KILLCODE {KILLED, SUICIDE, GLITCHED}		# Same as KILLCODE in Person
+enum Viewpoint {FPS, TPS}	# First Person, Third Person
+enum Killcode {KILLED, SUICIDE, GLITCHED}		# Same as Killcode in Person
 
-export(VIEWPOINT) var current_viewpoint := VIEWPOINT.FPS setget set_viewpoint
+export(Viewpoint) var current_viewpoint := Viewpoint.FPS setget set_viewpoint
 export var _player_path: NodePath
+export var move_speed := 20.0			# this is the speed when the camera is a spectator
+export var mouse_sensitivity = 0.001
+export var invert_y := false
 
-var move_speed := 20.0			# this is the speed when the camera is a spectator
 var linear_velocity := Vector3.ZERO
-var mouse_sensitivity = 0.001
-var invert_y := false
 var screen_centre: Vector2
 var accept_user_input := true setget set_user_input
 
@@ -19,8 +19,8 @@ var _player_node					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
 var _target_node: Spatial			# the child of the pivot node; the node the camera will move to
 var _current_scene
-var _raycast := RayCast.new()
-var _old_player = null
+var _raycast := RayCast.new()		# private raycast node
+var _old_player = null				# the last node which was a player
 
 
 func _ready():
@@ -65,15 +65,15 @@ func set_player(node):
 
 
 func handle_death(code):
-	if code == KILLCODE.KILLED:
+	if code == Killcode.KILLED:
 		# some code if the player was killed normally
 		pass
 	
-	elif code == KILLCODE.SUICIDE:
+	elif code == Killcode.SUICIDE:
 		# some code if the player killed themselves
 		pass
 	
-	elif code == KILLCODE.GLITCHED:
+	elif code == Killcode.GLITCHED:
 		# some code if the player died in a weird way
 		var target := Transform.IDENTITY
 		target.origin.y = 10.0

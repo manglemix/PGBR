@@ -5,36 +5,39 @@ extends KinematicBody
 signal shoot		    # when emitted, all gun nodes connected to this should shoot
 signal died(code)		# may or may not be needed, we'll be watched by the current scene
 signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+
 signal health_updated(health)
 signal max_health_updated(max_health)
 signal stamina_updated(stamina)
 signal max_stamina_updated(max_stamina)
 
-enum SPEEDS {WALK, RUN, SPRINT}
-enum KILLCODE {KILLED, SUICIDE, GLITCHED}
+enum Speeds {WALK, RUN, SPRINT}
+enum Killcodes {KILLED, SUICIDE, GLITCHED}
 
 export(Array, NodePath) var arm_paths
 
-var sprint_speed := 10.0			# these correspond to speeds, for move_to_vector
-var run_speed := 5.0
-var walk_speed := 2.5
-var strafe_speed := 3.0
+export var sprint_speed := 10.0			# these correspond to speeds, for move_to_vector
+export var run_speed := 5.0
+export var walk_speed := 2.5
+export var strafe_speed := 3.0
 
 export var max_health := 100.0 setget set_max_health
 export var max_stamina := 3.0 setget set_max_stamina# seconds
 export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
 export var stamina_lag := 2.0 	# the time before the stamina begins regenerating
-var health := max_health setget set_health
-var stamina := max_stamina setget set_stamina
+
+export var acceleration := 6	# used for interpolating the Person's speed to the movement_vector
+export var jump_speed := 10.0						# the vertical speed given to the person when they jump
+export var turn_speed := 10.0						# used for interpolating turns
 
 var sprinting := false
 var crouching := false
 
-var turn_speed := 10.0						# used for interpolating turns (like when turning the head)
+var health := max_health setget set_health
+var stamina := max_stamina setget set_stamina
+
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
-var acceleration := 6						# used for interpolating the Person's speed to the movement_vector
-var jump_speed := 10.0						# the vertical speed given to the person when they jump
 var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
@@ -78,19 +81,19 @@ func _ready():
 		arms.append(get_node(path))
 
 
-func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
+func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN):
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
 	sprinting = false
 	if on_floor:
 		assert(speed >= 0 and speed <= 2)
-		if speed == SPEEDS.SPRINT and stamina > 0:
+		if speed == Speeds.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
 			_relaxed_time = 0.0
 			
-		elif speed == SPEEDS.WALK:
+		elif speed == Speeds.WALK:
 			movement_vector = rel_vec.normalized() * walk_speed
 			
 		else:
@@ -100,7 +103,7 @@ func move_to_vector(rel_vec: Vector3, speed:=SPEEDS.RUN):
 		movement_vector = rel_vec.normalized() * strafe_speed
 
 
-func global_move_to_vector(position: Vector3, speed:=SPEEDS.RUN):
+func global_move_to_vector(position: Vector3, speed:=Speeds.RUN):
 	move_to_vector(position - global_transform.origin, speed)
 
 
@@ -165,15 +168,15 @@ func fully_face_target(target: Vector3):
 
 func kill(code):
 	# handles the death of the player
-	if code == KILLCODE.KILLED:
+	if code == Killcodes.KILLED:
 		# play death animation
 		pass
 	
-	elif code == KILLCODE.SUICIDE:
+	elif code == Killcodes.SUICIDE:
 		# play death animation
 		pass
 	
-	elif code == KILLCODE.GLITCHED:
+	elif code == Killcodes.GLITCHED:
 		# for when the person node dies in some weird way
 		pass
 	
@@ -230,7 +233,7 @@ func _physics_process(delta):
 	movement_vector *= 0.0
 	
 	if global_transform.origin.y < -100.0:
-		kill(KILLCODE.GLITCHED)
+		kill(Killcodes.GLITCHED)
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
