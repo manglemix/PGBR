@@ -87,7 +87,7 @@ func _ready():
 	head = get_node_or_null(head_path)
 
 
-func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN):
+func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
@@ -109,22 +109,26 @@ func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN):
 		movement_vector = rel_vec.normalized() * strafe_speed
 
 
-func global_move_to_vector(position: Vector3, speed:=Speeds.RUN):
+func global_move_to_vector(position: Vector3, speed:=Speeds.RUN) -> void:
 	move_to_vector(position - global_transform.origin, speed)
 
 
-func turn_to_vector(rel_vec: Vector3):
+func stop_moving() -> void:
+	movement_vector *= 0.0
+
+
+func turn_to_vector(rel_vec: Vector3) -> void:
 	# turns the body towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	_body_target_vector = rel_vec.normalized()
 
 
-func global_turn_to_vector(position: Vector3):
+func global_turn_to_vector(position: Vector3) -> void:
 	# the same as turn to vector, except it turns the body to a global position
 	turn_to_vector(position - global_transform.origin)
 
 
-func charge_jump(strength:=1.5):
+func charge_jump(strength:=1.5) -> void:
 	if not charging_jump:
 		charging_jump = true
 		_jump_charge_start = OS.get_system_time_msecs()
@@ -132,9 +136,8 @@ func charge_jump(strength:=1.5):
 	_jump_charge_target = strength
 
 
-func jump():
+func jump() -> void:
 	if on_floor:
-		print((OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor + 1)
 		linear_velocity.y += jump_speed
 		on_floor = false
 		
@@ -154,24 +157,24 @@ func request_hand():
 			return hand
 
 
-func shoot_guns():
+func shoot_guns() -> void:
 	emit_signal("shoot")
 
 
-func aim_guns(position: Vector3):
+func aim_guns(position: Vector3) -> void:
 	emit_signal("aim", position)
 
 
-func fully_face_target(target: Vector3):
+func fully_face_target(target: Vector3) -> void:
 	# this turns both the body and the arms towards the global vector given
 	global_turn_to_vector(target)
 	aim_guns(target)
 	
 	if is_instance_valid(head):
-		head.global_head_to_vector(target)
+		head.turn_to_vector(target)
 
 
-func kill(code):
+func kill(code) -> void:
 	# handles the death of the player
 	if code == GlobalEnums.Killcodes.KILLED:
 		# play death animation
@@ -214,15 +217,16 @@ func _physics_process(delta):
 			global_transform.origin += _floor_collision.travel
 	
 	if on_floor:
-		if not is_zero_approx(movement_vector.length_squared()):
+		var tmp_vector := movement_vector
+		if not is_zero_approx(tmp_vector.length_squared()):
 			# we rotate the movement_vector so that it is along the floor plane
 			var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
 			# usually if the axis is still not normalized, the floor normal is pointing straight up already
 			if axis.is_normalized():
-				movement_vector = movement_vector.rotated(axis, Vector3.UP.angle_to(_floor_collision.normal))
+				tmp_vector = tmp_vector.rotated(axis, Vector3.UP.angle_to(_floor_collision.normal))
 			
 		# then we interpolate the velocity for smoother movement
-		linear_velocity = linear_velocity.linear_interpolate(movement_vector, acceleration * delta)
+		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
 		
 		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
 		if charging_jump and (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor >= _jump_charge_target - 1:
@@ -237,10 +241,6 @@ func _physics_process(delta):
 		linear_velocity.y += fall_acceleration * delta
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
-	movement_vector *= 0.0
-	
-	if global_transform.origin.y < -100.0:
-		kill(GlobalEnums.Killcodes.GLITCHED)
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
@@ -251,6 +251,5 @@ func _physics_process(delta):
 		if _relaxed_time >= stamina_lag:
 			self.stamina += delta
 
-
-func _on_SprintTimer_timeout():
-	sprinting = false
+	if global_transform.origin.y < -100.0:
+		kill(GlobalEnums.Killcodes.GLITCHED)

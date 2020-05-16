@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AnimationTree",
+"class": "Animator",
+"language": "GDScript",
+"path": "res://Scripts/animator.gd"
+}, {
 "base": "State",
 "class": "Attack",
 "language": "GDScript",
@@ -44,15 +49,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UtilityAI/hostiles_environment.gd"
 }, {
+"base": "Spatial",
+"class": "IKtarget",
+"language": "GDScript",
+"path": "res://Scripts/ik_target.gd"
+}, {
 "base": "State",
 "class": "Maximiser",
 "language": "GDScript",
 "path": "res://UtilityAI/maximiser.gd"
 }, {
+"base": "Node",
+"class": "MirrorBone",
+"language": "GDScript",
+"path": "res://Scripts/mirror_bone.gd"
+}, {
 "base": "Spatial",
 "class": "MoveableNode",
 "language": "GDScript",
 "path": "res://Scripts/moveable_node.gd"
+}, {
+"base": "Spatial",
+"class": "PivotPoint",
+"language": "GDScript",
+"path": "res://Scripts/pivot_point.gd"
 }, {
 "base": "RichTextLabel",
 "class": "PropertyWatcher",
@@ -80,6 +100,7 @@ _global_script_classes=[ {
 "path": "res://UtilityAI/wander.gd"
 } ]
 _global_script_class_icons={
+"Animator": "",
 "Attack": "",
 "AutoGoto": "",
 "BaseCamera": "",
@@ -87,8 +108,11 @@ _global_script_class_icons={
 "BasePerson": "",
 "HealthBar": "",
 "HostilesEnvironment": "",
+"IKtarget": "",
 "Maximiser": "",
+"MirrorBone": "",
 "MoveableNode": "",
+"PivotPoint": "",
 "PropertyWatcher": "",
 "StaminaBar": "",
 "State": "",

@@ -187,7 +187,10 @@ func _process(delta):
 			if Input.is_action_pressed("left"):
 				movement_vector -= _pivot_node.global_transform.basis.x
 			
-			if not is_zero_approx(movement_vector.length_squared()):
+			if is_zero_approx(movement_vector.length_squared()):
+				_player_node.stop_moving()
+				
+			else:
 				# To make the player look less wonky while moving, the body of the player is turned to face-
 				# the head direction when moving
 				var direction = - _pivot_node.global_transform.basis.z

@@ -37,7 +37,6 @@ func limit_axes() -> void:
 		
 	elif rotation_degrees.y <= min_yaw:
 		if not limit_yaw:
-			print(rotation_degrees.y - min_yaw)
 			owner.global_rotate(get_parent().global_transform.basis.y, deg2rad(rotation_degrees.y - min_yaw))
 		
 		rotation_degrees.y = min_yaw
