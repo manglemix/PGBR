@@ -34,7 +34,7 @@ material/0 = ExtResource( 6 )
 shape = SubResource( 1 )
 
 [node name="Tom" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.896066, 4.20553, -18.4031 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.2545, -18.7272 )
 
 [node name="StateTree" type="Node" parent="." groups=[
 "Enemy",

@@ -10,7 +10,7 @@ export var limit_pitch := true
 export var limit_yaw := false
 export var turn_speed := 6.0
 
-var _target_transform: Transform
+var _target_basis: Basis
 
 
 func _ready():
@@ -55,14 +55,13 @@ func limit_axes() -> void:
 
 
 func turn_to_vector(vector: Vector3):
-	_target_transform = global_transform.looking_at(vector, get_parent().global_transform.basis.y)
+	_target_basis = global_transform.looking_at(vector, get_parent().global_transform.basis.y).basis
 	set_process(true)
 
 
 func _process(delta):
-	_target_transform.origin = global_transform.origin
-	global_transform = global_transform.interpolate_with(_target_transform, turn_speed * delta)
+	global_transform.basis = global_transform.basis.slerp(_target_basis, turn_speed * delta)
 	limit_axes()
 	
-	if global_transform.basis.tdotz(_target_transform.basis.z) >= 0.99:
+	if global_transform.basis.tdotz(_target_basis.z) >= 0.99:
 		set_process(false)

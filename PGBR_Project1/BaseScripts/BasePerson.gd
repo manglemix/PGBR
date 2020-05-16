@@ -114,7 +114,7 @@ func global_move_to_vector(position: Vector3, speed:=Speeds.RUN) -> void:
 
 
 func stop_moving() -> void:
-	movement_vector *= 0.0
+	movement_vector = Vector3.ZERO
 
 
 func turn_to_vector(rel_vec: Vector3) -> void:
@@ -204,7 +204,7 @@ func _physics_process(delta):
 				head.axial_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
-				_body_target_vector *= 0.0
+				_body_target_vector = Vector3.ZERO
 	
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
