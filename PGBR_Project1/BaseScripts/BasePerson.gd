@@ -13,8 +13,6 @@ signal max_stamina_updated(max_stamina)
 
 enum Speeds {WALK, RUN, SPRINT}
 
-export(Array, NodePath) var arm_paths
-
 export var sprint_speed := 10.0			# these correspond to speeds, for move_to_vector
 export var run_speed := 5.0
 export var walk_speed := 2.5
@@ -31,6 +29,7 @@ export var jump_speed := 10.0						# the vertical speed given to the person when
 export var turn_speed := 10.0						# used for interpolating turns
 
 export var head_path: NodePath
+export(Array, NodePath) var hand_paths
 
 var sprinting := false
 var crouching := false
@@ -46,7 +45,7 @@ var on_floor: bool							# if true, this node is on top of a floor. is_on_floor(
 
 var head: Spatial
 
-var arms := []								# a list of nodes which were considered arms (from arm_paths)
+var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
 var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
@@ -81,8 +80,9 @@ func set_max_stamina(new_val: float):
 
 
 func _ready():
-	for path in arm_paths:
-		arms.append(get_node(path))
+	for path in hand_paths:
+		# if the value is false, the hand is free, otherwise the hand is not free
+		hands[get_node(path)] = false
 	
 	head = get_node_or_null(head_path)
 
@@ -92,6 +92,7 @@ func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	
 	sprinting = false
+	crouching = false
 	if on_floor:
 		assert(speed >= 0 and speed <= 2)
 		if speed == Speeds.SPRINT and stamina > 0:
@@ -100,6 +101,7 @@ func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 			_relaxed_time = 0.0
 			
 		elif speed == Speeds.WALK:
+			crouching = true
 			movement_vector = rel_vec.normalized() * walk_speed
 			
 		else:
@@ -147,14 +149,16 @@ func jump() -> void:
 		charging_jump = false
 
 
-func request_hand():
-	# searches through the available arms, and checks their Hand node
-	# if the Hand node has no children, it is considered free and is therefore returned
-	var hand
-	for arm in arms:
-		hand = arm.get_node("Hand")
-		if hand.get_child_count() == 0:
+func borrow_hand():
+	# returns the first free hand, or null if there are no free hands
+	for hand in hands:
+		if not hands[hand]:
 			return hand
+
+
+func return_hand(hand):
+	# sets the hand given to be free
+	hands[hand] = false
 
 
 func shoot_guns() -> void:

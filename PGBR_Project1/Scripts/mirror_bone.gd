@@ -18,3 +18,4 @@ func _process(_delta):
 		var tmp := get_parent().transform as Transform
 		tmp = tmp.rotated(tmp.basis.x, tmp.basis.get_euler().x * - 2)
 		_skeleton.set_bone_pose(bone_idx, tmp)
+	

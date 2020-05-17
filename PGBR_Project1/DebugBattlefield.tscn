@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://BaseScripts/BaseScene.gd" type="Script" id=1]
 [ext_resource path="res://Tom.tscn" type="PackedScene" id=2]
 [ext_resource path="res://BaseScripts/BaseCamera.gd" type="Script" id=3]
+[ext_resource path="res://Deagle.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/HUD/HUD_Draft1.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Assets/Materials/ConcreteMat.tres" type="Material" id=6]
 [ext_resource path="res://Assets/train_arena.obj" type="ArrayMesh" id=7]
@@ -52,6 +53,9 @@ script = ExtResource( 10 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 2 )
+
+[node name="Deagle" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67265, 12.3162, 2.084 )
 
 [node name="BaseCamera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95544, 4.09902, 9.7402 )

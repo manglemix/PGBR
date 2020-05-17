@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/fedora_dude.gltf-e09aaa0859995894ed9fc6d9707b3c82.scn"
+path="res://.import/Tom.gltf-a10e918023ee63e9c09fca78e2e21f3d.scn"
 
 [deps]
 
-source_file="res://Assets/fedora_dude.gltf"
-dest_files=[ "res://.import/fedora_dude.gltf-e09aaa0859995894ed9fc6d9707b3c82.scn" ]
+source_file="res://Assets/Tom.gltf"
+dest_files=[ "res://.import/Tom.gltf-a10e918023ee63e9c09fca78e2e21f3d.scn" ]
 
 [params]
 
