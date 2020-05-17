@@ -4,7 +4,8 @@ extends KinematicBody
 
 signal shoot		    # when emitted, all gun nodes connected to this should shoot
 signal died(code)		# may or may not be needed, we'll be watched by the current scene
-signal aim(target)	# when emitted, all guns and hands will aim towards the target (a global vector)
+signal aim(target)		# when emitted, all guns and hands will aim towards the target (a global vector)
+signal jumped(strength)
 
 signal health_updated(health)
 signal max_health_updated(max_health)
@@ -140,11 +141,14 @@ func charge_jump(strength:=1.5) -> void:
 
 func jump() -> void:
 	if on_floor:
-		linear_velocity.y += jump_speed
 		on_floor = false
 		
+		var strength := 1.0
 		if charging_jump:
-			linear_velocity.y += jump_speed * (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor
+			strength += (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor
+		
+		emit_signal("jumped", strength)
+		linear_velocity.y += jump_speed * strength
 	
 		charging_jump = false
 
