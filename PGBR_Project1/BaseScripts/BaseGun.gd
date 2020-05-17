@@ -1,23 +1,24 @@
 class_name BaseGun
-extends RayCast
+extends Spatial
 
 
 var _player
-var _hand
+
+var _raycast: RayCast
 
 
 func _ready():
+	_raycast = get_node("Muzzle")
 	set_distance(1000)
-	enabled = true
 	
 	if get_parent() != get_tree().get_current_scene():
 		get_parent().connect("ready", self, "equip_node", [get_parent()])
 
 
 func equip_node(node) -> bool:
-	_hand = node.borrow_hand()
+	var hand = node.borrow_hand()
 	
-	if is_instance_valid(_hand):
+	if is_instance_valid(get_parent()):
 		_player = node
 		_player.connect("shoot", self, "shoot")
 		_player.connect("aim", self, "aim_towards")
@@ -25,7 +26,7 @@ func equip_node(node) -> bool:
 		_player.guns.append(self)
 		
 		get_parent().remove_child(self)
-		_hand.add_child(self)
+		hand.add_child(self)
 		transform = Transform.IDENTITY
 		return true
 	else:
@@ -34,17 +35,17 @@ func equip_node(node) -> bool:
 
 func set_distance(distance: float):
 	assert(distance > 0)
-	cast_to = Vector3.FORWARD * distance
+	_raycast.cast_to = _raycast.cast_to.normalized() * distance
 
 
 func aim_towards(target: Vector3):
-	_hand.look_at(target, Vector3.UP)
+	get_parent().look_at(target, Vector3.UP)
 
 
 func shoot():
-	var node = get_collider()
+	var node = _raycast.get_collider()
 	
 	if is_instance_valid(node) and node.has_method("damage"):
 		node.damage(self)
 	
-	Debug.draw_dot(get_collision_point(), Color.red)
+	Debug.draw_dot(_raycast.get_collision_point(), Color.red)

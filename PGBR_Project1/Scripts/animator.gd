@@ -6,6 +6,13 @@ export var interpolation := 4.5
 
 var _strafe_factor: float
 var _interp_speed: float
+var _animation_player: AnimationPlayer
+
+
+func _ready():
+	_animation_player = get_node(anim_player)
+	_animation_player.stop()
+	get_parent().connect("jumped", self, "jump")
 
 
 func ferp(value: float, target: float, t:=_interp_speed) -> float:
@@ -13,16 +20,20 @@ func ferp(value: float, target: float, t:=_interp_speed) -> float:
 	return value + (target - value) * t
 
 
-func set_parameter(name: String, value: float, value_name:="blend_amount") -> void:
+func set_parameter(name: String, value, value_name:="blend_amount") -> void:
 	set("parameters/" + name + "/" + value_name, value)
 
 
-func get_parameter(name: String, value_name:="blend_amount") -> float:
+func get_parameter(name: String, value_name:="blend_amount"):
 	return get("parameters/" + name + "/" + value_name)
 
 
 func ferp_parameter(name: String, target: float, value_name:="blend_amount") -> void:
 	set_parameter(name, ferp(get_parameter(name, value_name), target), value_name)
+
+
+func jump(strength: float):
+	set_parameter("JumpOneShot", true, "active")
 
 
 func _process(delta):

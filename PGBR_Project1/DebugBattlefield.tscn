@@ -37,6 +37,9 @@ shape = SubResource( 1 )
 [node name="Tom" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.2545, -18.7272 )
 
+[node name="Deagle" parent="Tom" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.984784, 8.0617, 20.8112 )
+
 [node name="StateTree" type="Node" parent="." groups=[
 "Enemy",
 ]]
@@ -53,9 +56,6 @@ script = ExtResource( 10 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 2 )
-
-[node name="Deagle" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.67265, 12.3162, 2.084 )
 
 [node name="BaseCamera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.95544, 4.09902, 9.7402 )

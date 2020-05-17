@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Assets/Material.material" type="Material" id=1]
 [ext_resource path="res://BaseScripts/BasePerson.gd" type="Script" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Scripts/mirror_bone.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/moveable_node.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/ik_target.gd" type="Script" id=8]
+[ext_resource path="res://Scripts/forward_transform.gd" type="Script" id=9]
+[ext_resource path="res://3DCharacterAnimationTree.tres" type="AnimationNodeBlendTree" id=10]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "unamed"
@@ -2614,139 +2616,6 @@ tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = PoolRealArray( 0, 1, 0.00725948, -0.0525745, -0.00398502, 0.0783599, -0.535144, -0.0331515, 0.840465, 1, 1, 1, 0.0666667, 1, 0.0156499, -0.0406564, -0.00658929, 0.0842072, -0.536719, -0.02574, 0.839154, 1, 1, 1, 0.133333, 1, 0.0102681, -0.00983167, -0.0143933, 0.0975616, -0.535403, -0.0229965, 0.838628, 1, 1, 1, 0.2, 1, 0.00210952, -0.00531554, -0.0212801, 0.11999, -0.531751, -0.0367213, 0.837553, 1, 1, 1, 0.266667, 1, 0.00801991, -0.026911, -0.0298812, 0.099835, -0.518148, -0.055979, 0.847598, 1, 1, 1, 0.333333, 1, 0.0314246, -0.0455687, -0.038458, 0.0960729, -0.514493, -0.0632807, 0.849743, 1, 1, 1, 0.4, 1, 0.0489419, -0.0406642, -0.0325435, 0.111473, -0.522629, -0.0568293, 0.843329, 1, 1, 1, 0.466667, 1, 0.0418481, -0.0184886, -0.0120161, 0.116877, -0.54846, -0.0427481, 0.826864, 1, 1, 1, 0.533333, 1, 0.0146706, -0.0163909, 0.00655961, 0.107229, -0.571622, -0.0250311, 0.813095, 1, 1, 1, 0.6, 1, 0.0130241, -0.0512433, 0.00202268, 0.0876833, -0.575942, -0.0410218, 0.811738, 1, 1, 1, 0.666667, 1, 0.0107118, -0.0597749, -0.00473836, 0.080863, -0.543642, -0.0427577, 0.834318, 1, 1, 1, 0.7, 1, 0.00725947, -0.0525744, -0.00398505, 0.0783599, -0.535144, -0.0331515, 0.840465, 1, 1, 1 )
 
-[sub_resource type="AnimationNodeAnimation" id=23]
-animation = "sf"
-
-[sub_resource type="AnimationNodeAnimation" id=24]
-animation = "sb"
-
-[sub_resource type="AnimationNodeAnimation" id=25]
-animation = "stl"
-
-[sub_resource type="AnimationNodeAnimation" id=26]
-animation = "str"
-
-[sub_resource type="AnimationNodeAnimation" id=27]
-animation = "rf"
-
-[sub_resource type="AnimationNodeAnimation" id=28]
-animation = "rb"
-
-[sub_resource type="AnimationNodeAnimation" id=29]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=30]
-animation = "c idle"
-
-[sub_resource type="AnimationNodeAnimation" id=31]
-animation = "cwf"
-
-[sub_resource type="AnimationNodeAnimation" id=32]
-animation = "cwb"
-
-[sub_resource type="AnimationNodeAnimation" id=33]
-animation = "csrr"
-
-[sub_resource type="AnimationNodeAnimation" id=34]
-animation = "csrl"
-
-[sub_resource type="AnimationNodeAnimation" id=35]
-animation = "sl"
-
-[sub_resource type="AnimationNodeAnimation" id=36]
-animation = "sr"
-
-[sub_resource type="AnimationNodeAnimation" id=37]
-animation = "Falling Idle"
-
-[sub_resource type="AnimationNodeOneShot" id=54]
-
-[sub_resource type="AnimationNodeBlend2" id=39]
-
-[sub_resource type="AnimationNodeBlend2" id=40]
-
-[sub_resource type="AnimationNodeBlend3" id=41]
-
-[sub_resource type="AnimationNodeBlend2" id=38]
-
-[sub_resource type="AnimationNodeAnimation" id=55]
-animation = "Jump"
-
-[sub_resource type="AnimationNodeBlend2" id=42]
-
-[sub_resource type="AnimationNodeBlend3" id=43]
-
-[sub_resource type="AnimationNodeBlend2" id=44]
-
-[sub_resource type="AnimationNodeBlend2" id=45]
-
-[sub_resource type="AnimationNodeBlend3" id=46]
-
-[sub_resource type="AnimationNodeBlend2" id=47]
-
-[sub_resource type="AnimationNodeBlend2" id=48]
-
-[sub_resource type="AnimationNodeBlendTree" id=49]
-graph_offset = Vector2( -1217, 147.75 )
-nodes/Animation/node = SubResource( 37 )
-nodes/Animation/position = Vector2( -220, 380 )
-"nodes/Animation 10/node" = SubResource( 23 )
-"nodes/Animation 10/position" = Vector2( -1120, 180 )
-"nodes/Animation 11/node" = SubResource( 24 )
-"nodes/Animation 11/position" = Vector2( -1120, 300 )
-"nodes/Animation 12/node" = SubResource( 25 )
-"nodes/Animation 12/position" = Vector2( -900, -320 )
-"nodes/Animation 13/node" = SubResource( 26 )
-"nodes/Animation 13/position" = Vector2( -900, -20 )
-"nodes/Animation 14/node" = SubResource( 27 )
-"nodes/Animation 14/position" = Vector2( -1100, -220 )
-"nodes/Animation 15/node" = SubResource( 28 )
-"nodes/Animation 15/position" = Vector2( -1100, -80 )
-"nodes/Animation 2/node" = SubResource( 29 )
-"nodes/Animation 2/position" = Vector2( -460, -80 )
-"nodes/Animation 3/node" = SubResource( 30 )
-"nodes/Animation 3/position" = Vector2( -420, 220 )
-"nodes/Animation 4/node" = SubResource( 31 )
-"nodes/Animation 4/position" = Vector2( -900, 520 )
-"nodes/Animation 5/node" = SubResource( 32 )
-"nodes/Animation 5/position" = Vector2( -880, 640 )
-"nodes/Animation 6/node" = SubResource( 33 )
-"nodes/Animation 6/position" = Vector2( -640, 560 )
-"nodes/Animation 7/node" = SubResource( 34 )
-"nodes/Animation 7/position" = Vector2( -680, 260 )
-"nodes/Animation 8/node" = SubResource( 35 )
-"nodes/Animation 8/position" = Vector2( -900, 100 )
-"nodes/Animation 9/node" = SubResource( 36 )
-"nodes/Animation 9/position" = Vector2( -900, 400 )
-nodes/JumpOneShot/node = SubResource( 54 )
-nodes/JumpOneShot/position = Vector2( 0, 280 )
-"nodes/crouch forward/node" = SubResource( 39 )
-"nodes/crouch forward/position" = Vector2( -660, 380 )
-"nodes/crouch idle/node" = SubResource( 40 )
-"nodes/crouch idle/position" = Vector2( -200, 200 )
-"nodes/crouch strafe/node" = SubResource( 41 )
-"nodes/crouch strafe/position" = Vector2( -420, 340 )
-nodes/falling/node = SubResource( 38 )
-nodes/falling/position = Vector2( 220, 140 )
-nodes/jump/node = SubResource( 55 )
-nodes/jump/position = Vector2( -220, 500 )
-nodes/output/position = Vector2( 440, 140 )
-"nodes/run forward/node" = SubResource( 42 )
-"nodes/run forward/position" = Vector2( -900, -200 )
-"nodes/run strafe/node" = SubResource( 43 )
-"nodes/run strafe/position" = Vector2( -680, -120 )
-"nodes/run v sprint/node" = SubResource( 44 )
-"nodes/run v sprint/position" = Vector2( -460, 40 )
-"nodes/sprint forward/node" = SubResource( 45 )
-"nodes/sprint forward/position" = Vector2( -920, 220 )
-"nodes/sprint strafe/node" = SubResource( 46 )
-"nodes/sprint strafe/position" = Vector2( -680, 80 )
-"nodes/stand idle/node" = SubResource( 47 )
-"nodes/stand idle/position" = Vector2( -240, -20 )
-"nodes/stand v crouch/node" = SubResource( 48 )
-"nodes/stand v crouch/position" = Vector2( -20, 100 )
-node_connections = [ "output", 0, "falling", "stand idle", 0, "Animation 2", "stand idle", 1, "run v sprint", "run strafe", 0, "Animation 12", "run strafe", 1, "run forward", "run strafe", 2, "Animation 13", "stand v crouch", 0, "stand idle", "stand v crouch", 1, "crouch idle", "crouch forward", 0, "Animation 4", "crouch forward", 1, "Animation 5", "crouch strafe", 0, "Animation 7", "crouch strafe", 1, "crouch forward", "crouch strafe", 2, "Animation 6", "run v sprint", 0, "run strafe", "run v sprint", 1, "sprint strafe", "sprint forward", 0, "Animation 10", "sprint forward", 1, "Animation 11", "run forward", 0, "Animation 14", "run forward", 1, "Animation 15", "crouch idle", 0, "Animation 3", "crouch idle", 1, "crouch strafe", "sprint strafe", 0, "Animation 8", "sprint strafe", 1, "sprint forward", "sprint strafe", 2, "Animation 9", "JumpOneShot", 0, "Animation", "JumpOneShot", 1, "jump", "falling", 0, "stand v crouch", "falling", 1, "JumpOneShot" ]
-
 [sub_resource type="BoxShape" id=50]
 extents = Vector3( 0.224626, 0.415291, 0.148779 )
 
@@ -2760,7 +2629,7 @@ radius = 0.148673
 [node name="Tom" type="KinematicBody"]
 script = ExtResource( 2 )
 head_path = NodePath("HeadPivot/Head")
-hand_paths = [ NodePath("right_hand") ]
+hand_paths = [ NodePath("right_hand/ForwardTransform") ]
 
 [node name="Skeleton" type="Skeleton" parent="."]
 bones/0/name = "hips"
@@ -2905,7 +2774,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="Hat" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.991562, -0.0470431, -0.120794, 0.03421, 0.993756, -0.106198, 0.125035, 0.10117, 0.98698, 0.0276078, 2.29104, 0.099797 )
+transform = Transform( 0.998321, -0.0468457, -0.0340643, 0.0424069, 0.991741, -0.121039, 0.0394531, 0.119392, 0.992063, 0.0771779, 2.29014, 0.155397 )
 bone_name = "head_top_end"
 
 [node name="fedora" type="MeshInstance" parent="Skeleton/Hat"]
@@ -2914,7 +2783,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="BodyBone" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.999201, 0.00408453, -0.0397643, -0.0029992, 0.999622, 0.0273157, 0.0398608, -0.0271746, 0.998836, 0.0442515, 1.57637, -0.0124206 )
+transform = Transform( 0.998082, 0.0154444, -0.0599483, -0.0149014, 0.999844, 0.00949299, 0.0600856, -0.00858149, 0.998156, 0.0847671, 1.57743, 0.0297851 )
 bone_name = "spine_1"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/BodyBone"]
@@ -2922,7 +2791,7 @@ transform = Transform( 1, 6.95277e-15, 0, -3.33067e-15, 1, 0, 0, 0, 1, -3.72529e
 remote_path = NodePath("../../../Body")
 
 [node name="Skull" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.991562, -0.0470431, -0.120794, 0.03421, 0.993756, -0.106198, 0.125035, 0.10117, 0.98698, 0.0476565, 2.0267, 0.0131297 )
+transform = Transform( 0.998321, -0.0468457, -0.0340643, 0.0424069, 0.991741, -0.121039, 0.0394531, 0.119392, 0.992063, 0.0919789, 2.02724, 0.0634618 )
 bone_name = "head"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/Skull"]
@@ -2939,6 +2808,8 @@ remote_path = NodePath("../../../HeadHitbox")
 process_priority = 1
 root_bone = "right_arm"
 tip_bone = "right_hand"
+use_magnet = true
+magnet = Vector3( -1.421, 0, 0 )
 target_node = NodePath("../../right_hand")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -2961,7 +2832,7 @@ anims/stl = SubResource( 20 )
 anims/str = SubResource( 21 )
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 49 )
+tree_root = ExtResource( 10 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/JumpOneShot/active = false
@@ -2979,7 +2850,7 @@ parameters/falling/blend_amount = 0.0
 script = ExtResource( 4 )
 
 [node name="Body" type="CollisionShape" parent="."]
-transform = Transform( 0.999201, 0.00408453, -0.0397643, -0.0029992, 0.999622, 0.0273157, 0.0398608, -0.0271746, 0.998836, 0.0433104, 1.54346, 0.00869451 )
+transform = Transform( 0.998082, 0.0154444, -0.0599483, -0.0149014, 0.999844, 0.00949299, 0.0600856, -0.00858149, 0.998156, 0.0830374, 1.54416, 0.050264 )
 shape = SubResource( 50 )
 
 [node name="Feet" type="CollisionShape" parent="."]
@@ -2987,11 +2858,11 @@ transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.73
 shape = SubResource( 56 )
 
 [node name="HeadHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.991562, -0.0470431, -0.120794, 0.0342099, 0.993756, -0.106198, 0.125035, 0.10117, 0.98698, 0.0480875, 2.12586, 0.0459154 )
+transform = Transform( 0.998321, -0.0468456, -0.0340644, 0.0424068, 0.991741, -0.121039, 0.0394531, 0.119392, 0.992063, 0.094372, 2.12594, 0.0975361 )
 shape = SubResource( 52 )
 
 [node name="HeadPivot" type="Position3D" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -0.999999, 0.0396652, 2.13976, 0.0587194 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -0.999999, 0.0869666, 2.13957, 0.111222 )
 
 [node name="Head" type="Spatial" parent="HeadPivot"]
 script = ExtResource( 5 )
@@ -3006,6 +2877,11 @@ transforms = [ Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.623, -0.116, 1.174 ) ]
 interpolated = true
 
 [node name="right_hand" type="Position3D" parent="."]
-transform = Transform( -0.161104, -0.282798, 0.945553, 0.986937, -0.046163, 0.154349, 0, 0.958068, 0.286541, -0.310998, 1.88318, 0.633672 )
+transform = Transform( -1.49012e-08, -2.98023e-08, 1, 0.999999, 0, 0, 0, 1, 1.49012e-08, -0.310998, 1.641, 0.621587 )
 script = ExtResource( 8 )
 _skeleton_ik_path = NodePath("../Skeleton/RightHandIK")
+lock_to_bone = false
+
+[node name="ForwardTransform" type="Spatial" parent="right_hand"]
+transform = Transform( -4.37114e-08, 1, -1.33118e-07, 1.49012e-08, -1.4802e-07, -1, -1, -4.37114e-08, -2.98023e-08, 0.0313613, 0.119567, 0.0844954 )
+script = ExtResource( 9 )
