@@ -157,6 +157,7 @@ func borrow_hand():
 	# returns the first free hand, or null if there are no free hands
 	for hand in hands:
 		if not hands[hand]:
+			hands[hand] = true
 			return hand
 
 

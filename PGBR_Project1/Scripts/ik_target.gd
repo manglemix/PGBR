@@ -1,38 +1,22 @@
 class_name IKtarget
 extends Spatial
 
-export var _skeleton_ik_path: NodePath		# the path to the SkeletonIK which is using this node as a target
-export var lock_to_bone := true setget set_lock_to_bone	# If locked to bone, IK is disabled and this ndoe will copy the bone it is assigned to
 
-var bone_idx: int	# the bone index of this node
+export var _skeleton_ik_path: NodePath				# the path to the SkeletonIK which is using this node as a target
 
-
-var _skeleton: Skeleton
-var _skeleton_ik: SkeletonIK
+onready var _skeleton_ik := get_node(_skeleton_ik_path) as SkeletonIK
+onready var _skeleton := _skeleton_ik.get_parent_skeleton()
+onready var _bone_idx := _skeleton.find_bone(_skeleton_ik.tip_bone)
 
 
-func _ready():
-	_skeleton_ik = get_node(_skeleton_ik_path)
-	_skeleton = _skeleton_ik.get_parent()
-	bone_idx = _skeleton.find_bone(name)
-	set_lock_to_bone(lock_to_bone)
+func start(one_time:=false):
+	_skeleton_ik.start(one_time)
 
 
-func set_lock_to_bone(value: bool):
-	lock_to_bone = value
-	if not is_instance_valid(_skeleton_ik):
-		# setter is called on exported variable even before ready, so we have to exit the function to prevent crash
-		# this is because _skeleton_ik will be null before ready. However, the setter will be called again in _ready
-		return
-	
-	if value:
-		_skeleton_ik.stop()
-	else:
-		_skeleton_ik.start()
-	
-	set_process(value)
+func stop():
+	_skeleton_ik.stop()
 
 
 func _process(delta):
-	var bone_transform := _skeleton.get_bone_global_pose(bone_idx)
-	global_transform = _skeleton.global_transform * bone_transform
+	# this keeps the IK node attached to the bone by moving this node
+	global_transform = _skeleton.global_transform * _skeleton.get_bone_global_pose(_bone_idx) * get_node("IK").transform.affine_inverse()
