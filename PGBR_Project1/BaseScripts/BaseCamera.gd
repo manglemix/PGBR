@@ -14,7 +14,7 @@ var linear_velocity := Vector3.ZERO
 var screen_centre: Vector2
 var accept_user_input := true setget set_user_input
 
-var _player_node					# the node from which the pivot will be used
+var _player					# the node from which the pivot will be used
 var _pivot_node						# the node the camera will pivot around
 var _target_node: Spatial			# the child of the pivot node; the node the camera will move to
 var _current_scene
@@ -42,26 +42,26 @@ func set_user_input(value: bool):
 func set_player(node):
 	# makes the camera follow the node given, as long as that node has a child called CameraPivot,
 	# which should also have a child called CameraTarget
-	if is_instance_valid(_player_node):
-		_old_player = _player_node
-		_player_node.disconnect("died", self, "handle_death")
+	if is_instance_valid(_player):
+		_old_player = _player
+		_player.disconnect("died", self, "handle_death")
 	
 	_raycast.clear_exceptions()
 	
-	_player_node = node
+	_player = node
 	
-	if is_instance_valid(_player_node) and is_instance_valid(_player_node.head):
-		_pivot_node = _player_node.head
+	if is_instance_valid(_player) and is_instance_valid(_player.head):
+		_pivot_node = _player.head
 		_target_node = _pivot_node.get_node("CameraTarget")
 		assert(is_instance_valid(_target_node))
 		
 		set_viewpoint(current_viewpoint)
-		_player_node.connect("died", self, "handle_death")
-		_raycast.add_exception(_player_node)
-		_current_scene.player = _player_node
+		_player.connect("died", self, "handle_death")
+		_raycast.add_exception(_player)
+		_current_scene.player = _player
 	
 	else:
-		_player_node = null
+		_player = null
 		_pivot_node = null
 		_target_node = null
 
@@ -84,7 +84,7 @@ func handle_death(code):
 
 
 func set_viewpoint(new_viewpoint: int):
-	if not is_instance_valid(_player_node):
+	if not is_instance_valid(_player):
 		return
 	
 	current_viewpoint = new_viewpoint
@@ -133,10 +133,10 @@ func _input(event):
 			_old_player = null
 			
 		else:
-			_old_player = _player_node
+			_old_player = _player
 			set_player(null)
 	
-	if is_instance_valid(_player_node):
+	if is_instance_valid(_player):
 		if event is InputEventMouseMotion:
 			if invert_y:
 				event.relative.y *= -1
@@ -145,11 +145,11 @@ func _input(event):
 		
 		# this alerts the player to charge the jump
 		if event.is_action_pressed("jump"):
-			_player_node.charge_jump()
+			_player.charge_jump()
 		
 		# once the spacebar is released, and a jump was charging, then the player will jump
-		elif event.is_action_released("jump") and _player_node.charging_jump:
-			_player_node.jump()
+		elif event.is_action_released("jump") and _player.charging_jump:
+			_player.jump()
 		
 		if event.is_action_pressed("change viewpoint"):
 			_target_node.increment_transform()
@@ -168,9 +168,9 @@ func _input(event):
 
 
 func _process(delta):
-	if is_instance_valid(_player_node):
+	if is_instance_valid(_player):
 		# save the player's linear_velocity for when the player dies
-		linear_velocity = _player_node.linear_velocity
+		linear_velocity = _player.linear_velocity
 		global_transform = _target_node.global_transform
 		
 		if accept_user_input:
@@ -188,32 +188,32 @@ func _process(delta):
 				movement_vector -= _pivot_node.global_transform.basis.x
 			
 			if is_zero_approx(movement_vector.length_squared()):
-				_player_node.stop_moving()
+				_player.stop_moving()
 				
 			else:
 				# To make the player look less wonky while moving, the body of the player is turned to face-
 				# the head direction when moving
 				var direction = - _pivot_node.global_transform.basis.z
-				_player_node.turn_to_vector(direction)
+				_player.turn_to_vector(direction)
 				
 				var speed: float
 				if Input.is_action_pressed("sprint"):
-					speed = _player_node.Speeds.SPRINT
+					speed = _player.Speeds.SPRINT
 				elif Input.is_action_pressed("crouch"):
 					# TODO add crouch mechanic
-					speed = _player_node.Speeds.WALK
+					speed = _player.Speeds.WALK
 				else:
-					speed = _player_node.Speeds.RUN
+					speed = _player.Speeds.RUN
 				
-				_player_node.move_to_vector(movement_vector, speed)
+				_player.move_to_vector(movement_vector, speed)
 			
 			if Input.is_action_pressed("shoot"):
 				# casts the raycast node towards the crosshair (centre of screen)
 				project_raycast()
 				var target := get_collision_point()
-				_player_node.global_turn_to_vector(target)
-				_player_node.aim_guns(target)
-				_player_node.shoot_guns()
+				_player.global_turn_to_vector(target)
+				_player.aim_guns(target)
+				_player.shoot_guns()
 	
 	elif accept_user_input:
 		if Input.is_action_pressed("forward"):
