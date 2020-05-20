@@ -91,7 +91,6 @@ func _ready():
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
-	
 	sprinting = false
 	crouching = false
 	if on_floor:
@@ -178,7 +177,6 @@ func fully_face_target(target: Vector3) -> void:
 	# this turns both the body and the arms towards the global vector given
 	global_turn_to_vector(target)
 	aim_guns(target)
-	
 	if is_instance_valid(head):
 		head.turn_to_vector(target)
 
@@ -214,7 +212,6 @@ func _physics_process(delta):
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_body_target_vector = Vector3.ZERO
-	
 	
 	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	on_floor = is_instance_valid(_floor_collision)

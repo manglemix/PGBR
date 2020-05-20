@@ -20,6 +20,7 @@ var _target_node: Spatial			# the child of the pivot node; the node the camera w
 var _current_scene
 var _raycast := RayCast.new()		# private raycast node
 var _old_player = null				# the last node which was a player
+var _scope_transition: TargetedCamera
 
 
 func _ready():
@@ -120,6 +121,7 @@ func get_collider():
 
 
 func get_collision_point() -> Vector3:
+	Debug.draw_dot(_raycast.get_collision_point(), Color.blue)
 	return _raycast.get_collision_point()
 
 
@@ -141,7 +143,7 @@ func _input(event):
 			if invert_y:
 				event.relative.y *= -1
 			
-			_pivot_node.biaxial_rotate(- event.relative.y * mouse_sensitivity, - event.relative.x * mouse_sensitivity)
+			_pivot_node.biaxial_rotate(event.relative.y * mouse_sensitivity, - event.relative.x * mouse_sensitivity)
 		
 		# this alerts the player to charge the jump
 		if event.is_action_pressed("jump"):
@@ -154,6 +156,34 @@ func _input(event):
 		if event.is_action_pressed("change viewpoint"):
 			_target_node.increment_transform()
 			current_viewpoint = _target_node.transform_index
+		
+		if event.is_action_pressed("aim"):
+			if not _player.guns.empty():
+				var scope = _player.guns[0].get_node_or_null("Scope")
+				
+				if is_instance_valid(scope):
+					project_raycast()
+					var target := get_collision_point()
+					_player.fully_face_target(target)
+					
+					if is_instance_valid(_scope_transition):
+						_scope_transition.target = scope
+						_scope_transition.disconnect("reached_target", self, "set_current")
+						_scope_transition.disconnect("reached_target", _scope_transition, "queue_free")
+						
+					else:
+						_scope_transition = TargetedCamera.new(scope)
+						scope.add_child(_scope_transition)
+						_scope_transition.global_transform = global_transform
+						_scope_transition.current = true
+						global_transform = scope.global_transform
+		
+		if event.is_action_released("aim"):
+			if is_instance_valid(_scope_transition):
+				global_transform = _target_node.global_transform
+				_scope_transition.target = self
+				_scope_transition.connect("reached_target", self, "set_current", [true])
+				_scope_transition.connect("reached_target", _scope_transition, "queue_free")
 	
 	else:
 		# this is for when the camera has no player to follow
@@ -176,16 +206,16 @@ func _process(delta):
 		if accept_user_input:
 			var movement_vector := Vector3.ZERO
 			if Input.is_action_pressed("forward"):
-				movement_vector -= _pivot_node.global_transform.basis.z
-			
-			if Input.is_action_pressed("backward"):
 				movement_vector += _pivot_node.global_transform.basis.z
 			
+			if Input.is_action_pressed("backward"):
+				movement_vector -= _pivot_node.global_transform.basis.z
+			
 			if Input.is_action_pressed("right"):
-				movement_vector += _pivot_node.global_transform.basis.x
+				movement_vector -= _pivot_node.global_transform.basis.x
 			
 			if Input.is_action_pressed("left"):
-				movement_vector -= _pivot_node.global_transform.basis.x
+				movement_vector += _pivot_node.global_transform.basis.x
 			
 			if is_zero_approx(movement_vector.length_squared()):
 				_player.stop_moving()
@@ -193,7 +223,7 @@ func _process(delta):
 			else:
 				# To make the player look less wonky while moving, the body of the player is turned to face-
 				# the head direction when moving
-				var direction = - _pivot_node.global_transform.basis.z
+				var direction = _pivot_node.global_transform.basis.z
 				_player.turn_to_vector(direction)
 				
 				var speed: float
@@ -207,13 +237,15 @@ func _process(delta):
 				
 				_player.move_to_vector(movement_vector, speed)
 			
-			if Input.is_action_pressed("shoot"):
+			if Input.is_action_pressed("shoot") or is_instance_valid(_scope_transition):
 				# casts the raycast node towards the crosshair (centre of screen)
 				project_raycast()
 				var target := get_collision_point()
 				_player.global_turn_to_vector(target)
 				_player.aim_guns(target)
-				_player.shoot_guns()
+				
+				if Input.is_action_pressed("shoot"):
+					_player.shoot_guns()
 	
 	elif accept_user_input:
 		if Input.is_action_pressed("forward"):

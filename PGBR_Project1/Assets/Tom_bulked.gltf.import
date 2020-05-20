@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/Tom.gltf-a10e918023ee63e9c09fca78e2e21f3d.scn"
+path="res://.import/Tom_bulked.gltf-c348e4e1bf0bc31587b03f4668c51fe2.scn"
 
 [deps]
 
-source_file="res://Assets/Tom.gltf"
-dest_files=[ "res://.import/Tom.gltf-a10e918023ee63e9c09fca78e2e21f3d.scn" ]
+source_file="res://Assets/Tom_bulked.gltf"
+dest_files=[ "res://.import/Tom_bulked.gltf-c348e4e1bf0bc31587b03f4668c51fe2.scn" ]
 
 [params]
 

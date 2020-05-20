@@ -40,18 +40,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.2545, -18.7272 )
 [node name="Deagle" parent="Tom" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.984784, 8.0617, 20.8112 )
 
-[node name="StateTree" type="Node" parent="." groups=[
-"Enemy",
-]]
-script = ExtResource( 9 )
-
-[node name="HostilesEnvironment" type="Node" parent="StateTree"]
-script = ExtResource( 13 )
-hostile_groups = PoolStringArray( "Friendly" )
-
-[node name="Wander" type="Node" parent="StateTree/HostilesEnvironment"]
-script = ExtResource( 10 )
-
 [node name="Navigation" type="Navigation" parent="."]
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
@@ -68,6 +56,18 @@ _player_path = NodePath("../Tom")
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.646737, 0.762713, 0, -0.762713, -0.646737, 0, 18.6483, 0 )
 shadow_enabled = true
+
+[node name="StateTree" type="Node" parent="." groups=[
+"Enemy",
+]]
+script = ExtResource( 9 )
+
+[node name="HostilesEnvironment" type="Node" parent="StateTree"]
+script = ExtResource( 13 )
+hostile_groups = PoolStringArray( "Friendly" )
+
+[node name="Wander" type="Node" parent="StateTree/HostilesEnvironment"]
+script = ExtResource( 10 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 8 )
