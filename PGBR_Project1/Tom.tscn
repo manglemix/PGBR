@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Assets/Material.material" type="Material" id=1]
 [ext_resource path="res://BaseScripts/BasePerson.gd" type="Script" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://Scripts/pivot_point.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/mirror_bone.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/moveable_node.gd" type="Script" id=7]
-[ext_resource path="res://Scripts/ik_target.gd" type="Script" id=8]
 [ext_resource path="res://Scripts/squeezed_collider.gd" type="Script" id=9]
 [ext_resource path="res://3DCharacterAnimationTree.tres" type="AnimationNodeBlendTree" id=10]
 
@@ -3064,7 +3063,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="Hat" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.995956, -0.036715, -0.0819889, 0.0243183, 0.988781, -0.147379, 0.0864802, 0.14479, 0.985676, 0.0115121, 2.28456, 0.104346 )
+transform = Transform( 0.99232, -0.0447705, -0.115299, 0.0352163, 0.995876, -0.0836114, 0.118567, 0.0789089, 0.989806, 0.0639321, 2.29176, 0.122255 )
 bone_name = "head_top_end"
 
 [node name="fedora" type="MeshInstance" parent="Skeleton/Hat"]
@@ -3073,7 +3072,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="BodyBone" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.99938, -0.00583939, -0.0347078, 0.00660367, 0.999737, 0.0219457, 0.0345705, -0.0221614, 0.999157, 0.027454, 1.57397, -0.0224185 )
+transform = Transform( 0.998778, 0.0091016, -0.0485607, -0.00846362, 0.999875, 0.0133266, 0.0486758, -0.0128995, 0.998732, 0.0781092, 1.57549, 0.00985292 )
 bone_name = "spine_1"
 
 [node name="RightHand" type="Position3D" parent="Skeleton/BodyBone"]
@@ -3084,13 +3083,12 @@ transform = Transform( -0.126124, -0.150862, 0.980482, 0.991116, -0.0612806, 0.1
 
 [node name="LeftHand" type="Position3D" parent="Skeleton/BodyBone"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.194781, 0.0520362, 0.593393 )
-script = ExtResource( 8 )
 
 [node name="IK" type="Spatial" parent="Skeleton/BodyBone/LeftHand"]
 transform = Transform( -0.0413608, -0.00858271, -0.999111, -0.998464, -0.0365376, 0.0416482, -0.0368625, 0.999293, -0.00705852, 0.0252132, -0.0191605, -0.103679 )
 
 [node name="Pelvis" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.996207, -0.0466771, -0.0734354, 0.0556915, 0.990474, 0.125931, 0.0668579, -0.129543, 0.989318, 0.0349935, 1.31462, 0.00180197 )
+transform = Transform( 0.991414, -0.0384615, -0.124974, 0.0521766, 0.992738, 0.108394, 0.119897, -0.113984, 0.986221, 0.0827329, 1.31577, 0.0309266 )
 bone_name = "hips"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/Pelvis"]
@@ -3100,7 +3098,7 @@ update_rotation = false
 update_scale = false
 
 [node name="Skull" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.995956, -0.036715, -0.0819889, 0.0243183, 0.988781, -0.147379, 0.0864802, 0.14479, 0.985676, 0.0264236, 2.02404, 0.00587424 )
+transform = Transform( 0.99232, -0.0447705, -0.115299, 0.0352163, 0.995876, -0.0836114, 0.118567, 0.078909, 0.989806, 0.0830327, 2.02549, 0.0414819 )
 bone_name = "head"
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/Skull"]
@@ -3152,7 +3150,7 @@ parameters/falling/blend_amount = 0.0
 script = ExtResource( 4 )
 
 [node name="Body" type="CollisionShape" parent="."]
-transform = Transform( 0.999982, -1.49012e-08, -1.33227e-14, 0, -4.37104e-08, 0.999983, -1.49012e-08, -0.999982, -4.37108e-08, 0.0353802, 1.01229, -0.00188626 )
+transform = Transform( 0.999982, -1.49012e-08, -1.33227e-14, 0, -4.37104e-08, 0.999983, -1.49012e-08, -0.999982, -4.37108e-08, 0.082895, 1.01355, 0.0218299 )
 shape = SubResource( 23 )
 script = ExtResource( 9 )
 top_node_path = NodePath("../Skeleton/Skull")
@@ -3160,12 +3158,12 @@ transform_parent_path = NodePath("../Skeleton/Pelvis/RemoteTransform")
 bottom_node_path = NodePath("..")
 
 [node name="HeadHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.995956, -0.036715, -0.081989, 0.0243182, 0.988781, -0.147379, 0.0864802, 0.14479, 0.985676, 0.0287861, 2.12172, 0.0427683 )
+transform = Transform( 0.99232, -0.0447705, -0.115299, 0.0352163, 0.995876, -0.0836113, 0.118567, 0.0789092, 0.989806, 0.0838207, 2.12537, 0.0720109 )
 shape = SubResource( 24 )
 disabled = true
 
 [node name="HeadPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0264236, 2.02404, 0.00587424 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0830327, 2.02549, 0.0414819 )
 
 [node name="Head" type="Position3D" parent="HeadPivot"]
 transform = Transform( 0.98949, 0.0252285, -0.143997, -0.000772781, 0.986091, 0.167466, 0.146188, -0.165552, 0.975551, -0.0782579, 0.00961113, 0.00925905 )
