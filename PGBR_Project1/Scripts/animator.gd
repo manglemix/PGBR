@@ -62,7 +62,7 @@ func _process(delta):
 			flerp_parameter("idle", 0)
 			var local_vector = get_parent().global_transform.basis.xform_inv(get_parent().movement_vector).normalized()
 			local_vector = Vector2(local_vector.x, local_vector.z)
-			print(local_vector)
+			
 			if get_parent().sprinting:
 				flerp_parameter("speed", 1)
 			elif get_parent().crouching:
