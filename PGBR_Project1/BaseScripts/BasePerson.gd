@@ -29,7 +29,6 @@ export var acceleration := 6.0	# used for interpolating the Person's speed to th
 export var jump_speed := 10.0						# the vertical speed given to the person when they jump
 export var turn_speed := 10.0						# used for interpolating turns
 
-export var head_path: NodePath
 export(Array, NodePath) var hand_paths
 
 var sprinting := false
@@ -45,7 +44,6 @@ var charging_jump := false					# if true, the Person will try to charge up its j
 var on_floor: bool							# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
 
 var head: Spatial
-
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
@@ -85,7 +83,8 @@ func _ready():
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
-	head = get_node_or_null(head_path)
+	head = find_node("Head")
+	assert(is_instance_valid(head))
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
@@ -177,8 +176,7 @@ func fully_face_target(target: Vector3) -> void:
 	# this turns both the body and the arms towards the global vector given
 	global_turn_to_vector(target)
 	aim_guns(target)
-	if is_instance_valid(head):
-		head.turn_to_vector(target)
+	head.turn_to_vector(target)
 
 
 func kill(code) -> void:
@@ -207,8 +205,7 @@ func _physics_process(delta):
 			var turn_angle := global_transform.basis.z.angle_to(_body_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			
-			if is_instance_valid(head):
-				head.axial_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_body_target_vector = Vector3.ZERO
