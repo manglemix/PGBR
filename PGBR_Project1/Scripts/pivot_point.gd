@@ -20,11 +20,6 @@ func _ready():
 	set_process(false)
 
 
-func axial_rotate(axis: Vector3, angle: float) -> void:
-	global_rotate(axis, angle)
-	limit_axes()
-
-
 func biaxial_rotate(x: float, y: float) -> void:
 	global_rotate(_fallback_node.global_transform.basis.y, y)
 	rotate_object_local(Vector3.RIGHT, x)
@@ -65,7 +60,10 @@ func turn_to_vector(position: Vector3):
 func _process(delta):
 	_target_transform.origin = global_transform.origin
 	global_transform = global_transform.interpolate_with(_target_transform, turn_speed * delta)
-	limit_axes()
 
 	if global_transform.basis.tdotz(_target_transform.basis.z) >= 0.99:
 		set_process(false)
+
+
+func _physics_process(delta):
+	limit_axes()
