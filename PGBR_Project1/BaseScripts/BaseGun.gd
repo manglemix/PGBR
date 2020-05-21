@@ -1,56 +1,80 @@
 class_name BaseGun
-extends RayCast
+extends Spatial
 
 
-var arm
+export var raycast_path := NodePath("Muzzle")
+export(Array, NodePath) var extra_handles := []
 
-var _hand
+var _player
+var _handles := {}
+var _raycast: RayCast
 
 
 func _ready():
+	_raycast = get_node(raycast_path)
 	set_distance(1000)
-	enabled = true
+	
+	for path in extra_handles:
+		_handles[get_node(path)] = null
 	
 	if get_parent() != get_tree().get_current_scene():
-		get_parent().connect("ready", self, "_equip_parent")
+		get_parent().connect("ready", self, "equip_node", [get_parent(), true])
 
 
-func equip_node(node) -> bool:
-	_hand = node.request_hand()
+func equip_node(node, try_assert:=false) -> bool:
+	# the try assert is to cause the game to crash if the gun could not be equipped
+	# useful if the gun did not get equipped at the start of the level during development
+	var main_hand = node.borrow_hand()
 	
-	if is_instance_valid(_hand):
-		node.connect("shoot", self, "shoot")
-		node.connect("aim", self, "aim_towards")
-		
-		node.guns.append(self)
-		
-		get_parent().remove_child(self)
-		_hand.add_child(self)
-		arm = _hand.get_parent()
-		transform = Transform.IDENTITY
-		return true
-	else:
+	if not is_instance_valid(main_hand):
+		if try_assert:
+			assert(false)
 		return false
-
-
-func _equip_parent():
-	equip_node(get_parent())
+	
+	for handle in _handles:
+		var hand = node.borrow_hand()
+		
+		if not is_instance_valid(hand):
+			if try_assert:
+				assert(false)
+			return false
+		
+		_handles[handle] = hand
+	
+	_player = node
+	_player.connect("shoot", self, "shoot")
+	_player.connect("aim", self, "aim_towards")
+	_player.guns.append(self)
+	
+	get_parent().remove_child(self)
+	main_hand.add_child(self)
+	_raycast.clear_exceptions()
+	_raycast.add_exception(_player)
+	transform = Transform.IDENTITY
+	
+	for handle in _handles:
+		_handles[handle].global_transform = handle.global_transform
+		_handles[handle].start()
+	
+	return true
 
 
 func set_distance(distance: float):
 	assert(distance > 0)
-	cast_to = Vector3.FORWARD * distance
+	_raycast.cast_to = _raycast.cast_to.normalized() * distance
 
 
 func aim_towards(target: Vector3):
-	arm.look_at(target, Vector3.UP)
-	_hand.look_at(target, Vector3.UP)
+	get_parent().look_at(target, Vector3.UP)
+	get_parent().rotate_object_local(Vector3.UP, PI)
+	for handle in _handles:
+		_handles[handle].global_transform = handle.global_transform
 
 
 func shoot():
-	var node = get_collider()
+	var node = _raycast.get_collider()
 	
 	if is_instance_valid(node) and node.has_method("damage"):
 		node.damage(self)
 	
-	Debug.draw_dot(get_collision_point(), Color.red)
+	Debug.draw_dot(_raycast.get_collision_point(), Color.red)

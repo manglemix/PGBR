@@ -1,0 +1,122 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=26 format=2]
+
+[sub_resource type="AnimationNodeAnimation" id=50]
+animation = "c idle"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "Falling Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "idle"
+
+[sub_resource type="AnimationNodeBlend2" id=49]
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "cwf"
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "cwb"
+
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "csrr"
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "csrl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=29]
+blend_point_0/node = SubResource( 25 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 26 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 27 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 28 )
+blend_point_3/pos = Vector2( -1, 0 )
+
+[sub_resource type="AnimationNodeBlend2" id=30]
+
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "Jump"
+
+[sub_resource type="AnimationNodeBlend2" id=32]
+
+[sub_resource type="AnimationNodeBlend2" id=33]
+
+[sub_resource type="AnimationNodeAnimation" id=34]
+animation = "rf"
+
+[sub_resource type="AnimationNodeAnimation" id=35]
+animation = "rb"
+
+[sub_resource type="AnimationNodeAnimation" id=36]
+animation = "str"
+
+[sub_resource type="AnimationNodeAnimation" id=37]
+animation = "stl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=38]
+blend_point_0/node = SubResource( 34 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 35 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 36 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 37 )
+blend_point_3/pos = Vector2( -1, 0 )
+
+[sub_resource type="AnimationNodeTimeSeek" id=39]
+
+[sub_resource type="AnimationNodeBlend3" id=40]
+
+[sub_resource type="AnimationNodeAnimation" id=41]
+animation = "sf"
+
+[sub_resource type="AnimationNodeAnimation" id=42]
+animation = "sb"
+
+[sub_resource type="AnimationNodeAnimation" id=43]
+animation = "sr"
+
+[sub_resource type="AnimationNodeAnimation" id=44]
+animation = "sl"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=45]
+blend_point_0/node = SubResource( 41 )
+blend_point_0/pos = Vector2( 0, 1 )
+blend_point_1/node = SubResource( 42 )
+blend_point_1/pos = Vector2( 0, -1 )
+blend_point_2/node = SubResource( 43 )
+blend_point_2/pos = Vector2( 1, 0 )
+blend_point_3/node = SubResource( 44 )
+blend_point_3/pos = Vector2( -1, 0 )
+
+[resource]
+graph_offset = Vector2( -267, 137 )
+nodes/Animation/node = SubResource( 24 )
+nodes/Animation/position = Vector2( 0, 280 )
+"nodes/Animation 2/node" = SubResource( 50 )
+"nodes/Animation 2/position" = Vector2( 0, 400 )
+"nodes/Animation 3/node" = SubResource( 23 )
+"nodes/Animation 3/position" = Vector2( 400, 240 )
+nodes/crouch/node = SubResource( 29 )
+nodes/crouch/position = Vector2( -200, 60 )
+"nodes/crouch idle/node" = SubResource( 49 )
+"nodes/crouch idle/position" = Vector2( 200, 160 )
+nodes/custom/node = SubResource( 30 )
+nodes/custom/position = Vector2( 820, 60 )
+nodes/custom_anim/node = SubResource( 31 )
+nodes/custom_anim/position = Vector2( 400, 360 )
+nodes/falling/node = SubResource( 32 )
+nodes/falling/position = Vector2( 600, 60 )
+nodes/idle/node = SubResource( 33 )
+nodes/idle/position = Vector2( 400, 60 )
+nodes/output/position = Vector2( 1020, 60 )
+nodes/run/node = SubResource( 38 )
+nodes/run/position = Vector2( -200, 220 )
+nodes/seek/node = SubResource( 39 )
+nodes/seek/position = Vector2( 640, 240 )
+nodes/speed/node = SubResource( 40 )
+nodes/speed/position = Vector2( 0, 100 )
+nodes/sprint/node = SubResource( 45 )
+nodes/sprint/position = Vector2( -200, 380 )
+node_connections = [ "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "seek", 0, "custom_anim", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "falling", 0, "idle", "falling", 1, "Animation 3", "custom", 0, "falling", "custom", 1, "seek" ]

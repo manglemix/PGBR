@@ -1,3 +1,4 @@
+# this node is responsible for forwarding player resource signals
 extends Control
 
 

@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AnimationTree",
+"class": "Animator",
+"language": "GDScript",
+"path": "res://Scripts/animator.gd"
+}, {
 "base": "State",
 "class": "Attack",
 "language": "GDScript",
@@ -24,7 +29,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BaseCamera.gd"
 }, {
-"base": "RayCast",
+"base": "Spatial",
 "class": "BaseGun",
 "language": "GDScript",
 "path": "res://BaseScripts/BaseGun.gd"
@@ -44,20 +49,45 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UtilityAI/hostiles_environment.gd"
 }, {
+"base": "Spatial",
+"class": "IKtarget",
+"language": "GDScript",
+"path": "res://Scripts/ik_target.gd"
+}, {
+"base": "Spatial",
+"class": "ManualSkeleton",
+"language": "GDScript",
+"path": "res://Scripts/manual_skeleton.gd"
+}, {
 "base": "State",
 "class": "Maximiser",
 "language": "GDScript",
 "path": "res://UtilityAI/maximiser.gd"
+}, {
+"base": "Node",
+"class": "MirrorBone",
+"language": "GDScript",
+"path": "res://Scripts/mirror_bone.gd"
 }, {
 "base": "Spatial",
 "class": "MoveableNode",
 "language": "GDScript",
 "path": "res://Scripts/moveable_node.gd"
 }, {
+"base": "Spatial",
+"class": "PivotPoint",
+"language": "GDScript",
+"path": "res://Scripts/pivot_point.gd"
+}, {
 "base": "RichTextLabel",
 "class": "PropertyWatcher",
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
+}, {
+"base": "CollisionShape",
+"class": "SqueezedCollider",
+"language": "GDScript",
+"path": "res://Scripts/squeezed_collider.gd"
 }, {
 "base": "Control",
 "class": "StaminaBar",
@@ -68,6 +98,11 @@ _global_script_classes=[ {
 "class": "State",
 "language": "GDScript",
 "path": "res://UtilityAI/state.gd"
+}, {
+"base": "Camera",
+"class": "TargetedCamera",
+"language": "GDScript",
+"path": "res://Scripts/targeted_camera.gd"
 }, {
 "base": "Node",
 "class": "UtilityTree",
@@ -80,6 +115,7 @@ _global_script_classes=[ {
 "path": "res://UtilityAI/wander.gd"
 } ]
 _global_script_class_icons={
+"Animator": "",
 "Attack": "",
 "AutoGoto": "",
 "BaseCamera": "",
@@ -87,11 +123,17 @@ _global_script_class_icons={
 "BasePerson": "",
 "HealthBar": "",
 "HostilesEnvironment": "",
+"IKtarget": "",
+"ManualSkeleton": "",
 "Maximiser": "",
+"MirrorBone": "",
 "MoveableNode": "",
+"PivotPoint": "",
 "PropertyWatcher": "",
+"SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",
+"TargetedCamera": "",
 "UtilityTree": "",
 "Wander": ""
 }
