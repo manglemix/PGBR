@@ -39,10 +39,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "FrustumCuller",
 "language": "GDScript",
-"path": "res://frustum_culler.gd"
+"path": "res://Scripts/frustum_culler.gd"
 }, {
 "base": "Control",
 "class": "HealthBar",

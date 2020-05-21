@@ -10,7 +10,7 @@
 [ext_resource path="res://default_env.tres" type="Environment" id=8]
 [ext_resource path="res://UtilityAI/state_tree.gd" type="Script" id=9]
 [ext_resource path="res://UtilityAI/wander.gd" type="Script" id=10]
-[ext_resource path="res://frustum_culler.gd" type="Script" id=11]
+[ext_resource path="res://Scripts/frustum_culler.gd" type="Script" id=11]
 [ext_resource path="res://UtilityAI/hostiles_environment.gd" type="Script" id=13]
 
 [sub_resource type="ConcavePolygonShape" id=1]
