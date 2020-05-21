@@ -44,14 +44,14 @@ var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 
-var head: Spatial
+var head: PivotPoint
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
-var _target_vector: Vector3			# the vector the body tries to turn to
+var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 
 
@@ -93,7 +93,7 @@ func _ready():
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	# moves the node towards the relative vector given
-	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
+	rel_vec.y = 0.0	# must flatten cause the Person can only turn side to side
 	sprinting = false
 	if floor_collision:
 		assert(speed >= 0 and speed <= 2)
@@ -122,13 +122,13 @@ func stop_moving() -> void:
 
 
 func turn_to_vector(rel_vec: Vector3) -> void:
-	# turns the body towards the relative vector given
-	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
+	# turns the Person towards the relative vector given
+	rel_vec.y = 0.0	# must flatten cause the Person can only turn side to side
 	_target_vector = rel_vec.normalized()
 
 
 func global_turn_to_vector(position: Vector3) -> void:
-	# the same as turn to vector, except it turns the body to a global position
+	# the same as turn to vector, except it turns the Person to a global position
 	turn_to_vector(position - global_transform.origin)
 
 
@@ -175,10 +175,10 @@ func aim_guns(position: Vector3) -> void:
 
 
 func fully_face_target(target: Vector3) -> void:
-	# this turns both the body and the arms towards the global vector given
+	# this turns both the Person and the arms towards the global vector given
 	global_turn_to_vector(target)
+	head.global_turn_to_vector(target)
 	aim_guns(target)
-	head.turn_to_vector(target)
 
 
 func kill(code) -> void:
@@ -200,7 +200,7 @@ func kill(code) -> void:
 
 
 func _physics_process(delta):
-	# this will turn the body towards the target vector
+	# this will turn the Person towards the target vector
 	if _target_vector.is_normalized():
 		var turn_axis := global_transform.basis.z.cross(_target_vector).normalized()
 		
