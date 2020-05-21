@@ -13,7 +13,7 @@ export var fallback_node_path: NodePath # This is the node where extra rotation 
 
 var _target_transform: Transform
 
-onready var _fallback_node := get_node(fallback_node_path) as Spatial
+onready var _initial_transform := transform
 
 
 func _ready():
@@ -21,39 +21,47 @@ func _ready():
 
 
 func biaxial_rotate(x: float, y: float) -> void:
-	global_rotate(_fallback_node.global_transform.basis.y, y)
+	global_rotate(get_parent().global_transform.basis.y, y)
 	rotate_object_local(Vector3.RIGHT, x)
-	limit_axes()
 
 
 func limit_axes() -> void:
-	if rotation_degrees.y > max_yaw:
+	var final_transform := transform * _initial_transform.affine_inverse()
+	var euler_rotation := final_transform.basis.get_euler()
+	euler_rotation = Vector3(rad2deg(euler_rotation.x),
+							rad2deg(euler_rotation.y),
+							rad2deg(euler_rotation.z)
+							)
+	
+	if euler_rotation.y > max_yaw:
 		if not limit_yaw:
-			_fallback_node.global_rotate(_fallback_node.global_transform.basis.y, deg2rad(rotation_degrees.y - max_yaw))
+			get_parent().global_rotate(get_parent().global_transform.basis.y, deg2rad(euler_rotation.y - max_yaw))
 		
-		rotation_degrees.y = max_yaw
+		global_rotate(get_parent().global_transform.basis.y, deg2rad(max_yaw - euler_rotation.y))
 		
-	elif rotation_degrees.y < min_yaw:
+	elif euler_rotation.y < min_yaw:
 		if not limit_yaw:
-			_fallback_node.global_rotate(_fallback_node.global_transform.basis.y, deg2rad(rotation_degrees.y - min_yaw))
+			get_parent().global_rotate(get_parent().global_transform.basis.y, deg2rad(euler_rotation.y - min_yaw))
 		
-		rotation_degrees.y = min_yaw
+		global_rotate(get_parent().global_transform.basis.y, deg2rad(min_yaw - euler_rotation.y))
 
-	if rotation_degrees.x > max_pitch:
+	if euler_rotation.x > max_pitch:
 		if not limit_pitch:
-			_fallback_node.global_rotate(global_transform.basis.x, deg2rad(rotation_degrees.x - max_pitch))
+			get_parent().global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - max_pitch))
 		
-		rotate_object_local(Vector3.RIGHT, deg2rad(max_pitch - rotation_degrees.x))
+		rotate_object_local(Vector3.RIGHT, deg2rad(max_pitch - euler_rotation.x))
 		
-	elif rotation_degrees.x < min_pitch:
+	elif euler_rotation.x < min_pitch:
 		if not limit_pitch:
-			_fallback_node.global_rotate(global_transform.basis.x, deg2rad(rotation_degrees.x - min_pitch))
+			get_parent().global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - min_pitch))
 		
-		rotate_object_local(Vector3.RIGHT, deg2rad(min_pitch - rotation_degrees.x))
+		rotate_object_local(Vector3.RIGHT, deg2rad(min_pitch - euler_rotation.x))
+	
+	
 
 
 func turn_to_vector(position: Vector3):
-	_target_transform = global_transform.looking_at(position, _fallback_node.global_transform.basis.y)
+	_target_transform = global_transform.looking_at(position, get_parent().global_transform.basis.y)
 	set_process(true)
 
 
