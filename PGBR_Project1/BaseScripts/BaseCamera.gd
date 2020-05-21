@@ -21,6 +21,7 @@ var _current_scene
 var _raycast := RayCast.new()		# private raycast node
 var _old_player = null				# the last node which was a player
 var _scope_transition: TargetedCamera
+var _crouching := false
 
 
 func _ready():
@@ -152,6 +153,10 @@ func _input(event):
 		# once the spacebar is released, and a jump was charging, then the player will jump
 		elif event.is_action_released("jump") and _player.charging_jump:
 			_player.jump()
+		
+		if event.is_action_pressed("crouch"):
+			_crouching = not _crouching
+			_player.set_crouch(_crouching)
 		
 		if event.is_action_pressed("change viewpoint"):
 			_target_node.increment_transform()

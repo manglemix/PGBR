@@ -32,8 +32,8 @@ export var turn_speed := 10.0			# used for interpolating turns
 
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
-var sprinting := false		# to be read but not modified
-var crouching := false		# to be read but not modified
+var sprinting := false						# to be read but not modified
+var crouching := false setget set_crouch
 
 var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
@@ -42,17 +42,16 @@ var movement_vector := Vector3.ZERO			# the top down velocity of the person
 var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
-var on_floor: bool							# if true, this node is on top of a floor. is_on_floor() is only true if the KinematicBody is in the floor
+var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 
 var head: Spatial
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
-var _floor_collision: KinematicCollision	# holds information about the floor collider, null if there is no floor
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
-var _body_target_vector: Vector3			# the vector the body tries to turn to
+var _target_vector: Vector3			# the vector the body tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 
 
@@ -79,6 +78,10 @@ func set_max_stamina(new_val: float):
 	emit_signal("max_stamina_updated", max_stamina)
 
 
+func set_crouch(value: bool):
+	crouching = value
+
+
 func _ready():
 	for path in hand_paths:
 		# if the value is false, the hand is free, otherwise the hand is not free
@@ -92,16 +95,15 @@ func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	# moves the node towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
 	sprinting = false
-	crouching = false
-	if on_floor:
+	if floor_collision:
 		assert(speed >= 0 and speed <= 2)
 		if speed == Speeds.SPRINT and stamina > 0:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
+			crouching = false
 			_relaxed_time = 0.0
 			
-		elif speed == Speeds.WALK:
-			crouching = true
+		elif speed == Speeds.WALK or crouching:
 			movement_vector = rel_vec.normalized() * walk_speed
 			
 		else:
@@ -122,7 +124,7 @@ func stop_moving() -> void:
 func turn_to_vector(rel_vec: Vector3) -> void:
 	# turns the body towards the relative vector given
 	rel_vec.y = 0.0	# must flatten cause the body can only turn side to side
-	_body_target_vector = rel_vec.normalized()
+	_target_vector = rel_vec.normalized()
 
 
 func global_turn_to_vector(position: Vector3) -> void:
@@ -139,8 +141,8 @@ func charge_jump(strength:=1.5) -> void:
 
 
 func jump() -> void:
-	if on_floor:
-		on_floor = false
+	if floor_collision:
+		floor_collision = null
 		
 		var strength := 1.0
 		if charging_jump:
@@ -198,35 +200,35 @@ func kill(code) -> void:
 
 
 func _physics_process(delta):
-	if _body_target_vector.is_normalized():
-		var turn_axis := global_transform.basis.z.cross(_body_target_vector).normalized()
+	# this will turn the body towards the target vector
+	if _target_vector.is_normalized():
+		var turn_axis := global_transform.basis.z.cross(_target_vector).normalized()
 		
 		if turn_axis.is_normalized():
-			var turn_angle := global_transform.basis.z.angle_to(_body_target_vector)
+			var turn_angle := global_transform.basis.z.angle_to(_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			
 			head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
-				_body_target_vector = Vector3.ZERO
+				_target_vector = Vector3.ZERO
 	
-	_floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
-	on_floor = is_instance_valid(_floor_collision)
+	# this tests if the player is directly on the floor
+	floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
 	
-	if not on_floor:
-		_floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
-		on_floor = is_instance_valid(_floor_collision)
-		if on_floor:
-			global_transform.origin += _floor_collision.travel
+	if not floor_collision:
+		floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
+		if floor_collision:
+			global_transform.origin += floor_collision.travel
 	
-	if on_floor:
+	if floor_collision:
 		var tmp_vector := movement_vector
 		if not is_zero_approx(tmp_vector.length_squared()):
 			# we rotate the movement_vector so that it is along the floor plane
-			var axis := Vector3.UP.cross(_floor_collision.normal).normalized()
+			var axis := Vector3.UP.cross(floor_collision.normal).normalized()
 			# usually if the axis is still not normalized, the floor normal is pointing straight up already
 			if axis.is_normalized():
-				tmp_vector = tmp_vector.rotated(axis, Vector3.UP.angle_to(_floor_collision.normal))
+				tmp_vector = tmp_vector.rotated(axis, Vector3.UP.angle_to(floor_collision.normal))
 			
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
@@ -236,6 +238,7 @@ func _physics_process(delta):
 			jump()
 	
 	else:
+		crouching = false
 		# cannot charge jump while in the air
 		charging_jump = false
 		# this is strafing

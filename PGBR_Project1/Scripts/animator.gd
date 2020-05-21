@@ -52,11 +52,16 @@ func _process(delta):
 	else:
 		flerp_parameter("custom", 0)
 	
-	if get_parent().on_floor:
+	if get_parent().floor_collision:
 		flerp_parameter("falling", 0)
 		
 		if is_zero_approx(get_parent().movement_vector.length_squared()):
 			flerp_parameter("idle", 1)
+			
+			if get_parent().crouching:
+				flerp_parameter("crouch idle", 1)
+			else:
+				flerp_parameter("crouch idle", 0)
 			
 		else:
 			flerp_parameter("idle", 0)
