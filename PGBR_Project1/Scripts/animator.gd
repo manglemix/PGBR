@@ -33,7 +33,7 @@ func flerp_parameter(name: String, target: float, value_name:="blend_amount") ->
 	set_parameter(name, flerp(get_parameter(name, value_name), target), value_name)
 
 
-func flerp_position(name: String, target: Vector2) -> void:
+func lerp_position(name: String, target: Vector2) -> void:
 	set_parameter(name, get_parameter(name, "blend_position").linear_interpolate(target, _interp_speed), "blend_position")
 
 
@@ -75,9 +75,9 @@ func _process(delta):
 			else:
 				flerp_parameter("speed", 0)
 			
-			flerp_position("crouch", local_vector)
-			flerp_position("run", local_vector)
-			flerp_position("sprint", local_vector)
+			lerp_position("crouch", local_vector)
+			lerp_position("run", local_vector)
+			lerp_position("sprint", local_vector)
 		
 	else:
 		flerp_parameter("idle", 1)
