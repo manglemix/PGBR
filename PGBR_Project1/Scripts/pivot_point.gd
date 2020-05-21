@@ -75,13 +75,13 @@ func _physics_process(delta):
 	
 	if euler_rotation.y > max_yaw:
 		if not limit_yaw:
-			fallback_node.global_rotate(fallback_node.global_transform.basis.y, deg2rad(euler_rotation.y - max_yaw))
+			fallback_node.rotate_object_local(Vector3.UP, deg2rad(euler_rotation.y - max_yaw))
 		
 		global_rotate(fallback_node.global_transform.basis.y, deg2rad(max_yaw - euler_rotation.y))
 		
 	elif euler_rotation.y < min_yaw:
 		if not limit_yaw:
-			fallback_node.global_rotate(fallback_node.global_transform.basis.y, deg2rad(euler_rotation.y - min_yaw))
+			fallback_node.rotate_object_local(Vector3.UP, deg2rad(euler_rotation.y - min_yaw))
 		
 		global_rotate(fallback_node.global_transform.basis.y, deg2rad(min_yaw - euler_rotation.y))
 
