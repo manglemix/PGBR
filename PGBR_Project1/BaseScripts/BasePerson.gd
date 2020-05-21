@@ -1,11 +1,12 @@
+# A general purpose node for movement and rotation convenience. User and AI ready
 class_name BasePerson
 extends KinematicBody
 
 
-signal shoot		    # when emitted, all gun nodes connected to this should shoot
-signal died(code)		# may or may not be needed, we'll be watched by the current scene
-signal aim(target)		# when emitted, all guns and hands will aim towards the target (a global vector)
-signal jumped(strength)
+signal shoot				# when emitted, all gun nodes connected to this should shoot
+signal died(code)			# may or may not be needed, we'll be watched by the current scene
+signal aim(target)			# when emitted, all guns and hands will aim towards the target (a global vector)
+signal jumped(strength)		# emitted after the jump function is done
 
 signal health_updated(health)
 signal max_health_updated(max_health)
@@ -20,19 +21,19 @@ export var walk_speed := 2.5
 export var strafe_speed := 3.0
 
 export var max_health := 100.0 setget set_max_health
-export var max_stamina := 3.0 setget set_max_stamina# seconds
-export var stamina_regen := 0.5 # seconds
+export var max_stamina := 3.0 setget set_max_stamina	# unit is seconds
+export var stamina_regen := 0.5 		# unit is seconds per second
 export var health_regen := 1.0
-export var stamina_lag := 2.0 	# the time before the stamina begins regenerating
+export var stamina_lag := 2.0 			# the delay before the stamina begins regenerating
 
-export var acceleration := 6.0	# used for interpolating the Person's speed to the movement_vector
-export var jump_speed := 10.0						# the vertical speed given to the person when they jump
-export var turn_speed := 10.0						# used for interpolating turns
+export var acceleration := 6.0			# used for interpolating the Person's speed to the movement_vector
+export var jump_speed := 10.0			# the vertical speed given to the person when they jump
+export var turn_speed := 10.0			# used for interpolating turns
 
-export(Array, NodePath) var hand_paths
+export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
-var sprinting := false
-var crouching := false
+var sprinting := false		# to be read but not modified
+var crouching := false		# to be read but not modified
 
 var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
@@ -145,10 +146,9 @@ func jump() -> void:
 		if charging_jump:
 			strength += (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor
 		
-		emit_signal("jumped", strength)
 		linear_velocity.y += jump_speed * strength
-	
 		charging_jump = false
+		emit_signal("jumped", strength)
 
 
 func borrow_hand():

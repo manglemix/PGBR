@@ -3173,7 +3173,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="Hat" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.831459, -0.506215, -0.228959, 0.324748, 0.777187, -0.538999, 0.450793, 0.373802, 0.81059, -0.262937, 2.10355, 0.205916 )
+transform = Transform( 0.82196, -0.522997, -0.225512, 0.366216, 0.78857, -0.494008, 0.436196, 0.323469, 0.839702, -0.271886, 2.12923, 0.189502 )
 bone_name = "head_top_end"
 
 [node name="fedora" type="MeshInstance" parent="Skeleton/Hat"]
@@ -3182,7 +3182,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="BodyBone" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.614807, -0.19422, -0.76439, 0.060315, 0.977943, -0.19997, 0.786367, 0.0768387, 0.612962, 0.0224129, 1.49814, -0.00815905 )
+transform = Transform( 0.553656, -0.171922, -0.814806, 0.0673469, 0.984495, -0.161965, 0.830017, 0.0347981, 0.556651, 0.00964153, 1.51204, 0.0161968 )
 bone_name = "spine_1"
 
 [node name="RightHand" type="Position3D" parent="Skeleton/BodyBone"]
@@ -3192,7 +3192,7 @@ transform = Transform( 0.999571, -0.00580827, 0.0287392, 0.00578675, 0.999983, 0
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.194781, 0.0520362, 0.593393 )
 
 [node name="Pelvis" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.513701, 0.036193, -0.857206, 0.00684166, 0.998905, 0.0462759, 0.857942, -0.0296366, 0.512892, 0.0289657, 1.23808, -0.0080987 )
+transform = Transform( 0.418988, 0.0505602, -0.906583, -0.0111207, 0.998659, 0.0505557, 0.907924, -0.0111003, 0.418988, 0.0114873, 1.25175, 0.0152833 )
 bone_name = "hips"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/Pelvis"]
@@ -3202,7 +3202,7 @@ update_rotation = false
 update_scale = false
 
 [node name="Skull" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.831459, -0.506215, -0.228959, 0.324748, 0.777187, -0.538999, 0.450793, 0.373802, 0.81059, -0.11133, 1.92412, 0.0555463 )
+transform = Transform( 0.82196, -0.522997, -0.225512, 0.366216, 0.78857, -0.494008, 0.436196, 0.323469, 0.839702, -0.115914, 1.944, 0.0511001 )
 bone_name = "head"
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/Skull"]
@@ -3250,23 +3250,23 @@ parameters/sprint/blend_position = Vector2( 0, 0 )
 script = ExtResource( 4 )
 
 [node name="BodyHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.999982, -1.49012e-08, -1.33227e-14, 0, -4.37104e-08, 0.999983, -1.49012e-08, -0.999982, -4.37108e-08, 0.0453545, 0.937365, -0.0349774 )
+transform = Transform( 0.999982, -1.49012e-08, -1.33227e-14, 0, -4.37104e-08, 0.999983, -1.49012e-08, -0.999982, -4.37108e-08, 0.0272236, 0.951231, -0.0140517 )
 shape = SubResource( 47 )
 script = ExtResource( 9 )
 _top_node_path = NodePath("../Skeleton/Skull")
 _bottom_node_path = NodePath("..")
+_transform_parent_path = NodePath("../Skeleton/Pelvis/RemoteTransform")
 
 [node name="HeadHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.831459, -0.506215, -0.228959, 0.324748, 0.777187, -0.538999, 0.450793, 0.373802, 0.81059, -0.161284, 1.9941, 0.114835 )
+transform = Transform( 0.82196, -0.522997, -0.225513, 0.366216, 0.78857, -0.494008, 0.436196, 0.323469, 0.839702, -0.167577, 2.01645, 0.105781 )
 shape = SubResource( 48 )
 disabled = true
 
 [node name="Body" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11133, 1.92412, 0.0555463 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.115914, 1.944, 0.0511001 )
 script = ExtResource( 5 )
 max_pitch = 0.0
 min_pitch = 0.0
-fallback_node_path = NodePath("..")
 
 [node name="spine" type="Node" parent="Body"]
 script = ExtResource( 6 )
@@ -3275,7 +3275,6 @@ _skeleton_path = NodePath("../../Skeleton")
 [node name="Head" type="Position3D" parent="Body"]
 transform = Transform( 0.989491, 0.0252294, -0.144005, -0.000770456, 0.988912, 0.167463, 0.146893, -0.165555, 0.978389, 0, 0, 0 )
 script = ExtResource( 5 )
-fallback_node_path = NodePath("../../Body\\")
 
 [node name="CameraTarget" type="Camera" parent="Body/Head"]
 transform = Transform( -0.999999, 0.000248566, -0.00130607, 0.000248486, 1, 5.9803e-05, 0.00130607, 5.94957e-05, -0.999999, 0, 0, 0 )

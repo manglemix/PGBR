@@ -50,7 +50,6 @@ func equip_node(node, try_assert:=false) -> bool:
 	main_hand.add_child(self)
 	_raycast.clear_exceptions()
 	_raycast.add_exception(_player)
-#	main_hand.start()
 	transform = Transform.IDENTITY
 	
 	for handle in _handles:

@@ -1,3 +1,4 @@
+# Enforces rotation limits, applies excess rotation onto the parent, and can be made to target a global position
 class_name PivotPoint
 extends Spatial
 
@@ -6,14 +7,13 @@ export var max_pitch := 70.0
 export var min_pitch := - 70.0
 export var max_yaw := 45.0
 export var min_yaw := -45.0
-export var limit_pitch := true
+export var limit_pitch := true		# if true, excess rotation in this axis will not be applied to the parent
 export var limit_yaw := false
-export var turn_speed := 6.0
-export var fallback_node_path: NodePath # This is the node where extra rotation is applied to
+export var turn_speed := 6.0		# used for interpolating to the target orientation
 
 var _target_transform: Transform
 
-onready var _initial_transform := transform
+onready var _initial_transform := transform		# the initial orientation will become the zero point
 
 
 func _ready():
@@ -26,6 +26,7 @@ func biaxial_rotate(x: float, y: float) -> void:
 
 
 func limit_axes() -> void:
+	# find the transform relative to the _initial_transform
 	var final_transform := transform * _initial_transform.affine_inverse()
 	var euler_rotation := final_transform.basis.get_euler()
 	euler_rotation = Vector3(rad2deg(euler_rotation.x),
@@ -56,8 +57,6 @@ func limit_axes() -> void:
 			get_parent().global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - min_pitch))
 		
 		rotate_object_local(Vector3.RIGHT, deg2rad(min_pitch - euler_rotation.x))
-	
-	
 
 
 func turn_to_vector(position: Vector3):
