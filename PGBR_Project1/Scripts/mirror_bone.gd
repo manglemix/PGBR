@@ -7,8 +7,16 @@ export var _skeleton_path: NodePath
 export var bone_name: String
 export var ignore_origin := true
 
+var bone_idx: int
+
 onready var _skeleton := get_node(_skeleton_path) as Skeleton
-onready var bone_idx := _skeleton.find_bone(bone_name) as int
+
+
+func _ready():
+	if bone_name.empty():
+		bone_idx = _skeleton.find_bone(name)
+	else:
+		bone_idx = _skeleton.find_bone(bone_name)
 
 
 func _process(_delta):
