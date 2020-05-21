@@ -4,14 +4,14 @@ extends Node
 
 
 export var group_name := "frustum_cull"		# the name of the group in which nodes will be hidden when out of view
-export var buffer := 20.0 			# the extra pixels from the screen edge at which objects will be hidden
-export var min_distance := 10.0
-export var max_distance := 20.0
-export var update_msecs := 42		# the length of a frame, in which frustum culling is done (the default value is for 24 fps)
+export var buffer := 20.0 					# the extra pixels from the screen edge at which objects will be hidden
+export var min_distance := 10.0				# nodes closer than this will always be visible
+export var max_distance := 20.0				# nodes furhter than this will always be hidden
+export var update_msecs := 42		# the duration of a frame, in which frustum culling is done (the default value is for 24 fps)
 
 var _thr := Thread.new()
 
-onready var screen_size := get_viewport().size
+onready var _screen_size := get_viewport().size
 
 
 func _ready():
@@ -33,7 +33,7 @@ func cull(userdata):
 			
 			else:
 				var point := camera.unproject_position(node.global_transform.origin)
-				if point.x < - buffer or point.y < - buffer or point.x > screen_size.x + buffer or point.y > screen_size.y + buffer:
+				if point.x < - buffer or point.y < - buffer or point.x > _screen_size.x + buffer or point.y > _screen_size.y + buffer:
 					node.hide()
 				
 				else:
