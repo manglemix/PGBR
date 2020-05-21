@@ -10,6 +10,7 @@ export var min_yaw := -45.0
 export var limit_pitch := true		# if true, excess rotation in this axis will not be applied to the parent
 export var limit_yaw := false
 export var turn_speed := 6.0		# used for interpolating to the target orientation
+export var sticky_parent := false	# if true, the parent will always try to turn to its zero point
 
 var _target_transform: Transform
 
@@ -25,10 +26,46 @@ func biaxial_rotate(x: float, y: float) -> void:
 	rotate_object_local(Vector3.RIGHT, x)
 
 
-func limit_axes() -> void:
-	# find the transform relative to the _initial_transform
-	var final_transform := transform * _initial_transform.affine_inverse()
-	var euler_rotation := final_transform.basis.get_euler()
+func turn_to_vector(rel_vec: Vector3):
+	global_turn_to_vector(rel_vec + global_transform.origin)
+
+
+func global_turn_to_vector(position: Vector3):
+	_target_transform = global_transform.looking_at(position, get_parent().global_transform.basis.y)
+	set_process(true)
+
+
+func get_final_transform() -> Transform:
+	# finds the transform relative to the _initial_transform
+	return transform * _initial_transform.affine_inverse()
+
+
+func _process(delta):
+	_target_transform.origin = global_transform.origin
+	global_transform = global_transform.interpolate_with(_target_transform, turn_speed * delta)
+
+	if global_transform.basis.tdotz(_target_transform.basis.z) >= 0.99:
+		set_process(false)
+
+
+func _physics_process(delta):
+	if sticky_parent:
+		var parent_transform: Transform
+		if get_parent().has_method("get_final_transform"):
+			parent_transform = get_parent().get_final_transform()
+		
+		else:
+			parent_transform = get_parent().transform
+		
+		var euler_rotation := parent_transform.basis.get_euler()
+		
+		# we do it this way instead of using biaxial_rotate just in case the parent is not a PivotPoint
+		get_parent().global_rotate(get_parent().get_parent().global_transform.basis.y, - euler_rotation.y)
+		get_parent().rotate_object_local(Vector3.RIGHT, - euler_rotation.x)
+		
+		biaxial_rotate(euler_rotation.x, euler_rotation.y)
+	
+	var euler_rotation := get_final_transform().basis.get_euler()
 	euler_rotation = Vector3(rad2deg(euler_rotation.x),
 							rad2deg(euler_rotation.y),
 							rad2deg(euler_rotation.z)
@@ -57,20 +94,3 @@ func limit_axes() -> void:
 			get_parent().global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - min_pitch))
 		
 		rotate_object_local(Vector3.RIGHT, deg2rad(min_pitch - euler_rotation.x))
-
-
-func turn_to_vector(position: Vector3):
-	_target_transform = global_transform.looking_at(position, get_parent().global_transform.basis.y)
-	set_process(true)
-
-
-func _process(delta):
-	_target_transform.origin = global_transform.origin
-	global_transform = global_transform.interpolate_with(_target_transform, turn_speed * delta)
-
-	if global_transform.basis.tdotz(_target_transform.basis.z) >= 0.99:
-		set_process(false)
-
-
-func _physics_process(delta):
-	limit_axes()
