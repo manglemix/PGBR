@@ -39,10 +39,15 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
+"base": "VisibilityNotifier",
+"class": "ChunkHider",
+"language": "GDScript",
+"path": "res://scenictools/chunk_hider.gd"
+}, {
 "base": "Reference",
 "class": "FrustumCuller",
 "language": "GDScript",
-"path": "res://Scripts/frustum_culler.gd"
+"path": "res://scenictools/frustum_culler.gd"
 }, {
 "base": "Control",
 "class": "HealthBar",
@@ -126,6 +131,7 @@ _global_script_class_icons={
 "BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
+"ChunkHider": "",
 "FrustumCuller": "",
 "HealthBar": "",
 "HostilesEnvironment": "",

@@ -31,6 +31,9 @@ func cull(userdata):
 			elif distance > max_distance:
 				node.hide()
 			
+			elif camera.is_position_behind(node.global_transform.origin):
+				node.hide()
+			
 			else:
 				var point := camera.unproject_position(node.global_transform.origin)
 				if point.x < - buffer or point.y < - buffer or point.x > _screen_size.x + buffer or point.y > _screen_size.y + buffer:
