@@ -8,10 +8,12 @@ export(Array, NodePath) var extra_handles := []
 var _player
 var _handles := {}
 var _raycast: RayCast
+var _raycast_initial_transform: Transform
 
 
 func _ready():
 	_raycast = get_node(raycast_path)
+	_raycast_initial_transform = _raycast.transform
 	set_distance(1000)
 	
 	for path in extra_handles:
@@ -65,8 +67,8 @@ func set_distance(distance: float):
 
 
 func aim_towards(target: Vector3):
-	get_parent().look_at(target, Vector3.UP)
-	get_parent().rotate_object_local(Vector3.UP, PI)
+	_raycast.look_at(target, Vector3.UP)
+	get_parent().transform *= _raycast.transform * _raycast_initial_transform.affine_inverse()
 	for handle in _handles:
 		_handles[handle].global_transform = handle.global_transform
 
