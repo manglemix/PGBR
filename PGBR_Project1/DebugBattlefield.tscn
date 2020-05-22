@@ -40,7 +40,7 @@ shape = SubResource( 1 )
 [node name="Tom" parent="Draft" groups=[
 "Friendly",
 ] instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.2545, -18.7272 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.39785, -18.7272 )
 
 [node name="Deagle" parent="Draft/Tom" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.984784, 8.0617, 20.8112 )
