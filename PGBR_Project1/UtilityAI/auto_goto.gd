@@ -25,6 +25,10 @@ func _ready():
 	set_path(destination, _optimize)
 
 
+func _exit_tree():
+	get_parent().stop_moving()
+
+
 func set_enabled(value: bool):
 	enabled = value
 	set_process(value)
