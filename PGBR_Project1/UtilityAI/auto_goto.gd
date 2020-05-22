@@ -13,7 +13,7 @@ export var safe_distance := 0.5
 
 var _path: PoolVector3Array
 var _optimize := true
-onready var _navigation := get_tree().get_current_scene().get_node("Navigation") as Navigation
+onready var _navigation := get_tree().get_current_scene().get_navigation(self) as Navigation
 
 
 func _init(to: Vector3, optimize:=true):
