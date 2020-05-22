@@ -71,6 +71,10 @@ func aim_towards(target: Vector3):
 		_handles[handle].global_transform = handle.global_transform
 
 
+func get_collider():
+	return _raycast.get_collider()
+
+
 func shoot():
 	var node = _raycast.get_collider()
 	
