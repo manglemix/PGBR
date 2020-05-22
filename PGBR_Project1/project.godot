@@ -159,6 +159,7 @@ run/main_scene="res://DebugBattlefield.tscn"
 
 Debug="*res://debugtools/Debug.gd"
 GlobalEnums="*res://Scripts/global_enums.gd"
+Director="*res://scenictools/director.gd"
 
 [config]
 

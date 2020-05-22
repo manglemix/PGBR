@@ -30,6 +30,8 @@ export var acceleration := 6.0			# used for interpolating the Person's speed to 
 export var jump_speed := 10.0			# the vertical speed given to the person when they jump
 export var turn_speed := 10.0			# used for interpolating turns
 
+export var user_input := false setget set_user_input
+
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
 var sprinting := false						# to be read but not modified
@@ -45,6 +47,7 @@ var charging_jump := false					# if true, the Person will try to charge up its j
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 
 var head: PivotPoint
+var camera: Camera
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
@@ -82,13 +85,26 @@ func set_crouch(value: bool):
 	crouching = value
 
 
+func set_user_input(value: bool):
+	if value:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	set_process(value)
+	set_process_input(value)
+
+
 func _ready():
 	for path in hand_paths:
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
 	head = find_node("Head")
+	camera = head.get_node("Camera")
 	assert(is_instance_valid(head))
+	assert(is_instance_valid(camera))
+	set_user_input(user_input)
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
@@ -197,6 +213,103 @@ func kill(code) -> void:
 	
 	emit_signal("died", code)
 	queue_free()
+
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		if Director.invert_y:
+			event.relative.y *= -1
+
+		head.biaxial_rotate(event.relative.y * Director.mouse_sensitivity, - event.relative.x * Director.mouse_sensitivity)
+
+	# this alerts the player to charge the jump
+	if event.is_action_pressed("jump"):
+		charge_jump()
+
+	# once the spacebar is released, and a jump was charging, then the player will jump
+	elif event.is_action_released("jump") and charging_jump:
+		jump()
+
+	if event.is_action_pressed("crouch"):
+		crouching = not crouching
+		set_crouch(crouching)
+
+	if event.is_action_pressed("change viewpoint"):
+		head.get_node("Camera").increment_transform()
+
+#	if event.is_action_pressed("aim"):
+#		if not guns.empty():
+#			var scope = guns[0].get_node_or_null("Scope")
+
+#			if is_instance_valid(scope):
+#				project_raycast()
+#				var target := get_collision_point()
+#				fully_face_target(target)
+#
+#				if is_instance_valid(_scope_transition):
+#					_scope_transition.target = scope
+#					_scope_transition.disconnect("reached_target", self, "set_current")
+#					_scope_transition.disconnect("reached_target", _scope_transition, "queue_free")
+#
+#				else:
+#					_scope_transition = TargetedCamera.new(scope)
+#					scope.add_child(_scope_transition)
+#					_scope_transition.global_transform = global_transform
+#					_scope_transition.current = true
+#					global_transform = scope.global_transform
+#
+#	elif event.is_action_released("aim"):
+#		if is_instance_valid(_scope_transition):
+#			global_transform = _target_node.global_transform
+#			_scope_transition.target = self
+#			_scope_transition.connect("reached_target", self, "set_current", [true])
+#			_scope_transition.connect("reached_target", _scope_transition, "queue_free")
+
+
+func _process(delta):
+	var movement_vector := Vector3.ZERO
+	if Input.is_action_pressed("forward"):
+		movement_vector += head.global_transform.basis.z
+	
+	if Input.is_action_pressed("backward"):
+		movement_vector -= head.global_transform.basis.z
+	
+	if Input.is_action_pressed("right"):
+		movement_vector -= head.global_transform.basis.x
+	
+	if Input.is_action_pressed("left"):
+		movement_vector += head.global_transform.basis.x
+	
+	if is_zero_approx(movement_vector.length_squared()):
+		stop_moving()
+		
+	else:
+		# To make the player look less wonky while moving, the body of the player is turned to face-
+		# the head direction when moving
+		turn_to_vector(head.global_transform.basis.z)
+		
+		var speed: float
+		if Input.is_action_pressed("sprint"):
+			speed = Speeds.SPRINT
+		elif Input.is_action_pressed("crouch"):
+			# TODO add crouch mechanic
+			speed = Speeds.WALK
+		else:
+			speed = Speeds.RUN
+		
+		move_to_vector(movement_vector, speed)
+	
+	if Input.is_action_pressed("shoot"):
+		# casts the raycast node towards the crosshair (centre of screen)
+		turn_to_vector(head.global_transform.basis.z)
+		
+		var raycast := Director.camera_raycast(camera)
+		if raycast.empty():
+			aim_guns(- camera.global_transform.basis.z * camera.far + camera.global_transform.origin)
+		else:
+			aim_guns(raycast["position"])
+		
+		shoot_guns()
 
 
 func _physics_process(delta):
