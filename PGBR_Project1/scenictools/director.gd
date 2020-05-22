@@ -20,3 +20,12 @@ func camera_raycast(camera: Camera, distance := 0.0, exclude := [], screen_point
 		distance = camera.far
 	
 	return get_viewport().world.direct_space_state.intersect_ray(camera.global_transform.origin, camera.project_position(screen_point, distance), exclude)
+
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()
+	
+	if event.is_action_pressed("debug"):
+		print(Debug.enabled)
+		Debug.enabled = not Debug.enabled

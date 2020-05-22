@@ -20,7 +20,6 @@ polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 2, 1, 3 ), PoolIntArray( 3, 
 
 [node name="Draft" type="Spatial"]
 script = ExtResource( 1 )
-enable_debug = true
 player_path = NodePath("Tom")
 
 [node name="HUD" parent="." instance=ExtResource( 5 )]

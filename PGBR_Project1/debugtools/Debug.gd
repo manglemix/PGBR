@@ -15,6 +15,8 @@ func set_enabled(value: bool):
 		else:
 			node.hide()
 	enabled = value
+	set_process(value)
+	update()
 
 
 func append_textboxes(textbox: RichTextLabel):
@@ -89,5 +91,4 @@ func _draw():
 
 
 func _process(_delta):
-	if enabled:
-		update()
+	update()
