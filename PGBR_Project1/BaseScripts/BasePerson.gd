@@ -217,10 +217,10 @@ func kill(code) -> void:
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		if Director.invert_y:
+		if get_tree().get_current_scene().invert_y:
 			event.relative.y *= -1
 
-		head.biaxial_rotate(event.relative.y * Director.mouse_sensitivity, - event.relative.x * Director.mouse_sensitivity)
+		head.biaxial_rotate(event.relative.y * get_tree().get_current_scene().mouse_sensitivity, - event.relative.x * get_tree().get_current_scene().mouse_sensitivity)
 
 	# this alerts the player to charge the jump
 	if event.is_action_pressed("jump"):
@@ -303,7 +303,7 @@ func _process(delta):
 		# casts the raycast node towards the crosshair (centre of screen)
 		turn_to_vector(head.global_transform.basis.z)
 		
-		var raycast := Director.camera_raycast(camera)
+		var raycast := get_tree().get_current_scene().camera_raycast(camera) as Dictionary
 		if raycast.empty():
 			aim_guns(- camera.global_transform.basis.z * camera.far + camera.global_transform.origin)
 		else:
