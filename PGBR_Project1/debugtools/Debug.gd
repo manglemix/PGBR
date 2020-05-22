@@ -1,7 +1,7 @@
 extends Control
 
 
-var enabled := true setget set_enabled
+var enabled := false setget set_enabled
 
 var _textboxes := []
 var _queued_points := {}
@@ -14,6 +14,7 @@ func set_enabled(value: bool):
 			node.show()
 		else:
 			node.hide()
+	
 	enabled = value
 	set_process(value)
 	update()
