@@ -69,6 +69,7 @@ func set_distance(distance: float):
 func aim_towards(target: Vector3):
 	_raycast.look_at(target, Vector3.UP)
 	get_parent().transform *= _raycast.transform * _raycast_initial_transform.affine_inverse()
+	_raycast.transform = _raycast_initial_transform
 	for handle in _handles:
 		_handles[handle].global_transform = handle.global_transform
 
