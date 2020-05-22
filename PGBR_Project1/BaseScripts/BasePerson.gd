@@ -237,33 +237,11 @@ func _input(event):
 	if event.is_action_pressed("change viewpoint"):
 		head.get_node("Camera").increment_transform()
 
-#	if event.is_action_pressed("aim"):
-#		if not guns.empty():
-#			var scope = guns[0].get_node_or_null("Scope")
+	if event.is_action_pressed("aim"):
+		guns[0].find_node("Scope").current = true
 
-#			if is_instance_valid(scope):
-#				project_raycast()
-#				var target := get_collision_point()
-#				fully_face_target(target)
-#
-#				if is_instance_valid(_scope_transition):
-#					_scope_transition.target = scope
-#					_scope_transition.disconnect("reached_target", self, "set_current")
-#					_scope_transition.disconnect("reached_target", _scope_transition, "queue_free")
-#
-#				else:
-#					_scope_transition = TargetedCamera.new(scope)
-#					scope.add_child(_scope_transition)
-#					_scope_transition.global_transform = global_transform
-#					_scope_transition.current = true
-#					global_transform = scope.global_transform
-#
-#	elif event.is_action_released("aim"):
-#		if is_instance_valid(_scope_transition):
-#			global_transform = _target_node.global_transform
-#			_scope_transition.target = self
-#			_scope_transition.connect("reached_target", self, "set_current", [true])
-#			_scope_transition.connect("reached_target", _scope_transition, "queue_free")
+	elif event.is_action_released("aim"):
+		camera.current = true
 
 
 func _process(delta):
@@ -299,17 +277,17 @@ func _process(delta):
 		
 		move_to_vector(movement_vector, speed)
 	
-	if Input.is_action_pressed("shoot"):
-		# casts the raycast node towards the crosshair (centre of screen)
+	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
 		turn_to_vector(head.global_transform.basis.z)
 		
-		var raycast := get_tree().get_current_scene().camera_raycast(camera) as Dictionary
-		if raycast.empty():
-			aim_guns(- camera.global_transform.basis.z * camera.far + camera.global_transform.origin)
-		else:
-			aim_guns(raycast["position"])
+		if not Input.is_action_pressed("aim"):
+			var raycast := get_tree().get_current_scene().camera_raycast(camera) as Dictionary
+			
+			if not raycast.empty():
+				aim_guns(raycast["position"])
 		
-		shoot_guns()
+		if Input.is_action_pressed("shoot"):
+			shoot_guns()
 
 
 func _physics_process(delta):

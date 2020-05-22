@@ -37,11 +37,15 @@ func get_navigation(node: Node) -> Navigation:
 	return get_branch(node).get_node("Navigation") as Navigation
 
 
-func camera_raycast(camera: Camera, distance := 0.0, exclude := [], screen_point := get_viewport().size / 2) -> Dictionary:
+func camera_raycast(camera: Camera, distance:= 0.0, exclude:= [], screen_point:= get_viewport().size / 2) -> Dictionary:
 	if is_zero_approx(distance):
 		distance = camera.far
 	
 	return get_viewport().world.direct_space_state.intersect_ray(camera.global_transform.origin, camera.project_position(screen_point, distance), exclude)
+
+
+func current_camera_raycast(distance:=0.0, exclude:=[], screen_point:= get_viewport().size / 2) -> Dictionary:
+	return camera_raycast(get_viewport().get_camera(), distance, exclude, screen_point)
 
 
 func _input(event):
