@@ -20,6 +20,7 @@ func set_player(node: Spatial):
 		player.user_input = false
 	
 	player = node
+	$HUD.set_player(player)
 	
 	if is_instance_valid(player):
 		player.user_input = true
