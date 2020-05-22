@@ -69,7 +69,6 @@ func _process(_delta):
 			_path[0] = _navigation.get_closest_point(_path[0] + ((_path[0] - get_parent().global_transform.origin).normalized() + (_path[0] - _path[1]).normalized()) * safe_distance)
 	
 	get_parent().global_move_to_vector(_path[0])
-	get_parent().fully_face_target(_path[0])
 	
 	if Debug.enabled:
 		var debug_path := _path
