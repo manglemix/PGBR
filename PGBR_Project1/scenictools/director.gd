@@ -1,18 +1,39 @@
 # A streamlined way to manage scenes, multiple cameras, and user input
+class_name Director
 extends Node
 
 
-var invert_y := false
-var mouse_sensitivity := 0.001
-var player: Node setget set_player
+
+export var _player_path: NodePath
+export var invert_y := false
+export var mouse_sensitivity := 0.001
+
+var player: Spatial setget set_player
 
 
-func set_player(node: Node):
+func _ready():
+	set_player(get_node_or_null(_player_path))
+
+
+func set_player(node: Spatial):
 	if is_instance_valid(player):
 		player.user_input = false
 	
 	player = node
-	player.user_input = true
+	
+	if is_instance_valid(player):
+		player.user_input = true
+
+
+func get_branch(node: Node) -> Node:
+	for child in get_children():
+		if child.is_a_parent_of(node):
+			return child
+	return null
+
+
+func get_navigation(node: Node) -> Navigation:
+	return get_branch(node).get_node("Navigation") as Navigation
 
 
 func camera_raycast(camera: Camera, distance := 0.0, exclude := [], screen_point := get_viewport().size / 2) -> Dictionary:

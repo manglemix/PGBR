@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenictools/chunk_hider.gd"
 }, {
+"base": "Node",
+"class": "Director",
+"language": "GDScript",
+"path": "res://scenictools/director.gd"
+}, {
 "base": "Reference",
 "class": "FrustumCuller",
 "language": "GDScript",
@@ -132,6 +137,7 @@ _global_script_class_icons={
 "BaseGun": "",
 "BasePerson": "",
 "ChunkHider": "",
+"Director": "",
 "FrustumCuller": "",
 "HealthBar": "",
 "HostilesEnvironment": "",
@@ -159,7 +165,6 @@ run/main_scene="res://DebugBattlefield.tscn"
 
 Debug="*res://debugtools/Debug.gd"
 GlobalEnums="*res://Scripts/global_enums.gd"
-Director="*res://scenictools/director.gd"
 
 [config]
 
