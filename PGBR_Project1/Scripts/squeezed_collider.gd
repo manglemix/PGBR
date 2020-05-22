@@ -1,4 +1,5 @@
 # this fits a capsule collider between the parent's origin and the top node's origin
+tool
 class_name SqueezedCollider
 extends CollisionShape
 
