@@ -5,7 +5,8 @@ extends State
 export(Curve) var value_curve
 export var max_distance := 50.0
 
-var _target
+var _target: Spatial
+var _goto: AutoGoto
 
 
 func get_score(employee: BasePerson) -> float:
@@ -41,28 +42,23 @@ func get_state(_employee):
 
 
 func _process(_delta):
-	var goto = get_parent().get_node_or_null("Goto") as AutoGoto
-	
 	if not is_instance_valid(_target):
 		queue_free()
-		if is_instance_valid(goto):
-			goto.queue_free()
 		return
 	
-	get_parent().fully_face_target(_target.get_node("Body").global_transform.origin)
+	get_parent().fully_face_target(_target.get_node("BodyHitbox").global_transform.origin)
 	
 	if get_parent().guns[0].get_collider() == _target:
 		get_parent().shoot_guns()
 		
-		if is_instance_valid(goto):
-			goto.queue_free()
+		if is_instance_valid(_goto):
+			_goto.queue_free()
 	
-	elif is_instance_valid(goto):
-		goto.set_path(_target.global_transform.origin)
+	elif is_instance_valid(_goto):
+		_goto.set_path(_target.global_transform.origin)
 	
 	else:
-		goto = AutoGoto.new(_target.global_transform.origin)
-		goto.turn_head = false
-		goto.connect("destination_reached", goto, "queue_free")
-		goto.name = "Goto"
-		get_parent().add_child(goto)
+		_goto = AutoGoto.new(_target.global_transform.origin)
+		_goto.turn_head = false
+		_goto.connect("destination_reached", _goto, "queue_free")
+		get_parent().add_child(_goto)
