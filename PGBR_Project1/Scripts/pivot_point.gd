@@ -33,7 +33,7 @@ func turn_to_vector(rel_vec: Vector3):
 
 
 func global_turn_to_vector(position: Vector3):
-	_target_transform = global_transform.looking_at(position, fallback_node.global_transform.basis.y)
+	_target_transform = global_transform.looking_at(position, fallback_node.global_transform.basis.y).rotated(fallback_node.global_transform.basis.y, PI)
 	set_process(true)
 
 
