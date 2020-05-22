@@ -27,5 +27,4 @@ func _input(event):
 		get_tree().quit()
 	
 	if event.is_action_pressed("debug"):
-		print(Debug.enabled)
 		Debug.enabled = not Debug.enabled
