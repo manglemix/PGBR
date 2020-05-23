@@ -49,6 +49,7 @@ var floor_collision: KinematicCollision		# holds information about the floor col
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
+var _branch: Node
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
@@ -105,6 +106,10 @@ func _ready():
 	assert(is_instance_valid(head))
 	assert(is_instance_valid(camera))
 	set_user_input(user_input)
+
+
+func _enter_tree():
+	_branch = get_tree().get_current_scene().get_branch(self)
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
@@ -224,6 +229,10 @@ func _input(event):
 
 	# this alerts the player to charge the jump
 	if event.is_action_pressed("jump"):
+		for pad in _branch.jump_pads:
+			if self in pad.get_overlapping_bodies():
+				pad.jump(self)
+				return
 		charge_jump()
 
 	# once the spacebar is released, and a jump was charging, then the player will jump

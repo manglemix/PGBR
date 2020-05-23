@@ -15,7 +15,6 @@ onready var bottom_node := get_node(_bottom_node_path)
 
 
 func _ready():
-	assert(shape is CapsuleShape)
 	if _transform_parent_path.is_empty():
 		transform_parent = self
 	else:
@@ -24,5 +23,5 @@ func _ready():
 
 func _process(_delta):
 	# the radius remains constant, but the height and the vertical position will change to stay between the top node and bottom node
-	shape.height = top_node.global_transform.origin.y - bottom_node.global_transform.origin.y - 2 * shape.radius
-	transform_parent.global_transform.origin.y = bottom_node.global_transform.origin.y + shape.height / 2 + shape.radius
+	shape.height = top_node.global_transform.origin.y - bottom_node.global_transform.origin.y
+	transform_parent.global_transform.origin.y = bottom_node.global_transform.origin.y + shape.height / 2
