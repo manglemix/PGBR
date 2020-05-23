@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UtilityAI/auto_goto.gd"
 }, {
-"base": "Camera",
-"class": "BaseCamera",
-"language": "GDScript",
-"path": "res://BaseScripts/BaseCamera.gd"
-}, {
 "base": "Spatial",
 "class": "BaseGun",
 "language": "GDScript",
@@ -138,7 +133,6 @@ _global_script_class_icons={
 "Animator": "",
 "Attack": "",
 "AutoGoto": "",
-"BaseCamera": "",
 "BaseGun": "",
 "BasePerson": "",
 "ChunkHider": "",
