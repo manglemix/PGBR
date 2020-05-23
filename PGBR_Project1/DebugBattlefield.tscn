@@ -26,6 +26,8 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Ve
 script = ExtResource( 3 )
 _player_path = NodePath("Draft/Tom")
 
+[node name="HUD" parent="." instance=ExtResource( 5 )]
+
 [node name="Draft" type="Spatial" parent="."]
 
 [node name="TerrainCollider" type="StaticBody" parent="Draft"]
@@ -73,11 +75,9 @@ script = ExtResource( 10 )
 script = ExtResource( 1 )
 value_curve = SubResource( 3 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 8 )
-
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, -0.646737, 0.762713, 0, -0.762713, -0.646737, 0, 18.6483, 0 )
 shadow_enabled = true
 
-[node name="HUD" parent="." instance=ExtResource( 5 )]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 8 )

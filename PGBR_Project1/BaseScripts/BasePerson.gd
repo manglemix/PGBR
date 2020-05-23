@@ -46,8 +46,6 @@ var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 
-var head: PivotPoint
-var camera: Camera
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
@@ -56,6 +54,10 @@ var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
+
+onready var head := find_node("Head") as PivotPoint
+onready var camera := head.get_node("Camera") as Camera
+onready var _director := get_tree().get_current_scene() as Node
 
 
 # getters and setters
@@ -100,8 +102,6 @@ func _ready():
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
-	head = find_node("Head")
-	camera = head.get_node("Camera")
 	assert(is_instance_valid(head))
 	assert(is_instance_valid(camera))
 	set_user_input(user_input)
@@ -182,12 +182,12 @@ func return_hand(hand):
 	hands[hand] = false
 
 
-func shoot_guns() -> void:
-	emit_signal("shoot")
-
-
 func aim_guns(position: Vector3) -> void:
 	emit_signal("aim", position)
+
+
+func shoot_guns() -> void:
+	emit_signal("shoot")
 
 
 func fully_face_target(target: Vector3) -> void:
@@ -217,10 +217,10 @@ func kill(code) -> void:
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		if get_tree().get_current_scene().invert_y:
+		if _director.invert_y:
 			event.relative.y *= -1
-
-		head.biaxial_rotate(event.relative.y * get_tree().get_current_scene().mouse_sensitivity, - event.relative.x * get_tree().get_current_scene().mouse_sensitivity)
+		
+		head.biaxial_rotate(event.relative.y * _director.mouse_sensitivity, - event.relative.x * _director.mouse_sensitivity)
 
 	# this alerts the player to charge the jump
 	if event.is_action_pressed("jump"):
@@ -238,10 +238,10 @@ func _input(event):
 		head.get_node("Camera").increment_transform()
 
 	if event.is_action_pressed("aim"):
-		guns[0].find_node("Scope").current = true
+		_director.mouse_sensitivity /= 1.5
 
 	elif event.is_action_released("aim"):
-		camera.current = true
+		_director.mouse_sensitivity *= 1.5
 
 
 func _process(delta):
@@ -278,13 +278,16 @@ func _process(delta):
 		move_to_vector(movement_vector, speed)
 	
 	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
-		turn_to_vector(head.global_transform.basis.z)
+		var raycast := _director.camera_raycast(camera) as Dictionary
+		var target: Vector3
 		
-		if not Input.is_action_pressed("aim"):
-			var raycast := get_tree().get_current_scene().camera_raycast(camera) as Dictionary
-			
-			if not raycast.empty():
-				aim_guns(raycast["position"])
+		if raycast.empty():
+			target = - camera.global_transform.basis.z * camera.far + camera.global_transform.origin
+		else:
+			target = raycast["position"]
+		
+		global_turn_to_vector(target)
+		aim_guns(target)
 		
 		if Input.is_action_pressed("shoot"):
 			shoot_guns()

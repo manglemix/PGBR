@@ -3011,18 +3011,18 @@ nodes/speed/node = SubResource( 42 )
 nodes/speed/position = Vector2( 0, 100 )
 nodes/sprint/node = SubResource( 47 )
 nodes/sprint/position = Vector2( -200, 380 )
-node_connections = [ "seek", 0, "custom_anim", "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "custom", 0, "falling", "custom", 1, "seek", "falling", 0, "idle", "falling", 1, "Animation 3", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2" ]
+node_connections = [ "seek", 0, "custom_anim", "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "falling", 0, "idle", "falling", 1, "Animation 3", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "custom", 0, "falling", "custom", 1, "seek" ]
 
 [sub_resource type="CapsuleShape" id=49]
 radius = 0.35
-height = 1.24238
+height = 1.24502
 
 [sub_resource type="SphereShape" id=50]
 radius = 0.148673
 
 [node name="Tom" type="KinematicBody"]
 script = ExtResource( 2 )
-hand_paths = [ NodePath("Body/Head/RightHand"), NodePath("Body/Head/LeftHand") ]
+hand_paths = [ NodePath("Body/RightShoulder/RightHand"), NodePath("Body/LeftShoulder/LeftHand") ]
 
 [node name="Skeleton" type="Skeleton" parent="."]
 bones/0/name = "hips"
@@ -3039,7 +3039,7 @@ bones/2/name = "spine_1"
 bones/2/parent = 1
 bones/2/rest = Transform( 0.999456, 0.0239986, 0.0226036, -0.0206946, 0.990423, -0.136503, -0.025663, 0.135961, 0.990382, -1.86265e-09, 0.140493, -3.72529e-09 )
 bones/2/enabled = true
-bones/2/bound_children = [ NodePath("BodyBone") ]
+bones/2/bound_children = [  ]
 bones/3/name = "spine_2"
 bones/3/parent = 2
 bones/3/rest = Transform( 0.995959, 0.0223419, -0.0869869, -0.0330428, 0.991783, -0.123593, 0.0835108, 0.125968, 0.988513, -1.86265e-09, 0.160564, 0 )
@@ -3054,12 +3054,12 @@ bones/5/name = "head"
 bones/5/parent = 4
 bones/5/rest = Transform( 0.0917712, 0.118079, -0.988754, -0.0286329, 0.992847, 0.11591, 0.995368, 0.0176737, 0.0944957, 0, 0.110642, 0.0243249 )
 bones/5/enabled = true
-bones/5/bound_children = [ NodePath("Skull") ]
+bones/5/bound_children = [  ]
 bones/6/name = "head_top_end"
 bones/6/parent = 5
 bones/6/rest = Transform( 1, 0, 0, 0, 1, 2.67134e-08, 0, -2.67134e-08, 1, 1.86265e-09, 0.272403, 0.0598881 )
 bones/6/enabled = true
-bones/6/bound_children = [ NodePath("Hat") ]
+bones/6/bound_children = [  ]
 bones/7/name = "neck_2"
 bones/7/parent = 4
 bones/7/rest = Transform( 0.953862, -0.0640695, -0.293331, 0.276664, -0.191977, 0.941595, -0.11664, -0.979306, -0.165394, -0.0041725, 0.217872, -0.0945118 )
@@ -3182,7 +3182,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="Hat" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.828773, -0.499297, -0.252659, 0.333653, 0.803393, -0.49319, 0.449232, 0.324442, 0.832422, -0.272117, 2.13398, 0.203243 )
+transform = Transform( 0.85114, -0.47157, -0.230612, 0.303793, 0.800766, -0.516221, 0.428099, 0.369318, 0.824824, -0.265998, 2.1315, 0.216361 )
 bone_name = "head_top_end"
 
 [node name="fedora" type="MeshInstance" parent="Skeleton/Hat"]
@@ -3191,7 +3191,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="BodyBone" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.521083, -0.178912, -0.834544, 0.0316955, 0.981164, -0.190555, 0.852917, 0.0728438, 0.516939, 0.00589093, 1.51394, 0.0158531 )
+transform = Transform( 0.588384, -0.152264, -0.794116, 0.0102763, 0.983438, -0.180951, 0.808515, 0.0983084, 0.580205, -0.0114839, 1.51192, 5.55636e-05 )
 bone_name = "spine_1"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/BodyBone"]
@@ -3200,13 +3200,13 @@ update_rotation = false
 update_scale = false
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/BodyBone"]
-transform = Transform( 1.00228, 4.17978e-06, 8.18968e-05, 3.72529e-08, 1.00355, -0.00024059, -0.000351965, -6.29574e-07, 1.00207, -0.00482745, -0.531247, 0.101577 )
+transform = Transform( 1.00707, 6.42985e-06, 0.000200272, -1.49012e-08, 1.01095, -0.000750776, -0.00111717, 1.40108e-05, 1.00637, -0.025442, -0.535272, 0.0695762 )
 remote_path = NodePath("../../../BodyHitbox")
 update_rotation = false
 update_scale = false
 
 [node name="Skull" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.828773, -0.499297, -0.252659, 0.333653, 0.803393, -0.49319, 0.449232, 0.324442, 0.832422, -0.120976, 1.94466, 0.0650118 )
+transform = Transform( 0.85114, -0.47157, -0.230612, 0.303793, 0.800766, -0.516221, 0.428099, 0.369318, 0.824824, -0.12373, 1.94429, 0.0663605 )
 bone_name = "head"
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/Skull"]
@@ -3251,7 +3251,7 @@ parameters/sprint/blend_position = Vector2( 0, 0 )
 script = ExtResource( 4 )
 
 [node name="BodyHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.999986, 0, 0, 0, -1.62919e-07, -0.999979, 0, 0.999989, -1.62917e-07, 0.013651, 0.973187, 0.0255471 )
+transform = Transform( 0.999986, 0, 0, 0, -1.62919e-07, -0.999979, 0, 0.999989, -1.62917e-07, -0.000202368, 0.972658, -0.0327679 )
 shape = SubResource( 49 )
 script = ExtResource( 9 )
 _top_node_path = NodePath("../Skeleton/Skull")
@@ -3259,28 +3259,36 @@ _bottom_node_path = NodePath("..")
 _transform_parent_path = NodePath("../Skeleton/BodyBone/RemoteTransform2")
 
 [node name="HeadHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.828652, -0.49922, -0.252626, 0.333604, 0.803269, -0.493126, 0.449166, 0.324392, 0.832316, -0.170762, 2.01838, 0.119737 )
+transform = Transform( 0.851011, -0.471494, -0.230581, 0.303747, 0.800636, -0.516154, 0.428035, 0.369259, 0.824716, -0.170035, 2.017, 0.125323 )
 shape = SubResource( 50 )
 
 [node name="Body" type="Spatial" parent="."]
-transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.00589093, 1.51394, 0.0158531 )
+transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, -0.0114839, 1.51192, 5.55636e-05 )
 script = ExtResource( 5 )
 max_pitch = 0.0
 min_pitch = 0.0
-max_yaw = 70.0
-min_yaw = -70.0
 
 [node name="spine" type="Node" parent="Body"]
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../../Skeleton")
+
+[node name="RightShoulder" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.184147, 0.271447, 0.00684715 )
+
+[node name="RightHand" type="Position3D" parent="Body/RightShoulder"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.037 )
+
+[node name="LeftShoulder" type="Spatial" parent="Body"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055507, 0.256656, 0.00870744 )
+
+[node name="LeftHand" type="Position3D" parent="Body/LeftShoulder"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.037 )
 
 [node name="Head" type="Position3D" parent="Body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.162781, 0.611065, 0.037216 )
 script = ExtResource( 5 )
 max_pitch = 60.0
 min_pitch = -60.0
-max_yaw = 20.0
-min_yaw = -20.0
 sticky_parent = true
 
 [node name="Camera" type="Camera" parent="Body/Head"]
@@ -3292,9 +3300,3 @@ interpolated = true
 [node name="neck" type="Node" parent="Body/Head"]
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../../../Skeleton")
-
-[node name="RightHand" type="Position3D" parent="Body/Head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1 )
-
-[node name="LeftHand" type="Position3D" parent="Body/Head"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 1 )
