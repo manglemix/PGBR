@@ -30,7 +30,7 @@ export var acceleration := 6.0			# used for interpolating the Person's speed to 
 export var jump_speed := 10.0			# the vertical speed given to the person when they jump
 export var turn_speed := 10.0			# used for interpolating turns
 
-export var user_input := false setget set_user_input
+export var max_slope_angle_degrees := 45.0 setget set_max_slope_angle_degrees
 
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
@@ -40,11 +40,13 @@ var crouching := false setget set_crouch
 var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
 
+var user_input := false setget set_user_input
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
 var fall_acceleration_factor := 1.0			# multiplied with gravity to get final falling acceleration
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
+var max_slope_angle: float setget set_max_slope_angle
 
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
@@ -96,6 +98,16 @@ func set_user_input(value: bool):
 	
 	set_process(value)
 	set_process_input(value)
+
+
+func set_max_slope_angle_degrees(angle: float):
+	max_slope_angle_degrees = angle
+	max_slope_angle =  deg2rad(angle)
+
+
+func set_max_slope_angle(angle: float):
+	max_slope_angle = angle
+	max_slope_angle_degrees =  rad2deg(angle)
 
 
 func _ready():
@@ -325,13 +337,16 @@ func _physics_process(delta):
 			global_transform.origin += floor_collision.travel
 	
 	if floor_collision:
+		Debug.draw_points_from_origin([floor_collision.position, floor_collision.normal])
 		var tmp_vector := movement_vector
 		if not is_zero_approx(tmp_vector.length_squared()):
 			# we rotate the movement_vector so that it is along the floor plane
 			var axis := Vector3.UP.cross(floor_collision.normal).normalized()
 			# usually if the axis is still not normalized, the floor normal is pointing straight up already
 			if axis.is_normalized():
-				tmp_vector = tmp_vector.rotated(axis, Vector3.UP.angle_to(floor_collision.normal))
+				var angle := Vector3.UP.angle_to(floor_collision.normal)
+				if angle < max_slope_angle:
+					tmp_vector = tmp_vector.rotated(axis, angle)
 			
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
