@@ -41,7 +41,7 @@ var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
 
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
-var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
+var fall_acceleration_factor := 1.0			# multiplied with gravity to get final falling acceleration
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
@@ -338,7 +338,7 @@ func _physics_process(delta):
 		# this is strafing
 		linear_velocity += movement_vector * delta
 		# this is just gravity
-		linear_velocity.y += fall_acceleration * delta
+		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	
