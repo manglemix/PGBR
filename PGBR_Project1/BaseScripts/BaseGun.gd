@@ -56,7 +56,6 @@ func set_distance(distance: float):
 
 
 func aim_towards(target: Vector3):
-	Debug.draw_dot(target)
 	get_parent().look_at(target, Vector3.UP)
 	get_parent().rotate_object_local(Vector3.UP, PI)
 	
