@@ -364,7 +364,7 @@ func _physics_process(delta):
 		# this is just gravity
 		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
-	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
+	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
