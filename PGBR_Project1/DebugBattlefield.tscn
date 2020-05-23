@@ -85,6 +85,7 @@ value_curve = SubResource( 3 )
 
 [node name="Area" type="Area" parent="Draft"]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 19.1223, 0, -4.12175 )
+collision_mask = 0
 script = ExtResource( 11 )
 new_branch_path = "res://EmptyLevel.tscn"
 

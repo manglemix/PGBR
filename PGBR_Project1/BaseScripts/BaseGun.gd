@@ -64,13 +64,31 @@ func aim_towards(target: Vector3):
 
 
 func get_collider():
+	_raycast.collide_with_areas = true
+	_raycast.collide_with_bodies = true
+	_raycast.force_raycast_update()
 	return _raycast.get_collider()
 
 
 func shoot():
+	_raycast.collide_with_areas = true
+	_raycast.collide_with_bodies = false
+	_raycast.force_raycast_update()
 	var node = _raycast.get_collider()
 	
-	if is_instance_valid(node) and node.has_method("damage"):
-		node.damage(self)
+	if is_instance_valid(node):
+		print(node)
+		if node.has_method("damage"):
+			node.damage(self)
+		
+	else:
+		_raycast.collide_with_areas = false
+		_raycast.collide_with_bodies = true
+		_raycast.force_raycast_update()
+		var node2 = _raycast.get_collider()
+		
+		print(node2)
+		if is_instance_valid(node2) and node2.has_method("damage"):
+			node2.damage(self)
 	
 	Debug.draw_dot(_raycast.get_collision_point(), Color.red)

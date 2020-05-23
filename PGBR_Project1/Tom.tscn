@@ -132,8 +132,8 @@ surfaces/0 = {
 "vertex_count": 987
 }
 
-[sub_resource type="SphereShape" id=51]
-radius = 0.148673
+[sub_resource type="SphereShape" id=71]
+radius = 0.15
 
 [sub_resource type="Animation" id=52]
 length = 0.733333
@@ -3018,11 +3018,9 @@ node_connections = [ "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprin
 
 [sub_resource type="CylinderShape" id=50]
 radius = 0.35
-height = 2.11816
+height = 2.1203
 
 [node name="Tom" type="KinematicBody"]
-collision_layer = 2
-collision_mask = 3
 script = ExtResource( 2 )
 max_slope_angle_degrees = 60.0
 hand_paths = [ NodePath("Body/RightShoulder/RightHand"), NodePath("Body/LeftShoulder/LeftHand") ]
@@ -3185,7 +3183,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="Hat" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.855509, -0.476297, -0.203092, 0.316443, 0.7914, -0.523021, 0.409839, 0.383182, 0.827769, -0.268165, 2.12079, 0.205752 )
+transform = Transform( 0.819245, -0.528137, -0.223403, 0.390735, 0.799261, -0.456627, 0.419719, 0.286799, 0.861151, -0.289958, 2.10993, 0.17462 )
 bone_name = "head_top_end"
 
 [node name="fedora" type="MeshInstance" parent="Skeleton/Hat"]
@@ -3194,7 +3192,7 @@ mesh = SubResource( 3 )
 material/0 = null
 
 [node name="BodyBone" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.630355, -0.17474, -0.756386, 0.0545094, 0.981895, -0.181411, 0.77439, 0.0731231, 0.628468, -0.00508904, 1.50618, -0.00929801 )
+transform = Transform( 0.515966, -0.177713, -0.837972, 0.0751603, 0.983862, -0.162374, 0.853304, 0.0207977, 0.520997, 0.000799489, 1.48971, 0.0212139 )
 bone_name = "spine_1"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/BodyBone"]
@@ -3203,24 +3201,21 @@ update_rotation = false
 update_scale = false
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/BodyBone"]
-transform = Transform( 1.01, 7.02962e-06, 0.000302166, 3.14042e-06, 1.01643, -0.00113175, -0.0018976, 2.61217e-05, 1.00963, -0.0977801, -0.430228, 0.104127 )
+transform = Transform( 1.01094, 1.00676e-05, 0.000347346, 3.20785e-05, 1.01793, -0.00123282, -0.0019078, 2.84389e-05, 1.0105, -0.103072, -0.395115, 0.251985 )
 remote_path = NodePath("../../../BodyHitbox")
 update_rotation = false
 update_scale = false
 
 [node name="Skull" type="BoneAttachment" parent="Skeleton"]
-transform = Transform( 0.855509, -0.476297, -0.203092, 0.316443, 0.7914, -0.523021, 0.409839, 0.383182, 0.827769, -0.126257, 1.93653, 0.0517984 )
+transform = Transform( 0.819245, -0.528137, -0.223403, 0.390735, 0.799261, -0.456628, 0.419719, 0.286799, 0.861151, -0.132713, 1.91956, 0.044922 )
 bone_name = "head"
 
 [node name="HeadHitbox" type="Area" parent="Skeleton/Skull"]
-transform = Transform( 0.99988, 0, 0, 0, 0.999871, 0, 0, 0, 0.999934, 0, 0.102, 0.0220001 )
-collision_layer = 4
 collision_mask = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="Skeleton/Skull/HeadHitbox"]
-transform = Transform( 0.999838, 0, 0, 0, 0.99983, 0, 0, 0, 0.999863, 0, 0, 0 )
-shape = SubResource( 51 )
-disabled = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.115, 0 )
+shape = SubResource( 71 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 "anims/Falling Idle" = SubResource( 52 )
@@ -3259,15 +3254,15 @@ parameters/sprint/blend_position = Vector2( 0, 0 )
 script = ExtResource( 4 )
 
 [node name="BodyHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.999986, 0, 0, 0, 0.999989, 0, 0, 0, 0.999979, -0.0703072, 1.05952, -0.0510372 )
+transform = Transform( 0.999986, 0, 0, 0, 0.999989, 0, 0, 0, 0.999979, -0.193322, 1.05231, 0.056328 )
 shape = SubResource( 50 )
 script = ExtResource( 9 )
-_top_node_path = NodePath("../Skeleton/Hat")
+_top_node_path = NodePath("../Skeleton/Skull")
 _bottom_node_path = NodePath("..")
 _transform_parent_path = NodePath("../Skeleton/BodyBone/RemoteTransform2")
 
 [node name="Body" type="Spatial" parent="."]
-transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, -0.00508904, 1.50618, -0.00929801 )
+transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0.000799489, 1.48971, 0.0212139 )
 script = ExtResource( 5 )
 max_pitch = 0.0
 min_pitch = 0.0
