@@ -329,7 +329,7 @@ func _physics_process(delta):
 				_target_vector = Vector3.ZERO
 	
 	# this tests if the player is directly on the floor
-	floor_collision = move_and_collide(Vector3.DOWN * 0.001, true, true, true)
+	floor_collision = move_and_collide(Vector3.DOWN * 0.01, true, true, true)
 	
 	if not floor_collision:
 		floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
