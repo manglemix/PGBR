@@ -15,6 +15,20 @@ func _ready():
 	set_player(get_node_or_null(_player_path))
 
 
+func save(filename: String, key:=OS.get_unique_id()):
+	var file := File.new()
+	
+	if key.empty():
+		file.open(filename, File.WRITE)
+	else:
+		file.open_encrypted_with_pass(filename, File.WRITE, key)
+	
+	for node in get_tree().get_nodes_in_group("save_game"):
+		file.store_line(to_json(node.save()))
+	
+	file.close()
+
+
 func set_player(node: Spatial):
 	if is_instance_valid(player):
 		player.user_input = false
