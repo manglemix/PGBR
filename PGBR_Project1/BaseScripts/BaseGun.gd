@@ -14,6 +14,7 @@ onready var _raycast := get_node(raycast_path) as RayCast
 func _ready():
 	set_distance(1000)
 	
+	assert(not handle_paths.empty())
 	for path in handle_paths:
 		_handles[get_node(path)] = null
 	
