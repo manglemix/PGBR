@@ -25,6 +25,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Ve
 
 [node name="Draft2" type="Spatial"]
 script = ExtResource( 8 )
+_jump_paths = [ NodePath("Area") ]
 
 [node name="TerrainCollider" type="StaticBody" parent="."]
 
