@@ -245,20 +245,20 @@ func _input(event):
 
 
 func _process(delta):
-	var movement_vector := Vector3.ZERO
+	var direction := Vector3.ZERO
 	if Input.is_action_pressed("forward"):
-		movement_vector += head.global_transform.basis.z
+		direction += head.global_transform.basis.z
 	
 	if Input.is_action_pressed("backward"):
-		movement_vector -= head.global_transform.basis.z
+		direction -= head.global_transform.basis.z
 	
 	if Input.is_action_pressed("right"):
-		movement_vector -= head.global_transform.basis.x
+		direction -= head.global_transform.basis.x
 	
 	if Input.is_action_pressed("left"):
-		movement_vector += head.global_transform.basis.x
+		direction += head.global_transform.basis.x
 	
-	if is_zero_approx(movement_vector.length_squared()):
+	if is_zero_approx(direction.length_squared()):
 		stop_moving()
 		
 	else:
@@ -275,7 +275,7 @@ func _process(delta):
 		else:
 			speed = Speeds.RUN
 		
-		move_to_vector(movement_vector, speed)
+		move_to_vector(direction, speed)
 	
 	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
 		var raycast := _director.camera_raycast(camera) as Dictionary

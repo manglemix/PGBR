@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/ik_target.gd"
 }, {
+"base": "Area",
+"class": "JumpPad",
+"language": "GDScript",
+"path": "res://Scripts/jump_pad.gd"
+}, {
 "base": "Spatial",
 "class": "ManualSkeleton",
 "language": "GDScript",
@@ -142,6 +147,7 @@ _global_script_class_icons={
 "HealthBar": "",
 "HostilesEnvironment": "",
 "IKtarget": "",
+"JumpPad": "",
 "ManualSkeleton": "",
 "Maximiser": "",
 "MirrorBone": "",
