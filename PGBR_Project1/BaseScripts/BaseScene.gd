@@ -1,16 +1,11 @@
 extends Spatial
 
-signal player_changed(node)
 
-export var enable_debug := false
+export(Array, NodePath) var _jump_paths := []
 
-var player setget set_player
+var jump_pads := []
 
 
 func _ready():
-	Debug.enabled = enable_debug
-
-
-func set_player(node):
-	player = node
-	emit_signal("player_changed", node)
+	for path in _jump_paths:
+		jump_pads.append(get_node(path))

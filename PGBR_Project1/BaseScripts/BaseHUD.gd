@@ -10,10 +10,6 @@ signal max_stamina_updated(max_stamina)
 var player setget set_player
 
 
-func _ready():
-	get_tree().get_current_scene().connect("player_changed", self, "set_player")
-
-
 func update_health(health: float):
 	emit_signal("health_updated", health)
 

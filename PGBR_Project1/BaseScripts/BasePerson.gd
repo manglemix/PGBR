@@ -30,6 +30,8 @@ export var acceleration := 6.0			# used for interpolating the Person's speed to 
 export var jump_speed := 10.0			# the vertical speed given to the person when they jump
 export var turn_speed := 10.0			# used for interpolating turns
 
+export var user_input := false setget set_user_input
+
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
 var sprinting := false						# to be read but not modified
@@ -39,20 +41,24 @@ var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
 
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
-var fall_acceleration := - 9.8				# the rate at which the vertical speed changes, it is unique to each Person as they may have parachutes
+var fall_acceleration_factor := 1.0			# multiplied with gravity to get final falling acceleration
 var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 
-var head: PivotPoint
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
 
+var _branch: Node
 var _jump_charge_start: int					# the system time in msecs when a jump began to charge
 var _jump_charge_target: float				# the target strength of the jump
 var _jump_charge_factor := 0.001			# jump strength units per millisecond
 var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
+
+onready var head := find_node("Head") as PivotPoint
+onready var camera := head.get_node("Camera") as Camera
+onready var _director := get_tree().get_current_scene() as Node
 
 
 # getters and setters
@@ -82,13 +88,28 @@ func set_crouch(value: bool):
 	crouching = value
 
 
+func set_user_input(value: bool):
+	if value:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	set_process(value)
+	set_process_input(value)
+
+
 func _ready():
 	for path in hand_paths:
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
-	head = find_node("Head")
 	assert(is_instance_valid(head))
+	assert(is_instance_valid(camera))
+	set_user_input(user_input)
+
+
+func _enter_tree():
+	_branch = get_tree().get_current_scene().get_branch(self)
 
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
@@ -166,12 +187,12 @@ func return_hand(hand):
 	hands[hand] = false
 
 
-func shoot_guns() -> void:
-	emit_signal("shoot")
-
-
 func aim_guns(position: Vector3) -> void:
 	emit_signal("aim", position)
+
+
+func shoot_guns() -> void:
+	emit_signal("shoot")
 
 
 func fully_face_target(target: Vector3) -> void:
@@ -197,6 +218,88 @@ func kill(code) -> void:
 	
 	emit_signal("died", code)
 	queue_free()
+
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		if _director.invert_y:
+			event.relative.y *= -1
+		
+		head.biaxial_rotate(event.relative.y * _director.mouse_sensitivity, - event.relative.x * _director.mouse_sensitivity)
+
+	# this alerts the player to charge the jump
+	if event.is_action_pressed("jump"):
+		for pad in _branch.jump_pads:
+			if self in pad.get_overlapping_bodies():
+				pad.jump(self)
+				return
+		charge_jump()
+
+	# once the spacebar is released, and a jump was charging, then the player will jump
+	elif event.is_action_released("jump") and charging_jump:
+		jump()
+
+	if event.is_action_pressed("crouch"):
+		crouching = not crouching
+		set_crouch(crouching)
+
+	if event.is_action_pressed("change viewpoint"):
+		head.get_node("Camera").increment_transform()
+
+	if event.is_action_pressed("aim"):
+		_director.mouse_sensitivity /= 1.5
+
+	elif event.is_action_released("aim"):
+		_director.mouse_sensitivity *= 1.5
+
+
+func _process(delta):
+	var direction := Vector3.ZERO
+	if Input.is_action_pressed("forward"):
+		direction += head.global_transform.basis.z
+	
+	if Input.is_action_pressed("backward"):
+		direction -= head.global_transform.basis.z
+	
+	if Input.is_action_pressed("right"):
+		direction -= head.global_transform.basis.x
+	
+	if Input.is_action_pressed("left"):
+		direction += head.global_transform.basis.x
+	
+	if is_zero_approx(direction.length_squared()):
+		stop_moving()
+		
+	else:
+		# To make the player look less wonky while moving, the body of the player is turned to face-
+		# the head direction when moving
+		turn_to_vector(head.global_transform.basis.z)
+		
+		var speed: float
+		if Input.is_action_pressed("sprint"):
+			speed = Speeds.SPRINT
+		elif Input.is_action_pressed("crouch"):
+			# TODO add crouch mechanic
+			speed = Speeds.WALK
+		else:
+			speed = Speeds.RUN
+		
+		move_to_vector(direction, speed)
+	
+	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
+		var raycast := _director.camera_raycast(camera) as Dictionary
+		var target: Vector3
+		
+		if raycast.empty():
+			target = - camera.global_transform.basis.z * camera.far + camera.global_transform.origin
+		else:
+			target = raycast["position"]
+		
+		global_turn_to_vector(target)
+		aim_guns(target)
+		
+		if Input.is_action_pressed("shoot"):
+			shoot_guns()
 
 
 func _physics_process(delta):
@@ -244,7 +347,7 @@ func _physics_process(delta):
 		# this is strafing
 		linear_velocity += movement_vector * delta
 		# this is just gravity
-		linear_velocity.y += fall_acceleration * delta
+		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP)
 	

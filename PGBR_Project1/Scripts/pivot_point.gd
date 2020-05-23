@@ -24,7 +24,7 @@ func _ready():
 
 
 func biaxial_rotate(x: float, y: float) -> void:
-	global_rotate(fallback_node.global_transform.basis.y, y)
+	global_rotate(fallback_node.global_transform.basis.y.normalized(), y)
 	rotate_object_local(Vector3.RIGHT, x)
 
 
@@ -34,6 +34,7 @@ func turn_to_vector(rel_vec: Vector3):
 
 func global_turn_to_vector(position: Vector3):
 	_target_transform = global_transform.looking_at(position, fallback_node.global_transform.basis.y)
+	_target_transform = _target_transform.rotated(_target_transform.basis.y, PI)
 	set_process(true)
 
 
@@ -62,7 +63,7 @@ func _physics_process(delta):
 		var euler_rotation := parent_transform.basis.get_euler()
 		
 		# we do it this way instead of using biaxial_rotate just in case the fallback_node is not a PivotPoint
-		fallback_node.global_rotate(fallback_node.fallback_node.global_transform.basis.y, - euler_rotation.y)
+		fallback_node.global_rotate(fallback_node.global_transform.basis.y.normalized(), - euler_rotation.y)
 		fallback_node.rotate_object_local(Vector3.RIGHT, - euler_rotation.x)
 		
 		biaxial_rotate(euler_rotation.x, euler_rotation.y)
@@ -77,22 +78,22 @@ func _physics_process(delta):
 		if not limit_yaw:
 			fallback_node.rotate_object_local(Vector3.UP, deg2rad(euler_rotation.y - max_yaw))
 		
-		global_rotate(fallback_node.global_transform.basis.y, deg2rad(max_yaw - euler_rotation.y))
+		global_rotate(fallback_node.global_transform.basis.y.normalized(), deg2rad(max_yaw - euler_rotation.y))
 		
 	elif euler_rotation.y < min_yaw:
 		if not limit_yaw:
 			fallback_node.rotate_object_local(Vector3.UP, deg2rad(euler_rotation.y - min_yaw))
 		
-		global_rotate(fallback_node.global_transform.basis.y, deg2rad(min_yaw - euler_rotation.y))
+		global_rotate(fallback_node.global_transform.basis.y.normalized(), deg2rad(min_yaw - euler_rotation.y))
 
 	if euler_rotation.x > max_pitch:
 		if not limit_pitch:
-			fallback_node.global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - max_pitch))
+			fallback_node.global_rotate(global_transform.basis.x.normalized(), deg2rad(euler_rotation.x - max_pitch))
 		
 		rotate_object_local(Vector3.RIGHT, deg2rad(max_pitch - euler_rotation.x))
 		
 	elif euler_rotation.x < min_pitch:
 		if not limit_pitch:
-			fallback_node.global_rotate(global_transform.basis.x, deg2rad(euler_rotation.x - min_pitch))
+			fallback_node.global_rotate(global_transform.basis.x.normalized(), deg2rad(euler_rotation.x - min_pitch))
 		
 		rotate_object_local(Vector3.RIGHT, deg2rad(min_pitch - euler_rotation.x))

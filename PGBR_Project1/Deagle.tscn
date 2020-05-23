@@ -5,15 +5,15 @@
 
 [node name="Deagle" type="Spatial"]
 script = ExtResource( 2 )
+handle_paths = [ NodePath("MainGrip") ]
 
 [node name="Deagle Default " parent="." instance=ExtResource( 1 )]
-transform = Transform( 6.55671e-09, 0, -0.05, 0, 0.05, 0, 0.05, 0, 6.55671e-09, -7.70706e-09, 0.0156013, 0.110664 )
+transform = Transform( 6.55671e-09, 0, -0.05, 0, 0.05, 0, 0.05, 0, 6.55671e-09, -7.70706e-09, -0.0778103, 0.110664 )
 
 [node name="Muzzle" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.70706e-09, 0.0952468, 0.286981 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0.288 )
 enabled = true
-cast_to = Vector3( 0, 0, 1 )
+cast_to = Vector3( 0, 0, -1 )
 
-[node name="Scope" type="Camera" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.122, -0.255 )
-fov = 40.0
+[node name="MainGrip" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.11398, 0 )
