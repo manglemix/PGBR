@@ -30,6 +30,7 @@ export var acceleration := 6.0			# used for interpolating the Person's speed to 
 export var jump_speed := 10.0			# the vertical speed given to the person when they jump
 export var turn_speed := 10.0			# used for interpolating turns
 
+export var step_height := 0.5
 export var max_slope_angle_degrees := 45.0 setget set_max_slope_angle_degrees
 
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
@@ -330,8 +331,8 @@ func _physics_process(delta):
 	
 	# this tests if the player is directly on the floor
 	floor_collision = move_and_collide(Vector3.DOWN * 0.01, true, true, true)
-	
 	if not floor_collision:
+		# this will snap the player to the floor as long as the player is 10cm off of it
 		floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
 		if floor_collision:
 			global_transform.origin += floor_collision.travel
@@ -364,8 +365,6 @@ func _physics_process(delta):
 		# this is just gravity
 		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
-	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
-	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 
 	if sprinting:
@@ -374,6 +373,24 @@ func _physics_process(delta):
 		_relaxed_time += delta
 		if _relaxed_time >= stamina_lag:
 			self.stamina += delta
-
+	
 	if global_transform.origin.y < -100.0:
 		kill(GlobalEnums.Killcodes.GLITCHED)
+	
+	# for walking up steps
+	if floor_collision:
+		var tmp := transform
+		# move upward to avoid colliding with the floor
+		tmp.origin.y += 0.1
+		# check if there is an obstacle ahead
+		if test_move(tmp, linear_velocity * delta):
+			tmp.origin.y += step_height - 0.1
+			# check if there is an obstacle above the next frame position
+			if not test_move(tmp, linear_velocity * delta):
+				transform = tmp
+				transform.origin += linear_velocity * delta
+				# this line moves the Body onto the floor
+				transform.origin += move_and_collide(Vector3.DOWN * step_height, true, true, true).travel
+				return
+	
+	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
