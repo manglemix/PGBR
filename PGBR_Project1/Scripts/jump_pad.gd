@@ -21,16 +21,16 @@ func jump(node):
 		timer.start(air_time / 2)
 
 
-func load_branch(node: Spatial, new_transform: Transform):
+func load_branch(persistent_node: Spatial, new_transform: Transform):
 	print_debug("loading " + new_branch_path)
 	var scene := load(new_branch_path).instance() as Node
 	
-	var org_transform := node.global_transform
-	node.get_parent().remove_child(node)
+	var org_transform := persistent_node.global_transform
+	persistent_node.get_parent().remove_child(persistent_node)
 	get_tree().get_current_scene().get_branch(self).queue_free()
 	get_tree().get_current_scene().add_child(scene)
 	scene.global_transform = new_transform
-	scene.add_child(node)
-	node.global_transform = org_transform
+	scene.add_child(persistent_node)
+	persistent_node.global_transform = org_transform
 	
 	print_debug("finished loading " + new_branch_path)
