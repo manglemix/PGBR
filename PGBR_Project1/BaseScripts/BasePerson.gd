@@ -379,7 +379,7 @@ func _physics_process(delta):
 	
 	# for walking up steps
 	if floor_collision:
-		var tmp := transform
+		var tmp := global_transform
 		# move upward to avoid colliding with the floor
 		tmp.origin.y += 0.1
 		# check if there is an obstacle ahead
@@ -387,10 +387,10 @@ func _physics_process(delta):
 			tmp.origin.y += step_height - 0.1
 			# check if there is an obstacle above the next frame position
 			if not test_move(tmp, linear_velocity * delta):
-				transform = tmp
-				transform.origin += linear_velocity * delta
+				global_transform = tmp
+				global_transform.origin += linear_velocity * delta
 				# this line moves the Body onto the floor
-				transform.origin += move_and_collide(Vector3.DOWN * step_height, true, true, true).travel
+				global_transform.origin += move_and_collide(Vector3.DOWN * step_height, true, true, true).travel
 				return
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
