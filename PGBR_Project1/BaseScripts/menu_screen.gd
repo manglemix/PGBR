@@ -10,7 +10,7 @@ func _ready():
 	
 
 func play_game():
-	if res_directory.file_exists("save1.save"):
+	if Saves.read_save_data() == OK:
 		get_tree().change_scene("res://LoadedGame.tscn")
 	else:
 		get_tree().change_scene("res://FirstLevel.tscn")

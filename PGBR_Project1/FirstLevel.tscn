@@ -32,4 +32,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.687866, 4.2545, 8.35022 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.984784, 8.0617, 20.8112 )
 
 [node name="DefaultEnvironment" parent="." instance=ExtResource( 1 )]
-script = null

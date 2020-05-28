@@ -164,6 +164,7 @@ run/main_scene="res://MenuScreen.tscn"
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
+Saves="*res://Scripts/saves.gd"
 
 [config]
 
