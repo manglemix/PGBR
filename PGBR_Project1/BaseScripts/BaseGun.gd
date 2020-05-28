@@ -82,7 +82,6 @@ func shoot():
 	var node = _raycast.get_collider()
 	
 	if is_instance_valid(node):
-		print(node)
 		if node.has_method("damage"):
 			node.damage(self)
 		
@@ -92,7 +91,6 @@ func shoot():
 		_raycast.force_raycast_update()
 		var node2 = _raycast.get_collider()
 		
-		print(node2)
 		if is_instance_valid(node2) and node2.has_method("damage"):
 			node2.damage(self)
 	
