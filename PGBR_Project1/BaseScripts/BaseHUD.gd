@@ -2,11 +2,14 @@
 extends Control
 
 
+const ignore_state = true
+
 signal health_updated(health)
 signal max_health_updated(max_health)
 signal stamina_updated(stamina)
 signal max_stamina_updated(max_stamina)
 
+var dont_save := ["player"]
 var player setget set_player
 
 
