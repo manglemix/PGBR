@@ -8,9 +8,9 @@ signal player_changed(node)
 export var _player_path: NodePath
 export var invert_y := false
 export var mouse_sensitivity := 0.001
+export var load_from_disk := false
 
 var player: Spatial setget set_player
-var res_directory := Directory.new()
 
 
 func set_player(node: Spatial):
@@ -25,9 +25,12 @@ func set_player(node: Spatial):
 
 
 func _ready():
-	res_directory.open("res://")
-	if res_directory.file_exists("save1.save"):
-		read_tree("save1.save")
+	if load_from_disk:
+		var res_directory := Directory.new()
+		res_directory.open("res://")
+		if res_directory.file_exists("save1.save") and load_game("save1.save") != OK:
+			print_debug("Error opening save")
+			get_tree().change_scene("res://FirstLevel.tscn")
 	set_player(get_node_or_null(_player_path))
 
 
@@ -47,14 +50,22 @@ func get_state(owner: Node) -> Dictionary:
 		owner._prep_state()
 	
 	var states := {}
-	var nodes := get_family(owner)
+	var nodes = get_family(owner)
+	
 	nodes.insert(0, owner)
 	
 	for node in nodes:
-		var current_state := {
-			"name": node.name,
-			"groups": node.get_groups(),
-		}
+		if node.is_in_group("ignore_state"):
+			continue
+		
+		elif is_instance_valid(node.owner) and node.owner.is_in_group("ignore_state"):
+			continue
+		
+		var current_state := {}
+		
+		var groups := node.get_groups() as Array
+		if not groups.empty():
+			current_state["groups"] = groups
 		
 		# store script variables
 		if is_instance_valid(node.get_script()):
@@ -71,7 +82,8 @@ func get_state(owner: Node) -> Dictionary:
 		if node is Spatial:
 			current_state["transform"] = node.transform
 		
-		states[owner.get_path_to(node)] = current_state
+		if not current_state.empty():
+			states[owner.get_path_to(node)] = current_state
 	
 	return states
 
@@ -79,7 +91,7 @@ func get_state(owner: Node) -> Dictionary:
 func get_hierarchy(owner: Node, assert_foreign:=false) -> Dictionary:
 	# converts a tree of nodes (with the root node being the owner) into a dict of paths to PackedScenes
 	# cannot compensate for individual nodes added through code (if assert_foreign is true, finding these nodes will cause the program to end)
-	var children := get_family(owner)
+	var children = get_family(owner)
 	
 	assert(not owner.filename.empty())
 	var scenes := {str(get_path_to(owner)): owner.filename}
@@ -134,11 +146,13 @@ func load_hierarchy(dict: Dictionary) -> Array:
 
 func load_state(owner: Node, dict: Dictionary) -> void:
 	dict = dict.duplicate()
-	var nodes := get_family(owner)
+	var nodes = get_family(owner)
 	nodes.insert(0, owner)
 	
-	for node in nodes:
-		var current_state := dict[owner.get_path_to(node)] as Dictionary
+	for path in dict:
+		var current_state := dict[path] as Dictionary
+		var node := owner.get_node(path)
+		
 		if node.has_method("_override_load"):
 			node._override_load(current_state)
 			continue
@@ -146,17 +160,18 @@ func load_state(owner: Node, dict: Dictionary) -> void:
 		if node.has_method("_loading_state"):
 			node._loading_state()
 		
-		# this is also recursive, until the last nodes with no children
-		for group in current_state["groups"]:
-			node.add_to_group(group)
-		current_state.erase("groups")
+		if "groups" in current_state:
+			# this is also recursive, until the last nodes with no children
+			for group in current_state["groups"]:
+				node.add_to_group(group)
+			current_state.erase("groups")
 		
 		# setting all properties
 		for key in current_state:
 			node.set(key, current_state[key])
 
 
-func write_tree(owner: Node, filename: String, key:=OS.get_unique_id()) -> void:
+func save_game(filename: String, key:=OS.get_unique_id()) -> int:
 	var file := File.new()
 
 	if key.empty():
@@ -164,11 +179,20 @@ func write_tree(owner: Node, filename: String, key:=OS.get_unique_id()) -> void:
 	else:
 		file.open_encrypted_with_pass(filename, File.WRITE, key)
 	
-	file.store_var([get_hierarchy(owner), get_state(owner)])
+	var err := file.get_error()
+	if err != OK:
+		file.close()
+		return err
+	
+	var stored := []
+	for child in get_children():
+		stored.append([get_hierarchy(child), get_state(child)])
+	file.store_var(stored)
 	file.close()
+	return OK
 
 
-func read_tree(filename: String, key:=OS.get_unique_id()) -> void:
+func load_game(filename: String, key:=OS.get_unique_id()) -> int:
 	var file := File.new()
 
 	if key.empty():
@@ -176,22 +200,24 @@ func read_tree(filename: String, key:=OS.get_unique_id()) -> void:
 	else:
 		file.open_encrypted_with_pass(filename, File.READ, key)
 	
-	var data := file.get_var() as Array
-	var result := load_hierarchy(data[0])
-	load_state(result[0], data[1])
-	get_node(result[1]).add_child(result[0])
+	var err := file.get_error()
+	if err != OK:
+		file.close()
+		return err
+	
+	if file.get_len() == 0:
+		file.close()
+		return ERR_FILE_CORRUPT
+	
+	var stored := file.get_var() as Array
+	
+	for data in stored:
+		var result := load_hierarchy(data[0])
+		load_state(result[0], data[1])
+		get_node(result[1]).add_child(result[0])
+	
 	file.close()
-
-
-func set_player(node: Spatial):
-	if is_instance_valid(player):
-		player.user_input = false
-	
-	player = node
-#	$HUD.set_player(player)
-	
-	if is_instance_valid(player):
-		player.user_input = true
+	return OK
 
 
 func get_branch(node: Node) -> Node:
@@ -223,7 +249,7 @@ func current_camera_raycast(distance:=0.0, exclude:=[], screen_point:= get_viewp
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().paused = true
-		write_tree($Draft, "save1.save")
+		save_game("save1.save")
 		get_tree().quit()
 	
 	if event.is_action_pressed("debug"):

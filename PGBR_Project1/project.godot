@@ -64,11 +64,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/ik_target.gd"
 }, {
-"base": "Reference",
-"class": "IgnoreState",
-"language": "GDScript",
-"path": "res://Scripts/ignore_state.gd"
-}, {
 "base": "Area",
 "class": "JumpPad",
 "language": "GDScript",
@@ -146,7 +141,6 @@ _global_script_class_icons={
 "HealthBar": "",
 "HostilesEnvironment": "",
 "IKtarget": "",
-"IgnoreState": "",
 "JumpPad": "",
 "ManualSkeleton": "",
 "Maximiser": "",
@@ -165,12 +159,11 @@ _global_script_class_icons={
 [application]
 
 config/name="PGBR"
-run/main_scene="res://FirstLevel.tscn"
+run/main_scene="res://MenuScreen.tscn"
 
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
-GlobalEnums="*res://Scripts/global_enums.gd"
 
 [config]
 

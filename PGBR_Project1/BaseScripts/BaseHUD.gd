@@ -2,8 +2,6 @@
 extends Control
 
 
-const ignore_state = true
-
 signal health_updated(health)
 signal max_health_updated(max_health)
 signal stamina_updated(stamina)
