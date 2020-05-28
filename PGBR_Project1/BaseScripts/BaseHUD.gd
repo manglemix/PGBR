@@ -43,8 +43,9 @@ func set_player(node):
 	
 	player = node
 	
-	player.connect("health_updated", self, "update_health")
-	player.connect("max_health_updated", self, "update_max_health")
-	
-	player.connect("stamina_updated", self, "update_stamina")
-	player.connect("max_stamina_updated", self, "update_max_stamina")
+	if is_instance_valid(player):
+		player.connect("health_updated", self, "update_health")
+		player.connect("max_health_updated", self, "update_max_health")
+		
+		player.connect("stamina_updated", self, "update_stamina")
+		player.connect("max_stamina_updated", self, "update_max_stamina")
