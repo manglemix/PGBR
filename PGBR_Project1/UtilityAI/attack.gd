@@ -5,6 +5,8 @@ extends State
 export(Curve) var value_curve
 export var max_distance := 50.0
 
+var dont_save := ["_target", "_goto", "value_curve"]
+
 var _target: Spatial
 var _goto: AutoGoto
 

@@ -5,7 +5,7 @@
 
 [node name="Deagle" type="Spatial"]
 script = ExtResource( 2 )
-handle_paths = [ NodePath("MainGrip") ]
+_handle_paths = [ NodePath("MainGrip") ]
 
 [node name="Deagle Default " parent="." instance=ExtResource( 1 )]
 transform = Transform( 6.55671e-09, 0, -0.05, 0, 0.05, 0, 0.05, 0, 6.55671e-09, -7.70706e-09, -0.0778103, 0.110664 )

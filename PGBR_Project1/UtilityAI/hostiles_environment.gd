@@ -6,6 +6,8 @@ extends Maximiser
 
 
 export var hostile_groups: PoolStringArray
+
+var dont_save := ["hostile_nodes"]
 var hostile_nodes := []
 
 

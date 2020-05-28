@@ -47,6 +47,7 @@ var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 var max_slope_angle: float setget set_max_slope_angle
+var dont_save := ["hands", "guns", "_branch", "head", "camera", "_director"]
 
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var guns := []
