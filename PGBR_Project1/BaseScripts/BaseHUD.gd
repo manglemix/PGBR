@@ -29,6 +29,10 @@ func update_max_stamina(max_stamina: float):
 	emit_signal("max_stamina_updated", max_stamina)
 
 
+func _ready():
+	get_tree().get_current_scene().connect("player_changed", self, "set_player")
+
+
 func set_player(node):
 	if is_instance_valid(player):
 		player.disconnect("health_updated", self, "update_health")

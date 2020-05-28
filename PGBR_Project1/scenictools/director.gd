@@ -3,12 +3,25 @@ class_name Director
 extends Node
 
 
+signal player_changed(node)
+
 export var _player_path: NodePath
 export var invert_y := false
 export var mouse_sensitivity := 0.001
 
 var player: Spatial setget set_player
 var res_directory := Directory.new()
+
+
+func set_player(node: Spatial):
+	if is_instance_valid(player):
+		player.user_input = false
+	
+	player = node
+	emit_signal("player_changed", player)
+	
+	if is_instance_valid(player):
+		player.user_input = true
 
 
 func _ready():
