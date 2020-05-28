@@ -13,6 +13,7 @@ signal max_health_updated(max_health)
 signal stamina_updated(stamina)
 signal max_stamina_updated(max_stamina)
 
+enum Killcodes {KILLED, SUICIDE, GLITCHED}
 enum Speeds {WALK, RUN, SPRINT}
 
 export var sprint_speed := 10.0			# these correspond to speeds, for move_to_vector
@@ -217,15 +218,15 @@ func fully_face_target(target: Vector3) -> void:
 
 func kill(code) -> void:
 	# handles the death of the player
-	if code == GlobalEnums.Killcodes.KILLED:
+	if code == Killcodes.KILLED:
 		# play death animation
 		pass
 	
-	elif code == GlobalEnums.Killcodes.SUICIDE:
+	elif code == Killcodes.SUICIDE:
 		# play death animation
 		pass
 	
-	elif code == GlobalEnums.Killcodes.GLITCHED:
+	elif code == Killcodes.GLITCHED:
 		# for when the person node dies in some weird way
 		pass
 	
@@ -377,4 +378,4 @@ func _physics_process(delta):
 			self.stamina += delta
 
 	if global_transform.origin.y < -100.0:
-		kill(GlobalEnums.Killcodes.GLITCHED)
+		kill(Killcodes.GLITCHED)
