@@ -92,9 +92,6 @@ func update_save_data():
 
 func get_state(owner: Node) -> Dictionary:
 	# stores all the variables of a tree of nodes with the owner being the root node
-	if owner.has_method("_prep_state"):
-		owner._prep_state()
-
 	var states := {}
 	var nodes = _get_family(owner)
 
@@ -107,9 +104,18 @@ func get_state(owner: Node) -> Dictionary:
 
 		elif is_instance_valid(node.owner) and node.owner.is_in_group("ignore_state"):
 			continue
-
+		
+		if node.has_method("_override_save"):
+			var current_state := node._override_save() as Dictionary
+			if not current_state.empty():
+				states[owner.get_path_to(node)] = current_state
+			continue
+		
+		if node.has_method("_saving_state"):
+			node._saving_state()
+		
 		var current_state := {}
-
+		
 		var groups := node.get_groups() as Array
 		if not groups.empty():
 			current_state["groups"] = groups
