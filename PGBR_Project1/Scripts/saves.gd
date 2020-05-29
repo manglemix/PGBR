@@ -2,7 +2,7 @@ extends Node
 
 
 var saves_paths: PoolStringArray
-var master_config: Dictionary
+var game_config := {}
 
 var _directory := Directory.new()
 var _hierarchies: Array
@@ -12,10 +12,17 @@ var _director_state: Dictionary
 
 func _ready():
 	_directory.open("res://")
-	if _directory.file_exists("master_config.ini"):
-		var file := File.new()
-		file.open("master_config.ini", File.READ)
-		master_config = parse_json(file.get_line())
+	
+	var file := File.new()
+	if _directory.file_exists("game_config.ini"):
+		file.open("game_config.ini", File.READ)
+		game_config = parse_json(file.get_line())
+		file.close()
+	
+	else:
+		# make a file with an empty dict
+		file.open("game_config.ini", File.WRITE)
+		file.store_line(to_json({}))
 		file.close()
 
 	_directory.list_dir_begin(true, true)
