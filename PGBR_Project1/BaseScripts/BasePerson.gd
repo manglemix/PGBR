@@ -5,7 +5,7 @@ extends KinematicBody
 
 signal shoot				# when emitted, all gun nodes connected to this should shoot
 signal died(code)			# may or may not be needed, we'll be watched by the current scene
-signal aim(target)			# when emitted, all guns and hands will aim towards the target (a global vector)
+signal aim(target)			# when emitted, all equipment and hands will aim towards the target (a global vector)
 signal jumped(strength)		# emitted after the jump function is done
 
 signal health_updated(health)
@@ -49,10 +49,10 @@ var linear_velocity := Vector3.ZERO
 var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 var max_slope_angle: float setget set_max_slope_angle
-var dont_save := ["hands", "guns", "_branch", "head", "camera", "_director"]
+var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"]
 
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
-var guns := []
+var equipment := []
 
 var _branch: Node
 var _jump_charge_duration: float			# time since a jump began charging
