@@ -62,7 +62,7 @@ var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 
 onready var head := find_node("Head") as PivotPoint
-onready var camera := head.get_node("Camera") as Camera
+onready var camera := head.find_node("Camera") as Camera
 onready var _director := get_tree().get_current_scene() as Node
 
 
