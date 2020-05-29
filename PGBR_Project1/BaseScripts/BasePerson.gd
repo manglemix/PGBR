@@ -31,14 +31,15 @@ export var acceleration := 6.0			# used for interpolating the Person's speed to 
 export var turn_speed := 10.0			# used for interpolating turns
 
 export var step_height := 0.5
-export var max_slope_angle_degrees := 45.0 setget set_max_slope_angle_degrees
+export var max_slope_angle_degrees := 60.0 setget set_max_slope_angle_degrees
 
 export var coyote_time := 0.4				# the time after falling off in which a jump still be done
 export var jump_speed := 10.0				# the vertical speed given to the person when they jump
-export var max_jump_time := 0.5			# the amount of time in which the first jump has to accelerate
+export var max_jump_time := 0.5				# the amount of time in which the first jump has to accelerate
 export var first_jump_acceleration := 8.0	# the amount of acceleration during the first jump off the ground
-export var max_jetpack_time := 2.0
-export var jetpack_acceleration := 30.0
+export var max_jetpack_time := 0.5			# the max amount of time the jetpack can thrust for
+export var jetpack_acceleration := 10.0
+export var jetpack_impulse := 10.0			# the initial push of the jetpack
 
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
@@ -381,9 +382,12 @@ func _physics_process(delta):
 			_jumped = true
 		
 		else:
+			if is_zero_approx(_jetpack_time):
+				linear_velocity += head.global_transform.basis.y * jetpack_impulse
+			
 			# jetpack acceleration
 			if _jetpack_time < max_jetpack_time:
-				linear_velocity.y += jetpack_acceleration * delta
+				linear_velocity += head.global_transform.basis.y * jetpack_acceleration * delta
 				_jetpack_time += delta
 			else:
 				jumping = false
