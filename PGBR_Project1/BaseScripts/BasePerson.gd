@@ -383,7 +383,7 @@ func _physics_process(delta):
 		
 		else:
 			if is_zero_approx(_jetpack_time):
-				linear_velocity = head.global_transform.basis.y * jetpack_impulse
+				linear_velocity += head.global_transform.basis.y * jetpack_impulse
 				global_turn_to_vector(head.global_transform.basis.z)
 			
 			# jetpack acceleration
