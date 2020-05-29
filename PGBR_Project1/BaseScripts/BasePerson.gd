@@ -55,11 +55,12 @@ var hands := {}								# a dict of nodes which were considered hands (from hand_
 var guns := []
 
 var _branch: Node
-var _jump_charge_start: int					# the system time in msecs when a jump began to charge
+var _jump_charge_duration: float			# time since a jump began charging
 var _jump_charge_target: float				# the target strength of the jump
-var _jump_charge_factor := 0.001			# jump strength units per millisecond
+var _jump_charge_factor := 1.0				# jump strength units per second
 var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
+var _time_since_floor: float				# time since contact with the floor
 
 onready var head := find_node("Head") as PivotPoint
 onready var camera := head.find_node("Camera") as Camera
@@ -171,21 +172,22 @@ func global_turn_to_vector(position: Vector3) -> void:
 func charge_jump(strength:=1.5) -> void:
 	if not charging_jump:
 		charging_jump = true
-		_jump_charge_start = OS.get_system_time_msecs()
+		_jump_charge_duration = 0
 	
 	_jump_charge_target = strength
 
 
 func jump() -> void:
-	if floor_collision:
+	if _time_since_floor <= _director.jump_buffer:
 		floor_collision = null
 		
 		var strength := 1.0
 		if charging_jump:
-			strength += (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor
+			strength += _jump_charge_duration * _jump_charge_factor
 		
 		linear_velocity.y += jump_speed * strength
 		charging_jump = false
+		_jump_charge_duration = 0
 		emit_signal("jumped", strength)
 
 
@@ -241,7 +243,7 @@ func _input(event):
 			event.relative.y *= -1
 		
 		head.biaxial_rotate(event.relative.y * _director.mouse_sensitivity, - event.relative.x * _director.mouse_sensitivity)
-
+	
 	# this alerts the player to charge the jump
 	if event.is_action_pressed("jump"):
 		for pad in _branch.jump_pads:
@@ -249,21 +251,21 @@ func _input(event):
 				pad.jump(self)
 				return
 		charge_jump()
-
+	
 	# once the spacebar is released, and a jump was charging, then the player will jump
 	elif event.is_action_released("jump") and charging_jump:
 		jump()
-
+	
 	if event.is_action_pressed("crouch"):
 		crouching = not crouching
 		set_crouch(crouching)
-
+	
 	if event.is_action_pressed("change viewpoint"):
 		head.get_node("Camera").increment_transform()
-
+	
 	if event.is_action_pressed("aim"):
 		_director.mouse_sensitivity /= 1.5
-
+	
 	elif event.is_action_released("aim"):
 		_director.mouse_sensitivity *= 1.5
 
@@ -340,6 +342,7 @@ func _physics_process(delta):
 			global_transform.origin += floor_collision.travel
 	
 	if floor_collision:
+		_time_since_floor = 0
 		Debug.draw_points_from_origin([floor_collision.position, floor_collision.normal])
 		var tmp_vector := movement_vector
 		if not is_zero_approx(tmp_vector.length_squared()):
@@ -353,22 +356,30 @@ func _physics_process(delta):
 			
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
-		
-		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
-		if charging_jump and (OS.get_system_time_msecs() - _jump_charge_start) * _jump_charge_factor >= _jump_charge_target - 1:
-			jump()
 	
 	else:
+		_time_since_floor += delta
 		crouching = false
-		# cannot charge jump while in the air
-		charging_jump = false
 		# this is strafing
 		linear_velocity += movement_vector * delta
 		# this is just gravity
 		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
+	if charging_jump:
+		if _time_since_floor <= _director.jump_buffer:
+			_jump_charge_duration += delta
+		
+		else:
+			# cannot charge jump while in the air
+			_jump_charge_duration = 0
+			charging_jump = false
+		
+		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
+		if _jump_charge_duration * _jump_charge_factor >= _jump_charge_target - 1:
+			jump()
+	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
-
+	
 	if sprinting:
 		self.stamina -= delta
 	else:

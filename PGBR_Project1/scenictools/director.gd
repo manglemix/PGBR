@@ -8,6 +8,7 @@ signal player_changed(node)
 export var _player_path: NodePath
 export var invert_y := false
 export var mouse_sensitivity := 0.001
+export var jump_buffer := 0.3
 
 var player: Spatial setget set_player
 
