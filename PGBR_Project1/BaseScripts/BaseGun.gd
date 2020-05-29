@@ -2,24 +2,29 @@ class_name BaseGun
 extends Spatial
 
 
-export var raycast_path := NodePath("Muzzle")
-export(Array, NodePath) var handle_paths := []
+export var _raycast_path := NodePath("Muzzle")
+export(Array, NodePath) var _handle_paths := []
+
+var dont_save := ["_player", "_handles", "_raycast"]
 
 var _player
 var _handles := {}
 
-onready var _raycast := get_node(raycast_path) as RayCast
+onready var _raycast := get_node(_raycast_path) as RayCast
 
 
 func _ready():
 	set_distance(1000)
 	
-	assert(not handle_paths.empty())
-	for path in handle_paths:
+	assert(not _handle_paths.empty())
+	for path in _handle_paths:
 		_handles[get_node(path)] = null
 	
-	if get_parent() != get_tree().get_current_scene():
+	if get_parent() is KinematicBody:
 		get_parent().connect("ready", self, "equip_node", [get_parent(), true])
+	
+	elif get_parent().owner is KinematicBody:
+		get_parent().owner.connect("ready", self, "equip_node", [get_parent().owner, true])
 
 
 func equip_node(node, try_assert:=false) -> bool:
@@ -77,7 +82,6 @@ func shoot():
 	var node = _raycast.get_collider()
 	
 	if is_instance_valid(node):
-		print(node)
 		if node.has_method("damage"):
 			node.damage(self)
 		
@@ -87,7 +91,6 @@ func shoot():
 		_raycast.force_raycast_update()
 		var node2 = _raycast.get_collider()
 		
-		print(node2)
 		if is_instance_valid(node2) and node2.has_method("damage"):
 			node2.damage(self)
 	

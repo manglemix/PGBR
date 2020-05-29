@@ -23,7 +23,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.5, 1 ), 0.0, 0.0, 0, 0, Ve
 
 [sub_resource type="CubeMesh" id=5]
 
-[node name="Draft2" type="Spatial"]
+[node name="Draft" type="Spatial"]
 script = ExtResource( 8 )
 _jump_paths = [ NodePath("Area") ]
 
@@ -59,6 +59,7 @@ value_curve = SubResource( 3 )
 [node name="Area" type="Area" parent="."]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -19.1059, 0, -4.12177 )
 script = ExtResource( 3 )
+new_branch_path = "res://EmptyLevel.tscn"
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

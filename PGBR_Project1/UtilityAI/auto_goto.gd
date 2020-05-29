@@ -22,6 +22,7 @@ func _init(to: Vector3, optimize:=true):
 
 
 func _ready():
+	add_to_group("ignore_state")
 	set_path(destination, _optimize)
 
 

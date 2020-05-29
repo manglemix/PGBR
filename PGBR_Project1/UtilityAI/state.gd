@@ -18,6 +18,7 @@ func _ready():
 	# by default, the _process node will only activate if the State was assigned to an employee
 	# in that case, the StateTree will activate it
 	set_process(false)
+	add_to_group("ignore_state")
 	
 	if get_parent() is UtilityTree:
 		father = get_parent()

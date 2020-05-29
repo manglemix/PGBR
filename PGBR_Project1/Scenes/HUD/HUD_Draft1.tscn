@@ -57,7 +57,9 @@ size = 18
 use_filter = true
 font_data = SubResource( 9 )
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" groups=[
+"ignore_state",
+]]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -0.891235
@@ -346,8 +348,8 @@ margin_right = 45.0
 margin_bottom = 49.0
 custom_fonts/font = SubResource( 10 )
 text = "0289"
-[connection signal="health_updated" from="." to="MainHud/StatusContainer/HealthTextBg/HealthTextWrapper/HealthTextContainer" method="_on_HUD_health_updated"]
 [connection signal="health_updated" from="." to="MainHud/StatusContainer/BarContainer/HealthBar" method="_on_HUD_health_updated"]
+[connection signal="health_updated" from="." to="MainHud/StatusContainer/HealthTextBg/HealthTextWrapper/HealthTextContainer" method="_on_HUD_health_updated"]
 [connection signal="max_health_updated" from="." to="MainHud/StatusContainer/BarContainer/HealthBar" method="_on_HUD_max_health_updated"]
 [connection signal="max_stamina_updated" from="." to="MainHud/StatusContainer/BarContainer/StaminaBar" method="_on_HUD_max_stamina_updated"]
 [connection signal="stamina_updated" from="." to="MainHud/StatusContainer/BarContainer/StaminaBar" method="_on_HUD_stamina_updated"]

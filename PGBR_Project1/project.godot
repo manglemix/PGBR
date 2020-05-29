@@ -159,12 +159,12 @@ _global_script_class_icons={
 [application]
 
 config/name="PGBR"
-run/main_scene="res://DebugBattlefield.tscn"
+run/main_scene="res://MenuScreen.tscn"
 
 [autoload]
 
 Debug="*res://debugtools/Debug.gd"
-GlobalEnums="*res://Scripts/global_enums.gd"
+Saves="*res://Scripts/saves.gd"
 
 [config]
 
@@ -249,10 +249,6 @@ debug={
 [rendering]
 
 environment/default_environment="res://default_env.tres"
-
-[run]
-
-main_scene="res://DebugBattlefield.tscn"
 
 [}[application]
 
