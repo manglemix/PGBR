@@ -50,7 +50,7 @@ func _process(_delta):
 	
 	get_parent().fully_face_target(_target.find_node("HeadHitbox").global_transform.origin)
 	
-	if get_parent().guns[0].get_collider() == _target:
+	if get_parent().equipment[0].get_collider() == _target:
 		get_parent().shoot_guns()
 		
 		if is_instance_valid(_goto):

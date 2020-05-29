@@ -43,7 +43,7 @@ func equip_node(node, try_assert:=false) -> bool:
 	_player = node
 	_player.connect("shoot", self, "shoot")
 	_player.connect("aim", self, "aim_towards")
-	_player.guns.append(self)
+	_player.equipment.append(self)
 	
 	get_parent().remove_child(self)
 	_handles.values()[0].get_parent().add_child(self)
