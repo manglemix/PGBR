@@ -37,8 +37,8 @@ func lerp_position(name: String, target: Vector2) -> void:
 	set_parameter(name, get_parameter(name, "blend_position").linear_interpolate(target, _interp_speed), "blend_position")
 
 
-func jump(strength: float):
-	_delay = 0.4 * strength
+func jump():
+	_delay = 0.4
 	set("parameters/seek/seek_position", 0)
 
 

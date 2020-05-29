@@ -6,7 +6,7 @@ extends KinematicBody
 signal shoot				# when emitted, all gun nodes connected to this should shoot
 signal died(code)			# may or may not be needed, we'll be watched by the current scene
 signal aim(target)			# when emitted, all equipment and hands will aim towards the target (a global vector)
-signal jumped(strength)		# emitted after the jump function is done
+signal jumped()				# emitted when the first jump was done
 
 signal health_updated(health)
 signal max_health_updated(max_health)
@@ -28,19 +28,24 @@ export var health_regen := 1.0
 export var stamina_lag := 2.0 			# the delay before the stamina begins regenerating
 
 export var acceleration := 6.0			# used for interpolating the Person's speed to the movement_vector
-export var jump_speed := 10.0			# the vertical speed given to the person when they jump
 export var turn_speed := 10.0			# used for interpolating turns
 
 export var step_height := 0.5
-export var max_slope_angle_degrees := 45.0 setget set_max_slope_angle_degrees
+export var max_slope_angle_degrees := 60.0 setget set_max_slope_angle_degrees
 
-export var coyote_time := 0.4		# the time after falling off in which a jump still be done
-export var max_jumps := 2
+export var coyote_time := 0.4				# the time after falling off in which a jump still be done
+export var jump_speed := 10.0				# the vertical speed given to the person when they jump
+export var max_jump_time := 0.5				# the amount of time in which the first jump has to accelerate
+export var first_jump_acceleration := 8.0	# the amount of acceleration during the first jump off the ground
+export var max_jetpack_time := 0.5			# the max amount of time the jetpack can thrust for
+export var jetpack_acceleration := 10.0
+export var jetpack_impulse := 10.0			# the initial push of the jetpack
 
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
 var sprinting := false						# to be read but not modified
 var crouching := false setget set_crouch
+var jumping := false
 
 var health := max_health setget set_health
 var stamina := max_stamina setget set_stamina
@@ -49,7 +54,6 @@ var user_input := false setget set_user_input
 var movement_vector := Vector3.ZERO			# the top down velocity of the person
 var fall_acceleration_factor := 1.0			# multiplied with gravity to get final falling acceleration
 var linear_velocity := Vector3.ZERO
-var charging_jump := false					# if true, the Person will try to charge up its jump strength
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 var max_slope_angle: float setget set_max_slope_angle
 var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"]
@@ -64,8 +68,9 @@ var _jump_charge_factor := 1.0				# jump strength units per second
 var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 var _time_since_floor: float				# time since contact with the floor
-var _awaiting_jump: bool
-var _awaiting_jump_time: float
+var _jumped: bool
+var _jetpack_time := 0.0
+var _jump_time := 0.0
 
 onready var head := find_node("Head") as PivotPoint
 onready var camera := head.find_node("Camera") as Camera
@@ -135,7 +140,7 @@ func _enter_tree():
 
 func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 	# moves the node towards the relative vector given
-	rel_vec.y = 0.0	# must flatten cause the Person can only turn side to side
+	rel_vec.y = 0	# must flatten cause the Person can only turn side to side
 	sprinting = false
 	if floor_collision:
 		assert(speed >= 0 and speed <= 2)
@@ -143,7 +148,7 @@ func move_to_vector(rel_vec: Vector3, speed:=Speeds.RUN) -> void:
 			movement_vector = rel_vec.normalized() * sprint_speed
 			sprinting = true
 			crouching = false
-			_relaxed_time = 0.0
+			_relaxed_time = 0
 			
 		elif speed == Speeds.WALK or crouching:
 			movement_vector = rel_vec.normalized() * walk_speed
@@ -165,7 +170,7 @@ func stop_moving() -> void:
 
 func turn_to_vector(rel_vec: Vector3) -> void:
 	# turns the Person towards the relative vector given
-	rel_vec.y = 0.0	# must flatten cause the Person can only turn side to side
+	rel_vec.y = 0	# must flatten cause the Person can only turn side to side
 	_target_vector = rel_vec.normalized()
 
 
@@ -174,33 +179,8 @@ func global_turn_to_vector(position: Vector3) -> void:
 	turn_to_vector(position - global_transform.origin)
 
 
-func charge_jump(strength:=1.5) -> void:
-	if not charging_jump:
-		charging_jump = true
-		_jump_charge_duration = 0
-	
-	_jump_charge_target = strength
-
-
 func jump() -> void:
-	if _time_since_floor <= coyote_time:
-		floor_collision = null
-		
-		var strength := 1.0
-		if charging_jump:
-			strength += _jump_charge_duration * _jump_charge_factor
-		
-		if linear_velocity.y < 0:
-			linear_velocity.y = 0
-		linear_velocity.y += jump_speed * strength
-		charging_jump = false
-		_awaiting_jump = false
-		_jump_charge_duration = 0
-		emit_signal("jumped", strength)
-	
-	else:
-		_awaiting_jump = true
-		_awaiting_jump_time = 0
+	jumping = true
 
 
 func borrow_hand():
@@ -262,11 +242,10 @@ func _input(event):
 			if self in pad.get_overlapping_bodies():
 				pad.jump(self)
 				return
-		charge_jump()
+		jumping = true
 	
-	# once the spacebar is released, the player will jump
 	elif event.is_action_released("jump"):
-		jump()
+		jumping = false
 	
 	if event.is_action_pressed("crouch"):
 		crouching = not crouching
@@ -347,7 +326,7 @@ func _physics_process(delta):
 	
 	# this tests if the player is directly on the floor
 	floor_collision = move_and_collide(Vector3.DOWN * 0.01, true, true, true)
-	if not floor_collision:
+	if not floor_collision and not jumping:
 		# this will snap the player to the floor as long as the player is 10cm off of it
 		floor_collision = move_and_collide(Vector3.DOWN * 0.1, true, true, true)
 		if floor_collision:
@@ -355,6 +334,8 @@ func _physics_process(delta):
 	
 	if floor_collision:
 		_time_since_floor = 0
+		_jetpack_time = 0
+		_jump_time = 0
 		Debug.draw_points_from_origin([floor_collision.position, floor_collision.normal])
 		
 		var tmp_vector := movement_vector
@@ -366,15 +347,9 @@ func _physics_process(delta):
 				var angle := Vector3.UP.angle_to(floor_collision.normal)
 				if angle < max_slope_angle:
 					tmp_vector = tmp_vector.rotated(axis, angle)
-			
+		
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
-		
-		if _awaiting_jump:
-			if _awaiting_jump_time <= _director.jump_buffer:
-				jump()
-			else:
-				_awaiting_jump = false
 		
 	else:
 		_time_since_floor += delta
@@ -384,20 +359,47 @@ func _physics_process(delta):
 		# this is just gravity
 		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
-		if _awaiting_jump:
-			_awaiting_jump_time += delta
-	
-	if charging_jump:
-		_jump_charge_duration += delta
+	if jumping:
+		if _jumped:
+			# this is the acceleration in the first jump
+			if _jump_time < max_jump_time:
+				linear_velocity.y += first_jump_acceleration * delta
+				_jump_time += delta
+			
+			else:
+				jumping = false
+				_jumped = false
 		
-		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
-		if _jump_charge_duration * _jump_charge_factor >= _jump_charge_target - 1:
-			jump()
+		# Person can still jump within a small time frame after falling
+		# however if the person already has jumped (known if _jump_time is not 0), then this is no longer valid
+		elif is_zero_approx(_jump_time) and _time_since_floor <= coyote_time:
+			# if falling down, nullify downward speed
+			if linear_velocity.y < 0:
+				linear_velocity.y = 0
+			
+			emit_signal("jumped")
+			linear_velocity.y = jump_speed
+			_jumped = true
 		
-		# can still charge even if not on the floor, as long as the last contact was within limits
-		if _time_since_floor > coyote_time:
-			charging_jump = false
+		else:
+			if is_zero_approx(_jetpack_time):
+				linear_velocity += head.global_transform.basis.y * jetpack_impulse
+				global_turn_to_vector(head.global_transform.basis.z)
+			
+			# jetpack acceleration
+			if _jetpack_time < max_jetpack_time:
+				linear_velocity += head.global_transform.basis.y * jetpack_acceleration * delta
+				_jetpack_time += delta
+				
+			else:
+				jumping = false
 	
+	else:
+		_jumped = false
+		
+		# if the jetpack was used, and the Person stopped jumping the jetpack can no longer be used
+		if not is_zero_approx(_jetpack_time):
+			_jetpack_time = max_jetpack_time
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 	
