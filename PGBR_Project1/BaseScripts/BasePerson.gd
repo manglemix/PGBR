@@ -34,6 +34,9 @@ export var turn_speed := 10.0			# used for interpolating turns
 export var step_height := 0.5
 export var max_slope_angle_degrees := 45.0 setget set_max_slope_angle_degrees
 
+export var coyote_time := 0.4		# the time after falling off in which a jump still be done
+export var max_jumps := 2
+
 export(Array, NodePath) var hand_paths	# an array of paths to nodes which are considered hands
 
 var sprinting := false						# to be read but not modified
@@ -61,6 +64,8 @@ var _jump_charge_factor := 1.0				# jump strength units per second
 var _target_vector: Vector3					# the vector the Person tries to turn to
 var _relaxed_time: float					# amount of time the Person has not been sprinting
 var _time_since_floor: float				# time since contact with the floor
+var _awaiting_jump: bool
+var _awaiting_jump_time: float
 
 onready var head := find_node("Head") as PivotPoint
 onready var camera := head.find_node("Camera") as Camera
@@ -178,17 +183,24 @@ func charge_jump(strength:=1.5) -> void:
 
 
 func jump() -> void:
-	if _time_since_floor <= _director.jump_buffer:
+	if _time_since_floor <= coyote_time:
 		floor_collision = null
 		
 		var strength := 1.0
 		if charging_jump:
 			strength += _jump_charge_duration * _jump_charge_factor
 		
+		if linear_velocity.y < 0:
+			linear_velocity.y = 0
 		linear_velocity.y += jump_speed * strength
 		charging_jump = false
+		_awaiting_jump = false
 		_jump_charge_duration = 0
 		emit_signal("jumped", strength)
+	
+	else:
+		_awaiting_jump = true
+		_awaiting_jump_time = 0
 
 
 func borrow_hand():
@@ -252,8 +264,8 @@ func _input(event):
 				return
 		charge_jump()
 	
-	# once the spacebar is released, and a jump was charging, then the player will jump
-	elif event.is_action_released("jump") and charging_jump:
+	# once the spacebar is released, the player will jump
+	elif event.is_action_released("jump"):
 		jump()
 	
 	if event.is_action_pressed("crouch"):
@@ -344,6 +356,7 @@ func _physics_process(delta):
 	if floor_collision:
 		_time_since_floor = 0
 		Debug.draw_points_from_origin([floor_collision.position, floor_collision.normal])
+		
 		var tmp_vector := movement_vector
 		if not is_zero_approx(tmp_vector.length_squared()):
 			# we rotate the movement_vector so that it is along the floor plane
@@ -356,7 +369,13 @@ func _physics_process(delta):
 			
 		# then we interpolate the velocity for smoother movement
 		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
-	
+		
+		if _awaiting_jump:
+			if _awaiting_jump_time <= _director.jump_buffer:
+				jump()
+			else:
+				_awaiting_jump = false
+		
 	else:
 		_time_since_floor += delta
 		crouching = false
@@ -365,18 +384,20 @@ func _physics_process(delta):
 		# this is just gravity
 		linear_velocity.y -= ProjectSettings.get_setting("physics/3d/default_gravity") * fall_acceleration_factor * delta
 	
+		if _awaiting_jump:
+			_awaiting_jump_time += delta
+	
 	if charging_jump:
-		if _time_since_floor <= _director.jump_buffer:
-			_jump_charge_duration += delta
-		
-		else:
-			# cannot charge jump while in the air
-			_jump_charge_duration = 0
-			charging_jump = false
+		_jump_charge_duration += delta
 		
 		# if a jump was charging, and the target strength was surpassed, the person will automatically jump
 		if _jump_charge_duration * _jump_charge_factor >= _jump_charge_target - 1:
 			jump()
+		
+		# can still charge even if not on the floor, as long as the last contact was within limits
+		if _time_since_floor > coyote_time:
+			charging_jump = false
+	
 	
 	Debug.draw_points_from_origin([global_transform.origin, linear_velocity], Color.red, 3)
 	

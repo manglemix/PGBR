@@ -8,7 +8,7 @@ signal player_changed(node)
 export var _player_path: NodePath
 export var invert_y := false
 export var mouse_sensitivity := 0.001
-export var jump_buffer := 0.3
+export var jump_buffer := 0.2		# if the player asks to jump while not on the ground, the action will still be done if the ground is touched this duration later
 
 var player: Spatial setget set_player
 
