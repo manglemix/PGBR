@@ -179,10 +179,6 @@ func global_turn_to_vector(position: Vector3) -> void:
 	turn_to_vector(position - global_transform.origin)
 
 
-func jump() -> void:
-	jumping = true
-
-
 func borrow_hand():
 	# returns the first free hand, or null if there are no free hands
 	for hand in hands:
