@@ -47,12 +47,21 @@ func write_save_data(name:="save1") -> int:
 	})
 	
 	save.close()
+	game_config.set_value("save_info", "last_save_name", name)
 	
 	return OK
 
 
 func read_save_data(name:="save1") -> int:
 	# reads save data from a file with the save name given
+	if name.empty():
+		if game_config.has_section_key("save_info", "last_save_name"):
+			name = game_config.get_value("save_info", "last_save_name")
+		else:
+			printerr("Game config was either corrupted or deleted")
+			printerr("Starting new game")
+			return ERR_FILE_CORRUPT
+	
 	var save := File.new()
 	var err := save.open(name + ".save", File.READ)
 
