@@ -37,9 +37,9 @@ func global_goto(target: Transform):
 		set_process(true)
 	
 	if interpolated:
-		target_transform = get_parent().to_local(target)
+		target_transform = target * get_parent().global_transform.affine_inverse()
 	else:
-		transform = get_parent().to_local(target)
+		transform = target * get_parent().global_transform.affine_inverse()
 
 
 func set_transform_index(index: int):
