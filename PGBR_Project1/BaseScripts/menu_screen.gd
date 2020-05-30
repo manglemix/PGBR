@@ -1,11 +1,7 @@
 extends Node
 
 
-var res_directory := Directory.new()
-
-
 func _ready():
-	res_directory.open("res://")
 	play_game()
 	
 
