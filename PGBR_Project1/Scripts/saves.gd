@@ -2,7 +2,7 @@ extends Node
 
 
 var saves_paths: PoolStringArray
-var game_config := {}
+var game_config := ConfigFile.new()
 
 var _directory := Directory.new()
 var _hierarchies: Array
@@ -15,15 +15,7 @@ func _ready():
 	
 	var file := File.new()
 	if _directory.file_exists("game_config.ini"):
-		file.open("game_config.ini", File.READ)
-		game_config = parse_json(file.get_line())
-		file.close()
-	
-	else:
-		# make a file with an empty dict
-		file.open("game_config.ini", File.WRITE)
-		file.store_line(to_json({}))
-		file.close()
+		game_config.load("game_config.ini")
 
 	_directory.list_dir_begin(true, true)
 
@@ -34,6 +26,10 @@ func _ready():
 		
 		if filename.ends_with(".save"):
 			saves_paths.append(filename.trim_suffix(".save"))
+
+
+func _exit_tree():
+	game_config.save("game_config.ini")
 
 
 func write_save_data(name:="save1") -> int:
