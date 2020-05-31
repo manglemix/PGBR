@@ -2,13 +2,13 @@ class_name BoneData
 extends Spatial
 
 
-export var _skeleton_path: NodePath
+export var skeleton_path := NodePath("..")
 export var _bone_name: String			# if not given, the name of the node is used instead
 
 var bone_idx: int
 var dont_save := ["skeleton", "_bone_name"]
 
-onready var skeleton := get_node(_skeleton_path) as Skeleton setget set_skeleton
+onready var skeleton := get_node(skeleton_path) as Skeleton setget set_skeleton
 
 
 func set_bone_name(name: String):
