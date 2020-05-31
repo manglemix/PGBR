@@ -14,6 +14,7 @@ func _ready():
 	_animation_player = get_node(anim_player)
 	_animation_player.stop()
 	get_parent().connect("jumped", self, "jump")
+	active = true
 
 
 func flerp(value: float, target: float, t:=_interp_speed) -> float:
