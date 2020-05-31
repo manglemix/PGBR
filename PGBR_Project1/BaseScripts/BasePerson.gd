@@ -257,7 +257,7 @@ func _input(event):
 		_director.mouse_sensitivity *= 1.5
 
 
-func _process(delta):
+func _process(_delta):
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("forward"):
 		direction += head.global_transform.basis.z

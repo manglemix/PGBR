@@ -51,7 +51,7 @@ func _process(delta):
 		set_process(false)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if sticky_parent:
 		var parent_transform: Transform
 		if fallback_node.has_method("get_final_transform"):
