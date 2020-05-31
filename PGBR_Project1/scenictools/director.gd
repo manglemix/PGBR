@@ -13,7 +13,7 @@ export var jump_buffer := 0.2		# if the player asks to jump while not on the gro
 var player: Spatial setget set_player
 
 
-func set_player(node: Spatial):
+func set_player(node: Spatial, make_current:=true):
 	if is_instance_valid(player):
 		player.user_input = false
 	
@@ -22,6 +22,7 @@ func set_player(node: Spatial):
 	
 	if is_instance_valid(player):
 		player.user_input = true
+		player.camera.current = make_current
 
 
 func get_state() -> Dictionary:
