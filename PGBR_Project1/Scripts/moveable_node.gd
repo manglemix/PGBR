@@ -15,7 +15,6 @@ var target_transform: Transform setget goto		# the current transform the node is
 
 func _ready():
 	transforms = transforms.duplicate()
-	transforms.insert(0, transform)
 	set_process(false)
 
 
