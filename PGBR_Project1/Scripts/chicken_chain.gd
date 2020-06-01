@@ -11,6 +11,7 @@ export var joint_path: NodePath
 export var tail_path: NodePath
 export var ik_path: NodePath
 export var override_tip_basis := true
+export var active := true setget set_active
 
 var dont_save := ["root_attachment", "root_proxy_node", "joint_attachment", "joint_proxy_node", "tail_attachment", "tail_proxy_node", "ik_node"]
 
@@ -29,12 +30,27 @@ onready var tail_length := joint_attachment.global_transform.origin.distance_to(
 onready var ik_node := get_node(ik_path) as Spatial
 
 
+func set_active(value: bool):
+	if not is_instance_valid(root_attachment):
+		return
+	
+	active = value
+	set_process(value)
+	root_attachment.get_node("Pose").active = value
+	joint_attachment.get_node("Pose").active = value
+	tail_attachment.get_node("Pose").active = value
+
+
+func _ready():
+	set_active(active)
+
+
 func _process(_delta):
 	var target_vector := ik_node.global_transform.origin - root_attachment.global_transform.origin
 	var target_distance := target_vector.length()
 
 	$Joint.global_transform.origin = root_attachment.global_transform.origin + target_vector.normalized() * root_length
-
+	
 	if target_distance < root_length + tail_length:
 		var joint_normal := ($Magnet.global_transform.origin - $Joint.global_transform.origin).normalized() as Vector3
 		var joint_offset := sqrt(pow(root_length, 2) - pow((pow(root_length, 2) - pow(tail_length, 2) + pow(target_distance, 2)) / 2 / target_distance, 2))
