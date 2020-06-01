@@ -40,4 +40,4 @@ func _process(delta):
 		$Joint.global_transform.origin += joint_normal * joint_offset
 	
 	root_proxy_node.look_at($Joint.global_transform.origin, root_attachment.global_transform.basis.z)
-	joint_proxy_node.look_at(ik_node.global_transform.origin, joint_proxy_node.global_transform.basis.y)
+	joint_proxy_node.look_at(ik_node.global_transform.origin, joint_attachment.global_transform.basis.z)
