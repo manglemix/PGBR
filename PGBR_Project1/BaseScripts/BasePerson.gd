@@ -438,7 +438,9 @@ func _physics_process(delta):
 				global_transform = tmp
 				global_transform.origin += linear_velocity * delta
 				# this line moves the Body onto the floor
-				global_transform.origin += move_and_collide(Vector3.DOWN * step_height, true, true, true).travel
+				var result := move_and_collide(Vector3.DOWN * step_height, true, true, true)
+				if is_instance_valid(result):
+					global_transform.origin += result.travel
 				return
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
