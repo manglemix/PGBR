@@ -55,9 +55,15 @@ func _process(_delta):
 		var joint_normal := ($Magnet.global_transform.origin - $Joint.global_transform.origin).normalized() as Vector3
 		var joint_offset := sqrt(pow(root_length, 2) - pow((pow(root_length, 2) - pow(tail_length, 2) + pow(target_distance, 2)) / 2 / target_distance, 2))
 		$Joint.global_transform.origin += joint_normal * joint_offset
-	
-	root_proxy_node.look_at($Joint.global_transform.origin, root_attachment.global_transform.basis.z)
-	joint_proxy_node.look_at(ik_node.global_transform.origin, joint_attachment.global_transform.basis.z)
+		
+		root_proxy_node.look_at($Joint.global_transform.origin, root_attachment.global_transform.basis.z)
+		var joint_axis = root_proxy_node.global_transform.origin - $Joint.global_transform.origin
+		joint_axis = joint_axis.cross(ik_node.global_transform.origin - joint_proxy_node.global_transform.origin)
+		joint_proxy_node.look_at(ik_node.global_transform.origin, joint_axis.normalized())
+		
+	else:
+		root_proxy_node.look_at(ik_node.global_transform.origin, root_attachment.global_transform.basis.z)
+		joint_proxy_node.look_at(ik_node.global_transform.origin, joint_attachment.global_transform.basis.z)
 	
 	if override_tip_basis:
 		tail_proxy_node.global_transform.basis = ik_node.global_transform.basis
