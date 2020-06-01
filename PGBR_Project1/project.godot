@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/bone_data.gd"
 }, {
+"base": "Node",
+"class": "ChickenChain",
+"language": "GDScript",
+"path": "res://chicken_chain.gd"
+}, {
 "base": "VisibilityNotifier",
 "class": "ChunkHider",
 "language": "GDScript",
@@ -48,11 +53,6 @@ _global_script_classes=[ {
 "class": "Director",
 "language": "GDScript",
 "path": "res://scenictools/director.gd"
-}, {
-"base": "Reference",
-"class": "ExternalBoneAttachment",
-"language": "GDScript",
-"path": "res://Scripts/external_bone.gd"
 }, {
 "base": "Reference",
 "class": "FrustumCuller",
@@ -109,6 +109,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
 }, {
+"base": "BoneData",
+"class": "RestBoneAttachment",
+"language": "GDScript",
+"path": "res://Scripts/rest_bone.gd"
+}, {
 "base": "CollisionShape",
 "class": "SqueezedCollider",
 "language": "GDScript",
@@ -129,7 +134,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/targeted_camera.gd"
 }, {
-"base": "Reference",
+"base": "Spatial",
 "class": "TransformProxy",
 "language": "GDScript",
 "path": "res://Scripts/transform_proxy.gd"
@@ -151,9 +156,9 @@ _global_script_class_icons={
 "BaseGun": "",
 "BasePerson": "",
 "BoneData": "",
+"ChickenChain": "",
 "ChunkHider": "",
 "Director": "",
-"ExternalBoneAttachment": "",
 "FrustumCuller": "",
 "HealthBar": "",
 "HostilesEnvironment": "",
@@ -165,6 +170,7 @@ _global_script_class_icons={
 "MoveableNode": "",
 "PivotPoint": "",
 "PropertyWatcher": "",
+"RestBoneAttachment": "",
 "SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",

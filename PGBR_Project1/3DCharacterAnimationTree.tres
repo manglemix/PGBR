@@ -119,4 +119,4 @@ nodes/speed/node = SubResource( 20 )
 nodes/speed/position = Vector2( 0, 100 )
 nodes/sprint/node = SubResource( 25 )
 nodes/sprint/position = Vector2( -200, 380 )
-node_connections = [ "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "seek", 0, "custom_anim", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "custom", 0, "falling", "custom", 1, "seek", "falling", 0, "idle", "falling", 1, "Animation 3" ]
+node_connections = [ "seek", 0, "custom_anim", "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "custom", 0, "falling", "custom", 1, "seek", "falling", 0, "idle", "falling", 1, "Animation 3" ]
