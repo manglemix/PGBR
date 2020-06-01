@@ -4,13 +4,10 @@ extends Spatial
 
 
 export var initial_transform: Transform setget set_initial_transform
-export var target_path := NodePath("..")
 
-var dont_save = ["initial_transform", "_affine_transform", "target"]
+var dont_save = ["initial_transform", "_affine_transform"]
 
 var _affine_transform: Transform
-
-onready var target := get_node(target_path) as Spatial
 
 
 func _ready():
@@ -24,5 +21,5 @@ func set_initial_transform(transform: Transform):
 
 
 func _process(delta):
-	target.transform *= transform * _affine_transform
+	get_parent().transform *= transform * _affine_transform
 	transform = initial_transform
