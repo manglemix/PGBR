@@ -10,6 +10,7 @@ export var root_path: NodePath
 export var joint_path: NodePath
 export var tail_path: NodePath
 export var ik_path: NodePath
+export var override_tip_basis := true
 
 var dont_save := ["root_attachment", "root_proxy_node", "joint_attachment", "joint_proxy_node", "tail_attachment", "tail_proxy_node", "ik_node"]
 
@@ -28,7 +29,7 @@ onready var tail_length := joint_attachment.global_transform.origin.distance_to(
 onready var ik_node := get_node(ik_path) as Spatial
 
 
-func _process(delta):
+func _process(_delta):
 	var target_vector := ik_node.global_transform.origin - root_attachment.global_transform.origin
 	var target_distance := target_vector.length()
 
@@ -41,3 +42,6 @@ func _process(delta):
 	
 	root_proxy_node.look_at($Joint.global_transform.origin, root_attachment.global_transform.basis.z)
 	joint_proxy_node.look_at(ik_node.global_transform.origin, joint_attachment.global_transform.basis.z)
+	
+	if override_tip_basis:
+		tail_proxy_node.global_transform.basis = ik_node.global_transform.basis
