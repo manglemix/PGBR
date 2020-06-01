@@ -384,13 +384,20 @@ func _physics_process(delta):
 			_jumped = true
 		
 		else:
+			global_turn_to_vector(movement_vector)
+			var thrust_vector: Vector3
+			if is_zero_approx(movement_vector.length_squared()):
+				thrust_vector = global_transform.basis.y
+			else:
+				# get the vector in between the up vector and the movement vector
+				thrust_vector = global_transform.basis.y.linear_interpolate(movement_vector.normalized(), 0.5)
+			
 			if is_zero_approx(_jetpack_time):
-				linear_velocity += head.global_transform.basis.y * jetpack_impulse
-				global_turn_to_vector(head.global_transform.basis.z)
+				linear_velocity += thrust_vector * jetpack_impulse
 			
 			# jetpack acceleration
 			if _jetpack_time < max_jetpack_time:
-				linear_velocity += head.global_transform.basis.y * jetpack_acceleration * delta
+				linear_velocity += thrust_vector * jetpack_acceleration * delta
 				_jetpack_time += delta
 				
 			else:
