@@ -225,6 +225,12 @@ func kill(code) -> void:
 	queue_free()
 
 
+func _integrate_velocity(vector: Vector3, delta: float) -> Vector3:
+	# determines how the input vector (representing the direction to move in global space and speed at which to move) affects velocity
+	# vector is the input vector, delta is the timestep, and the value returned should be the new velocity
+	return linear_velocity.linear_interpolate(vector, acceleration * delta)
+
+
 func _input(event):
 	if event is InputEventMouseMotion:
 		if _director.invert_y:
@@ -345,7 +351,7 @@ func _physics_process(delta):
 					tmp_vector = tmp_vector.rotated(axis, angle)
 		
 		# then we interpolate the velocity for smoother movement
-		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
+		linear_velocity = _integrate_velocity(tmp_vector, delta)
 		
 	else:
 		_time_since_floor += delta
