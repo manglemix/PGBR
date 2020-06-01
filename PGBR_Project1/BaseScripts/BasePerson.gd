@@ -60,6 +60,7 @@ var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"
 
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var equipment := []
+var camera: Camera		# assuming this Person is controlled by the player, they would look through this camera
 
 var _branch: Node
 var _jump_charge_duration: float			# time since a jump began charging
@@ -73,7 +74,6 @@ var _jetpack_time := 0.0
 var _jump_time := 0.0
 
 onready var head := find_node("Head") as PivotPoint
-onready var camera := head.find_node("Camera") as Camera
 onready var _director := get_tree().get_current_scene() as Node
 
 
@@ -129,8 +129,9 @@ func _ready():
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
-	assert(is_instance_valid(head))
-	assert(is_instance_valid(camera))
+	if is_instance_valid(head):
+		camera = head.find_node("Camera")
+	
 	set_user_input(user_input)
 
 
@@ -203,7 +204,8 @@ func shoot_guns() -> void:
 func fully_face_target(target: Vector3) -> void:
 	# this turns both the Person and the arms towards the global vector given
 	global_turn_to_vector(target)
-	head.global_turn_to_vector(target)
+	if is_instance_valid(head):
+		head.global_turn_to_vector(target)
 	aim_guns(target)
 
 
@@ -254,7 +256,7 @@ func _input(event):
 		set_crouch(crouching)
 	
 	if event.is_action_pressed("change viewpoint"):
-		head.get_node("Camera").increment_transform()
+		camera.increment_transform()
 	
 	if event.is_action_pressed("aim"):
 		_director.mouse_sensitivity /= 1.5
@@ -321,7 +323,8 @@ func _physics_process(delta):
 			var turn_angle := global_transform.basis.z.angle_to(_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			
-			head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			if is_instance_valid(head):
+				head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_target_vector = Vector3.ZERO
