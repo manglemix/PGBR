@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://DefaultEnvironment.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenictools/director.gd" type="Script" id=2]
 [ext_resource path="res://EmptyLevel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://monkeybot.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/HUD/HUD_Draft1.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Dudesse.tscn" type="PackedScene" id=7]
 
@@ -18,5 +19,8 @@ _player_path = NodePath("Draft/Dudesse")
 "Friendly",
 ] instance=ExtResource( 7 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.77908, 3.73413, -34.462 )
+
+[node name="monkeybot" parent="Draft" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0716076, 6.37012, -39.0461 )
 
 [node name="DefaultEnvironment" parent="." instance=ExtResource( 1 )]

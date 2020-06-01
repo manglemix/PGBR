@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ChickenChain",
 "language": "GDScript",
-"path": "res://chicken_chain.gd"
+"path": "res://Scripts/chicken_chain.gd"
 }, {
 "base": "VisibilityNotifier",
 "class": "ChunkHider",
@@ -114,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scripts/rest_bone.gd"
 }, {
+"base": "BasePerson",
+"class": "RootedPerson",
+"language": "GDScript",
+"path": "res://Scripts/rooted_person.gd"
+}, {
 "base": "CollisionShape",
 "class": "SqueezedCollider",
 "language": "GDScript",
@@ -171,6 +176,7 @@ _global_script_class_icons={
 "PivotPoint": "",
 "PropertyWatcher": "",
 "RestBoneAttachment": "",
+"RootedPerson": "",
 "SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",
