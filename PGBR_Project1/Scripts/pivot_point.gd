@@ -1,4 +1,5 @@
 # Enforces rotation limits, applies excess rotation onto the fallback_node, and can be made to target a global position
+tool
 class_name PivotPoint
 extends Spatial
 
