@@ -105,11 +105,6 @@ func set_crouch(value: bool):
 
 
 func set_user_input(value: bool):
-	if value:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	
 	set_process(value)
 	set_process_input(value)
 
@@ -255,6 +250,9 @@ func _input(event):
 	
 	elif event.is_action_released("aim"):
 		_director.mouse_sensitivity *= 1.5
+	
+	if event.is_action_pressed("hide_mouse"):
+		_director.show_mouse = not _director.show_mouse
 
 
 func _process(delta):

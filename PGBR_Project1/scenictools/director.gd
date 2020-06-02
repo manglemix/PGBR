@@ -11,6 +11,7 @@ export var mouse_sensitivity := 0.001
 export var jump_buffer := 0.2		# if the player asks to jump while not on the ground, the action will still be done if the ground is touched this duration later
 
 var player: Spatial setget set_player
+var show_mouse := true setget set_show_mouse
 
 
 func set_player(node: Spatial):
@@ -36,6 +37,14 @@ func set_state(state: Dictionary) -> void:
 	set_player(get_node_or_null(state["player"]))
 	invert_y = state["invert_y"]
 	mouse_sensitivity = state["mouse_sensitivity"]
+
+
+func set_show_mouse(value: bool):
+	show_mouse = value
+	if show_mouse:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _ready():
