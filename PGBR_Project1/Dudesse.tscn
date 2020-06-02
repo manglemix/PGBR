@@ -3955,12 +3955,13 @@ transform = Transform( 0.642959, -0.0191467, -0.765655, -0.00914079, 0.999423, -
 bone_name = "spine_1"
 
 [node name="RemoteTransform" type="RemoteTransform" parent="Skeleton/BodyBone"]
+transform = Transform( 1, 0, 2.98023e-08, 1.86265e-09, 1, -1.86265e-09, 2.98023e-08, 3.72529e-09, 1, 0, 0, 0 )
 remote_path = NodePath("../../../Body")
 update_rotation = false
 update_scale = false
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/BodyBone"]
-transform = Transform( 1.01765, 0.000122504, 0.00108004, 0.000169061, 1.0265, -0.00161297, -0.00252187, 0.000269501, 1.017, -0.197993, -0.445976, 0.238291 )
+transform = Transform( 1, 2.04891e-08, 2.68221e-07, 1.86265e-09, 1.00001, -9.31323e-09, 2.98023e-08, 1.75089e-07, 1, 0.00412879, -0.451435, 0.0147561 )
 remote_path = NodePath("../../../BodyHitbox")
 update_rotation = false
 update_scale = false
@@ -3986,54 +3987,60 @@ script = ExtResource( 8 )
 _bone_name = "right_arm"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightArm"]
-transform = Transform( 0.88996, 0.448784, -0.0814168, -0.456065, 0.875993, -0.158874, 3.1595e-06, 0.178609, 0.984263, 0, 0, 0 )
+transform = Transform( 0.746161, 0.665742, -0.0102784, -0.665856, 0.746418, -0.0114578, 3.6945e-06, 0.0154773, 1.00024, 0, 0, 0 )
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../..")
 _bone_name = "right_arm"
 use_own_transform = true
+active = false
+compensate_rest = false
 ignore_origin = false
-override_animation = true
+override_animation = false
 
 [node name="TransformProxy" type="Spatial" parent="Skeleton/RightArm/Pose"]
-transform = Transform( 1, 2.23532e-08, -9.77088e-16, 0, -4.37114e-08, -1, -2.23532e-08, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 script = ExtResource( 10 )
 initial_transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 
 [node name="RightForeArm" type="Spatial" parent="Skeleton"]
-transform = Transform( 0.155703, 0.561339, 0.813061, 0.29896, 0.757658, -0.580595, -0.941793, 0.333076, -0.0498116, -0.245038, 1.604, 0.057356 )
+transform = Transform( 0.555066, 0.415486, 0.7206, 0.463793, 0.564559, -0.682766, -0.690502, 0.713189, 0.120669, -0.342933, 1.5691, -0.0237715 )
 script = ExtResource( 8 )
 _bone_name = "right_fore_arm"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightForeArm"]
-transform = Transform( 0.882085, -0.469965, -0.0315884, 0.43358, 0.781054, 0.446213, -0.185103, -0.405283, 0.894029, -0.0569258, -0.0108702, 0.00305694 )
+transform = Transform( 0.581491, -0.812717, -0.0360188, 0.727972, 0.498512, 0.467545, -0.361229, -0.296311, 0.882876, -0.0569258, -0.0108702, 0.00305694 )
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../..")
 _bone_name = "right_fore_arm"
 use_own_transform = true
+active = false
+compensate_rest = false
 ignore_origin = false
-override_animation = true
+override_animation = false
 
 [node name="TransformProxy" type="Spatial" parent="Skeleton/RightForeArm/Pose"]
-transform = Transform( 1, -8.21705e-08, 3.59179e-15, 0, -4.37114e-08, -1, 8.21705e-08, 1, -4.37114e-08, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 script = ExtResource( 10 )
 initial_transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 
 [node name="RightHand" type="Spatial" parent="Skeleton"]
-transform = Transform( -0.317122, 0.118198, 0.940968, 0.625518, 0.769943, 0.114558, -0.713461, 0.623288, -0.318632, -0.24433, 1.83031, 0.373953 )
+transform = Transform( 0.0528544, 0.527593, 0.847846, 0.695096, 0.590149, -0.410566, -0.71697, 0.611035, -0.335535, -0.189625, 1.77742, 0.239385 )
 script = ExtResource( 8 )
 _bone_name = "right_hand"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightHand"]
-transform = Transform( 0.941237, -0.111811, -0.317332, 0.157084, 0.982951, 0.117801, 0.297481, -0.161154, 0.940985, -3.63849e-07, -5.60307e-08, 4.23989e-08 )
+transform = Transform( 0.950319, 0.0242924, -0.310939, 0.00388558, 0.998442, 0.0823295, 0.311527, -0.0786861, 0.946858, 0.0365485, -0.0134972, -0.108443 )
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../..")
 _bone_name = "right_hand"
 use_own_transform = true
+active = false
+compensate_rest = false
 ignore_origin = false
-override_animation = true
+override_animation = false
 
 [node name="TransformProxy" type="Spatial" parent="Skeleton/RightHand/Pose"]
-transform = Transform( 1.24089e-08, -5.96046e-08, 1, 8.48509e-09, 1, 2.98023e-08, -1, 6.90126e-09, 4.13233e-08, 0, 0, 0 )
+transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0 )
 script = ExtResource( 10 )
 initial_transform = Transform( 0, 0, 1, 0, 1, 0, -1, 0, 0, 0, 0, 0 )
 
@@ -4073,7 +4080,7 @@ parameters/sprint/blend_position = Vector2( 0, 0 )
 script = ExtResource( 7 )
 
 [node name="BodyHitbox" type="CollisionShape" parent="."]
-transform = Transform( 0.999986, 0, -5.88596e-07, 0, 0.999989, 0, 5.88596e-07, 0, 0.999986, -0.255869, 1.06589, -0.035213 )
+transform = Transform( 0.999986, 0, -5.88596e-07, 0, 0.999989, 0, 5.88596e-07, 0, 0.999986, 0.0453426, 1.06589, -0.0241748 )
 shape = SubResource( 26 )
 script = ExtResource( 1 )
 _top_node_path = NodePath("../Skeleton/HeadTop")
@@ -4087,20 +4094,33 @@ _joint_path = NodePath("../Skeleton/RightForeArm")
 _tail_path = NodePath("../Skeleton/RightHand")
 _ik_path = NodePath("../Body/RightShoulder/RightHand")
 _magnet_path = NodePath("../Body/RightShoulder/Magnet")
+active = false
 
 [node name="Joint" type="Spatial" parent="RightChickenChain"]
-transform = Transform( 1.00304, 2.98023e-08, 1.43042e-05, -0.000799894, 0.999998, 1.01603e-05, -0.00220718, -2.50526e-07, 0.999999, -0.24927, 1.59462, 0.0747428 )
+transform = Transform( 1.00304, 2.98023e-08, 1.43042e-05, -0.000799894, 0.999998, 1.01603e-05, -0.00220718, -2.50526e-07, 0.999999, -0.218915, 1.69492, -0.00343448 )
 
 [node name="Body" type="Spatial" parent="."]
 transform = Transform( 0.999996, 0, 0, 0, 0.999999, 0, 0, 0, 0.999996, 0.0453426, 1.51758, -0.0241748 )
 script = ExtResource( 3 )
+_fallback_node_path = NodePath("..")
 max_pitch = 0.0
 min_pitch = 0.0
+max_yaw = 45.0
+min_yaw = -45.0
+limit_pitch = true
+limit_yaw = false
+turn_speed = 6.0
+sticky_parent = false
 
 [node name="spine" type="Spatial" parent="Body"]
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../../Skeleton")
 _bone_name = "spine"
+use_own_transform = false
+active = true
+compensate_rest = false
+ignore_origin = true
+override_animation = false
 
 [node name="RightShoulder" type="Spatial" parent="Body"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.184147, 0.271447, 0.00684715 )
@@ -4118,10 +4138,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.055507, 0.256656, 0.00870744
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.037 )
 
 [node name="Head" type="Position3D" parent="Body"]
-transform = Transform( 1.00005, 0, 0, 0, 1, 0, 0, 0, 1, -0.130751, 0.62018, 0.0756549 )
+transform = Transform( 1.00005, 0, 0, 0, 1, 0, 0, 0, 1, -0.130755, 0.620213, 0.0756552 )
 script = ExtResource( 3 )
+_fallback_node_path = NodePath("..")
 max_pitch = 60.0
 min_pitch = -60.0
+max_yaw = 45.0
+min_yaw = -45.0
+limit_pitch = true
+limit_yaw = false
+turn_speed = 6.0
 sticky_parent = true
 
 [node name="Camera" type="Camera" parent="Body/Head"]
@@ -4135,3 +4161,8 @@ interpolated = true
 script = ExtResource( 6 )
 _skeleton_path = NodePath("../../../Skeleton")
 _bone_name = "neck"
+use_own_transform = false
+active = true
+compensate_rest = false
+ignore_origin = true
+override_animation = false
