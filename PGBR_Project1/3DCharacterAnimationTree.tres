@@ -29,9 +29,9 @@ blend_point_0/pos = Vector2( 0, 1 )
 blend_point_1/node = SubResource( 6 )
 blend_point_1/pos = Vector2( 0, -1 )
 blend_point_2/node = SubResource( 7 )
-blend_point_2/pos = Vector2( 1, 0 )
+blend_point_2/pos = Vector2( -1, 0 )
 blend_point_3/node = SubResource( 8 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_3/pos = Vector2( 1, 0 )
 
 [sub_resource type="AnimationNodeBlend2" id=10]
 
@@ -60,9 +60,9 @@ blend_point_0/pos = Vector2( 0, 1 )
 blend_point_1/node = SubResource( 15 )
 blend_point_1/pos = Vector2( 0, -1 )
 blend_point_2/node = SubResource( 16 )
-blend_point_2/pos = Vector2( 1, 0 )
+blend_point_2/pos = Vector2( -1, 0 )
 blend_point_3/node = SubResource( 17 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_3/pos = Vector2( 1, 0 )
 
 [sub_resource type="AnimationNodeTimeSeek" id=19]
 
@@ -86,12 +86,12 @@ blend_point_0/pos = Vector2( 0, 1 )
 blend_point_1/node = SubResource( 22 )
 blend_point_1/pos = Vector2( 0, -1 )
 blend_point_2/node = SubResource( 23 )
-blend_point_2/pos = Vector2( 1, 0 )
+blend_point_2/pos = Vector2( -1, 0 )
 blend_point_3/node = SubResource( 24 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_3/pos = Vector2( 1, 0 )
 
 [resource]
-graph_offset = Vector2( -267, 137 )
+graph_offset = Vector2( -397, 18.25 )
 nodes/Animation/node = SubResource( 3 )
 nodes/Animation/position = Vector2( 0, 280 )
 "nodes/Animation 2/node" = SubResource( 1 )
@@ -119,4 +119,4 @@ nodes/speed/node = SubResource( 20 )
 nodes/speed/position = Vector2( 0, 100 )
 nodes/sprint/node = SubResource( 25 )
 nodes/sprint/position = Vector2( -200, 380 )
-node_connections = [ "seek", 0, "custom_anim", "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "falling", 0, "idle", "falling", 1, "Animation 3", "custom", 0, "falling", "custom", 1, "seek", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2" ]
+node_connections = [ "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "seek", 0, "custom_anim", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "custom", 0, "falling", "custom", 1, "seek", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "falling", 0, "idle", "falling", 1, "Animation 3" ]

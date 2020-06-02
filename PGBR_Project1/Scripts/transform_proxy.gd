@@ -20,6 +20,6 @@ func set_initial_transform(transform: Transform):
 	_affine_transform = transform.affine_inverse()
 
 
-func _process(delta):
+func _process(_delta):
 	get_parent().transform *= transform * _affine_transform
 	transform = initial_transform
