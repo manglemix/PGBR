@@ -9,9 +9,9 @@ extends Node
 export var _root_path: NodePath
 export var _joint_path: NodePath
 export var _tail_path: NodePath
-export var _ik_path: NodePath
-export var _magnet_path: NodePath	# similar to Pole Target when making IKs in Blender
-export var override_tip_basis := true
+export var _ik_path: NodePath				# the node the bone chain will move to
+export var _magnet_path: NodePath			# the node which the joint will point to
+export var override_tip_basis := true		# if true, the tail bone will copy the transform of the ik node
 export var active := true setget set_active
 
 var dont_save := ["_root_attachment", "_root_proxy_node", "_joint_attachment", "_joint_proxy_node", "_tail_attachment", "_tail_proxy_node", "_ik_node"]
