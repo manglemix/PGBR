@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://BaseScripts/BasePerson.gd"
 }, {
-"base": "Spatial",
-"class": "BoneData",
-"language": "GDScript",
-"path": "res://BaseScripts/bone_data.gd"
-}, {
 "base": "Node",
 "class": "ChickenChain",
 "language": "GDScript",
@@ -89,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://UtilityAI/maximiser.gd"
 }, {
-"base": "BoneData",
+"base": "Spatial",
 "class": "MirrorBone",
 "language": "GDScript",
 "path": "res://Scripts/mirror_bone.gd"
@@ -109,7 +104,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://debugtools/PropertyWatcher.gd"
 }, {
-"base": "BoneData",
+"base": "Spatial",
 "class": "RestBoneAttachment",
 "language": "GDScript",
 "path": "res://Scripts/rest_bone.gd"
@@ -160,7 +155,6 @@ _global_script_class_icons={
 "AutoGoto": "",
 "BaseGun": "",
 "BasePerson": "",
-"BoneData": "",
 "ChickenChain": "",
 "ChunkHider": "",
 "Director": "",
