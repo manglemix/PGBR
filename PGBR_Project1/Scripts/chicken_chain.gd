@@ -6,39 +6,41 @@ class_name ChickenChain
 extends Node
 
 
-export var root_path: NodePath
-export var joint_path: NodePath
-export var tail_path: NodePath
-export var ik_path: NodePath
+export var _root_path: NodePath
+export var _joint_path: NodePath
+export var _tail_path: NodePath
+export var _ik_path: NodePath
+export var _magnet_path: NodePath	# similar to Pole Target when making IKs in Blender
 export var override_tip_basis := true
 export var active := true setget set_active
 
-var dont_save := ["root_attachment", "root_proxy_node", "joint_attachment", "joint_proxy_node", "tail_attachment", "tail_proxy_node", "ik_node"]
+var dont_save := ["_root_attachment", "_root_proxy_node", "_joint_attachment", "_joint_proxy_node", "_tail_attachment", "_tail_proxy_node", "_ik_node"]
 
-onready var root_attachment := get_node(root_path) as RestBoneAttachment
-onready var root_proxy_node := root_attachment.get_node("Pose/TransformProxy") as TransformProxy
+onready var _root_attachment := get_node(_root_path) as RestBoneAttachment
+onready var _root_proxy_node := _root_attachment.get_node("Pose/TransformProxy") as TransformProxy
 
-onready var joint_attachment := get_node(joint_path) as RestBoneAttachment
-onready var joint_proxy_node := joint_attachment.get_node("Pose/TransformProxy") as TransformProxy
+onready var _joint_attachment := get_node(_joint_path) as RestBoneAttachment
+onready var _joint_proxy_node := _joint_attachment.get_node("Pose/TransformProxy") as TransformProxy
 
-onready var tail_attachment := get_node(tail_path) as RestBoneAttachment
-onready var tail_proxy_node := tail_attachment.get_node("Pose/TransformProxy") as TransformProxy
+onready var _tail_attachment := get_node(_tail_path) as RestBoneAttachment
+onready var _tail_proxy_node := _tail_attachment.get_node("Pose/TransformProxy") as TransformProxy
 
-onready var root_length := root_attachment.global_transform.origin.distance_to(joint_attachment.global_transform.origin)
-onready var tail_length := joint_attachment.global_transform.origin.distance_to(tail_attachment.global_transform.origin)
+onready var _root_length := _root_attachment.global_transform.origin.distance_to(_joint_attachment.global_transform.origin)
+onready var _tail_length := _joint_attachment.global_transform.origin.distance_to(_tail_attachment.global_transform.origin)
 
-onready var ik_node := get_node(ik_path) as Spatial
+onready var _ik_node := get_node(_ik_path) as Spatial
+onready var _magnet := get_node(_magnet_path) as Spatial
 
 
 func set_active(value: bool):
-	if not is_instance_valid(root_attachment):
+	if not is_instance_valid(_root_attachment):
 		return
 	
 	active = value
 	set_process(value)
-	root_attachment.get_node("Pose").active = value
-	joint_attachment.get_node("Pose").active = value
-	tail_attachment.get_node("Pose").active = value
+	_root_attachment.get_node("Pose").active = value
+	_joint_attachment.get_node("Pose").active = value
+	_tail_attachment.get_node("Pose").active = value
 
 
 func _ready():
@@ -46,24 +48,24 @@ func _ready():
 
 
 func _process(_delta):
-	var target_vector := ik_node.global_transform.origin - root_attachment.global_transform.origin
+	var target_vector := _ik_node.global_transform.origin - _root_attachment.global_transform.origin
 	var target_distance := target_vector.length()
 
-	$Joint.global_transform.origin = root_attachment.global_transform.origin + target_vector.normalized() * root_length
+	$Joint.global_transform.origin = _root_attachment.global_transform.origin + target_vector.normalized() * _root_length
 	
-	if target_distance < root_length + tail_length:
-		var joint_normal := ($Magnet.global_transform.origin - $Joint.global_transform.origin).normalized() as Vector3
-		var joint_offset := sqrt(pow(root_length, 2) - pow((pow(root_length, 2) - pow(tail_length, 2) + pow(target_distance, 2)) / 2 / target_distance, 2))
+	if target_distance < _root_length + _tail_length:
+		var joint_normal := (_magnet.global_transform.origin - $Joint.global_transform.origin).normalized() as Vector3
+		var joint_offset := sqrt(pow(_root_length, 2) - pow((pow(_root_length, 2) - pow(_tail_length, 2) + pow(target_distance, 2)) / 2 / target_distance, 2))
 		$Joint.global_transform.origin += joint_normal * joint_offset
 		
-		root_proxy_node.look_at($Joint.global_transform.origin, root_attachment.global_transform.basis.z)
-		var joint_axis = root_proxy_node.global_transform.origin - $Joint.global_transform.origin
-		joint_axis = joint_axis.cross(ik_node.global_transform.origin - joint_proxy_node.global_transform.origin)
-		joint_proxy_node.look_at(ik_node.global_transform.origin, joint_axis.normalized())
+		_root_proxy_node.look_at($Joint.global_transform.origin, _root_attachment.global_transform.basis.z)
+		var joint_axis = _root_proxy_node.global_transform.origin - $Joint.global_transform.origin
+		joint_axis = joint_axis.cross(_ik_node.global_transform.origin - _joint_proxy_node.global_transform.origin)
+		_joint_proxy_node.look_at(_ik_node.global_transform.origin, joint_axis.normalized())
 		
 	else:
-		root_proxy_node.look_at(ik_node.global_transform.origin, root_attachment.global_transform.basis.z)
-		joint_proxy_node.look_at(ik_node.global_transform.origin, joint_attachment.global_transform.basis.z)
+		_root_proxy_node.look_at(_ik_node.global_transform.origin, _root_attachment.global_transform.basis.z)
+		_joint_proxy_node.look_at(_ik_node.global_transform.origin, _joint_attachment.global_transform.basis.z)
 	
 	if override_tip_basis:
-		tail_proxy_node.global_transform.basis = ik_node.global_transform.basis
+		_tail_proxy_node.global_transform.basis = _ik_node.global_transform.basis
