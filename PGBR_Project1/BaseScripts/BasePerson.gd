@@ -387,11 +387,11 @@ func _physics_process(delta):
 			_jumped = true
 		
 		else:
-			global_turn_to_vector(movement_vector)
 			var thrust_vector: Vector3
 			if is_zero_approx(movement_vector.length_squared()):
 				thrust_vector = global_transform.basis.y
 			else:
+				global_turn_to_vector(movement_vector)
 				# get the vector in between the up vector and the movement vector
 				thrust_vector = global_transform.basis.y.linear_interpolate(movement_vector.normalized(), 0.5)
 			
