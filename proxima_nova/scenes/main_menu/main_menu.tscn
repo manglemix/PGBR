@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/main_menu/main_menu_ui.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/main_menu/main_menu_bg.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/main_menu/main_menu.gd" type="Script" id=3]
+[ext_resource path="res://scenes/main_game/main_game.tscn" type="PackedScene" id=4]
+
+[node name="MainMenu" type="Node"]
+script = ExtResource( 3 )
+new_game_path = ExtResource( 4 )
+
+[node name="MainMenuUI" parent="." instance=ExtResource( 1 )]
+
+[node name="MainMenuBg" parent="." instance=ExtResource( 2 )]

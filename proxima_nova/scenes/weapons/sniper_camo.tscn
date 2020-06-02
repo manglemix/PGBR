@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/models/weapons/sniperCamo.glb" type="PackedScene" id=1]
+[ext_resource path="res://scenes/weapons/sniper_camo.gd" type="Script" id=2]
+
+
+[node name="SniperCamo" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="SniperCamo" parent="." instance=ExtResource( 1 )]
+transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0.0627817, 0.437728 )

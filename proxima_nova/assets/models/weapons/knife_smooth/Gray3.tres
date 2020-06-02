@@ -1,0 +1,7 @@
+[gd_resource type="SpatialMaterial" format=2]
+
+[resource]
+resource_name = "Gray3"
+albedo_color = Color( 0.925693, 0.925693, 0.925693, 1 )
+metallic = 0.5
+roughness = 0.5

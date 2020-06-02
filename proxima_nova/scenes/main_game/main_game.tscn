@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/main_game/main_game.gd" type="Script" id=1]
+[ext_resource path="res://scenes/fader/fader.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/loading_screen/loading_screen.tscn" type="PackedScene" id=3]
+
+[node name="MainGame" type="Spatial"]
+script = ExtResource( 1 )
+first_scene = "res://scenes/world/world.tscn"
+
+[node name="Fader" parent="." instance=ExtResource( 2 )]
+
+[node name="LoadingScreen" parent="." instance=ExtResource( 3 )]
+layer = 99
+
+[node name="WorldScene" type="Spatial" parent="."]
+visible = false
+[connection signal="finished_fading" from="Fader" to="." method="_on_Fader_finished_fading"]

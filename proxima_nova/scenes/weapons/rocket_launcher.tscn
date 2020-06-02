@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/models/weapons/rocketlauncher.glb" type="PackedScene" id=1]
+[ext_resource path="res://scenes/weapons/rocket_launcher.gd" type="Script" id=2]
+
+
+[node name="RocketLauncher" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="RocketLauncher" parent="." instance=ExtResource( 1 )]
+transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0.0388943, 0.0213705 )

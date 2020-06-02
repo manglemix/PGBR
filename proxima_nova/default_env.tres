@@ -1,0 +1,16 @@
+[gd_resource type="Environment" load_steps=2 format=2]
+
+[sub_resource type="ProceduralSky" id=1]
+sun_latitude = 125.48
+sun_longitude = -25.03
+sun_curve = 0.0870552
+
+[resource]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_color = Color( 0.803922, 0.784314, 0.784314, 1 )
+ambient_light_color = Color( 1, 0.909804, 0.607843, 1 )
+fog_depth_end = 120.0
+tonemap_mode = 2
+tonemap_white = 16.0
+glow_intensity = 0.93

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://shaders/shader_toy_water.shader" type="Shader" id=1]
+[ext_resource path="res://shaders/shader_toy_shockwave.shader" type="Shader" id=2]
+[ext_resource path="res://assets/sprites/background.png" type="Texture" id=3]
+
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 2 )
+
+[node name="Node" type="Node"]
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Water" type="ColorRect" parent="Control"]
+visible = false
+material = SubResource( 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShockWave" type="TextureRect" parent="Control"]
+visible = false
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+
+[node name="Spatial" type="Spatial" parent="."]

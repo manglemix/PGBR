@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/models/weapons/grenade.glb" type="PackedScene" id=1]
+
+[node name="Grenade" type="Spatial"]
+
+[node name="Grenade" parent="." instance=ExtResource( 1 )]

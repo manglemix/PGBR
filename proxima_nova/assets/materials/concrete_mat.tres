@@ -1,0 +1,16 @@
+[gd_resource type="SpatialMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://assets/textures/concrete/concrete_normal.jpg" type="Texture" id=1]
+[ext_resource path="res://assets/textures/concrete/concrete_color.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/textures/concrete/concrete_roughness.jpg" type="Texture" id=3]
+
+
+
+
+[resource]
+params_cull_mode = 2
+albedo_texture = ExtResource( 2 )
+roughness_texture = ExtResource( 3 )
+normal_enabled = true
+normal_scale = 2.0
+normal_texture = ExtResource( 1 )

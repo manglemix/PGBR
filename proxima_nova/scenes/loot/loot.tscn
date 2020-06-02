@@ -1,0 +1,329 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://assets/sprites/loot/loot_bg.png" type="Texture" id=1]
+[ext_resource path="res://scenes/fonts/montserrat_medium_16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/sprites/loot/loot_txt_bg.png" type="Texture" id=3]
+[ext_resource path="res://scenes/fonts/montserrat_medium_12.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/sprites/loot/empty.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/loot/inspect.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/loot/loot_btn_highlight.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/loot/loot_btn.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/loot/scroll_grabber.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/loot/scroll_bar.png" type="Texture" id=10]
+
+
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 5, 56 )
+
+[sub_resource type="StyleBoxTexture" id=2]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 5, 56 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 9 )
+region_rect = Rect2( 0, 0, 5, 56 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 10 )
+region_rect = Rect2( 0, 0, 5, 125 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 10 )
+region_rect = Rect2( 0, 0, 5, 125 )
+
+[sub_resource type="Theme" id=6]
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = SubResource( 1 )
+VScrollBar/styles/grabber_highlight = SubResource( 2 )
+VScrollBar/styles/grabber_pressed = SubResource( 3 )
+VScrollBar/styles/scroll = SubResource( 4 )
+VScrollBar/styles/scroll_focus = SubResource( 5 )
+
+[node name="Loot" type="Control"]
+anchor_top = 0.000359048
+anchor_right = 1.0
+anchor_bottom = 1.00036
+margin_left = -0.258545
+margin_right = -0.258545
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="LootContainer" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 405.0
+margin_bottom = 193.105
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="LootContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -9.0
+margin_bottom = -3.00027
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Content" type="VBoxContainer" parent="LootContainer/MarginContainer"]
+margin_right = 395.0
+margin_bottom = 185.0
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Main" type="HBoxContainer" parent="LootContainer/MarginContainer/Content"]
+margin_right = 395.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Loot" type="VBoxContainer" parent="LootContainer/MarginContainer/Content/Main"]
+margin_right = 260.0
+margin_bottom = 155.0
+custom_constants/separation = 5
+
+[node name="LootBg" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot"]
+margin_right = 260.0
+margin_bottom = 25.0
+texture = ExtResource( 3 )
+
+[node name="Loot" type="Label" parent="LootContainer/MarginContainer/Content/Main/Loot/LootBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "LOOT"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="LootContainer/MarginContainer/Content/Main/Loot"]
+margin_top = 30.0
+margin_right = 260.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource( 6 )
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="GridContainer" type="GridContainer" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer"]
+margin_right = 255.0
+margin_bottom = 193.0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Loot" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_right = 60.0
+margin_bottom = 61.0
+texture = ExtResource( 5 )
+
+[node name="Loot2" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 65.0
+margin_right = 125.0
+margin_bottom = 61.0
+texture = ExtResource( 5 )
+
+[node name="Loot3" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 130.0
+margin_right = 190.0
+margin_bottom = 61.0
+texture = ExtResource( 5 )
+
+[node name="Loot4" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 195.0
+margin_right = 255.0
+margin_bottom = 61.0
+texture = ExtResource( 5 )
+
+[node name="Loot5" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_top = 66.0
+margin_right = 60.0
+margin_bottom = 127.0
+texture = ExtResource( 5 )
+
+[node name="Loot6" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 66.0
+margin_right = 125.0
+margin_bottom = 127.0
+texture = ExtResource( 5 )
+
+[node name="Loot7" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 66.0
+margin_right = 190.0
+margin_bottom = 127.0
+texture = ExtResource( 5 )
+
+[node name="Loot8" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 66.0
+margin_right = 255.0
+margin_bottom = 127.0
+texture = ExtResource( 5 )
+
+[node name="Loot9" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_top = 132.0
+margin_right = 60.0
+margin_bottom = 193.0
+texture = ExtResource( 5 )
+
+[node name="Loot10" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 132.0
+margin_right = 125.0
+margin_bottom = 193.0
+texture = ExtResource( 5 )
+
+[node name="Loot11" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 132.0
+margin_right = 190.0
+margin_bottom = 193.0
+texture = ExtResource( 5 )
+
+[node name="Loot12" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Loot/ScrollContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 132.0
+margin_right = 255.0
+margin_bottom = 193.0
+texture = ExtResource( 5 )
+
+[node name="Inspect" type="VBoxContainer" parent="LootContainer/MarginContainer/Content/Main"]
+margin_left = 270.0
+margin_right = 395.0
+margin_bottom = 155.0
+custom_constants/separation = 5
+
+[node name="InspectTxtBg" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Inspect"]
+margin_right = 125.0
+margin_bottom = 25.0
+texture = ExtResource( 3 )
+
+[node name="InspectTxt" type="Label" parent="LootContainer/MarginContainer/Content/Main/Inspect/InspectTxtBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "INSPECT"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InspectBg" type="TextureRect" parent="LootContainer/MarginContainer/Content/Main/Inspect"]
+margin_top = 30.0
+margin_right = 125.0
+margin_bottom = 155.0
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="LootContainer/MarginContainer/Content/Main/Inspect/InspectBg"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -16.0
+custom_fonts/font = ExtResource( 4 )
+text = "AK-47"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ButtonContainer" type="HBoxContainer" parent="LootContainer/MarginContainer/Content"]
+margin_top = 160.0
+margin_right = 395.0
+margin_bottom = 185.0
+custom_constants/separation = 4
+
+[node name="TakeBtn" type="TextureButton" parent="LootContainer/MarginContainer/Content/ButtonContainer"]
+margin_right = 129.0
+margin_bottom = 25.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+texture_focused = ExtResource( 7 )
+
+[node name="TakeTxt" type="Label" parent="LootContainer/MarginContainer/Content/ButtonContainer/TakeBtn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "Take [E]"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TakeAllBtn" type="TextureButton" parent="LootContainer/MarginContainer/Content/ButtonContainer"]
+margin_left = 133.0
+margin_right = 262.0
+margin_bottom = 25.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+texture_focused = ExtResource( 7 )
+
+[node name="TakeAllTxt" type="Label" parent="LootContainer/MarginContainer/Content/ButtonContainer/TakeAllBtn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "Take All [R]"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DoneBtn" type="TextureButton" parent="LootContainer/MarginContainer/Content/ButtonContainer"]
+margin_left = 266.0
+margin_right = 395.0
+margin_bottom = 25.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 7 )
+texture_hover = ExtResource( 7 )
+texture_focused = ExtResource( 7 )
+
+[node name="DoneTxt" type="Label" parent="LootContainer/MarginContainer/Content/ButtonContainer/DoneBtn"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "Done [ESC]"
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

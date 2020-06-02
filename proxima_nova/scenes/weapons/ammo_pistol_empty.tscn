@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/models/weapons/ammo_pistol_empty.tscn" type="PackedScene" id=1]
+
+[node name="AmmoPistolEmpty" type="Spatial"]
+
+[node name="AmmoPistolEmpty" parent="." instance=ExtResource( 1 )]

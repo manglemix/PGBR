@@ -1,0 +1,120 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://scenes/hud/hud.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/world/sun.gd" type="Script" id=2]
+[ext_resource path="res://scenes/world/world.gd" type="Script" id=3]
+[ext_resource path="res://scenes/terrain_gen/terrain.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/pause_menu/pause_menu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/interactable/light_switch.gd" type="Script" id=7]
+[ext_resource path="res://scenes/crate.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/camp_fire/camp_fire.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/enemies/sphere_enemy/sphere_enemy.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/compass/compass.tscn" type="PackedScene" id=13]
+
+
+
+
+
+
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.839216, 0.12549, 0.12549, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+
+[sub_resource type="PhysicsMaterial" id=3]
+
+[sub_resource type="BoxShape" id=4]
+
+[sub_resource type="Environment" id=5]
+background_mode = 1
+background_color = Color( 0.36, 0.51572, 0.80144, 1 )
+background_energy = 0.75
+ambient_light_color = Color( 0.36, 0.51572, 0.80144, 1 )
+fog_enabled = true
+fog_color = Color( 0.36, 0.51572, 0.80144, 1 )
+fog_depth_end = 313.0
+fog_depth_curve = 0.757858
+
+[node name="World" type="Spatial"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
+script = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": "This is the world node"
+}
+
+[node name="HUD" parent="." instance=ExtResource( 1 )]
+
+[node name="PauseMenu" parent="." instance=ExtResource( 6 )]
+
+[node name="Player" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6219, 9.44697, 128.588 )
+
+[node name="Enemies" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.1411, -1.66604, 52.0168 )
+visible = false
+
+[node name="SphereEnemy1" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27.4956, 6.1411, -8.04901 )
+
+[node name="SphereEnemy2" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.152928, 5, -30.0057 )
+
+[node name="SphereEnemy3" parent="Enemies" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.152924, 7.09523, -3.64427 )
+
+[node name="LightSwitch" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 50.589, 4.04849, 39.9333 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="LightSwitch"]
+collision_layer = 2
+physics_material_override = SubResource( 3 )
+script = ExtResource( 7 )
+light = NodePath("../../SpotLight")
+
+[node name="CollisionShape" type="CollisionShape" parent="LightSwitch/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -0.0559959, 0.998431, 0, -0.998431, -0.0559959, 0, 7.03875, -36.1362 )
+light_color = Color( 1, 0.976471, 0.403922, 1 )
+light_energy = 2.0
+light_indirect_energy = 2.0
+shadow_enabled = true
+spot_range = 50.0
+
+[node name="Sun" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.442273, 0.896923, 0, -0.896923, 0.442273, 0, 86.8362, 0 )
+light_color = Color( 0.8, 0.779378, 0.558756, 1 )
+light_energy = 2.0
+light_indirect_energy = 0.0
+shadow_enabled = true
+shadow_reverse_cull_face = true
+directional_shadow_blend_splits = true
+directional_shadow_depth_range = 1
+directional_shadow_max_distance = 2000.0
+script = ExtResource( 2 )
+day_cycle = 10
+dawn = Color( 0.8, 0.6, 0.2, 1 )
+midday = Color( 0.8, 0.8, 0.6, 1 )
+evening = Color( 0.8, 0.4, 0.3, 1 )
+night = Color( 0.4, 0.2, 0.8, 1 )
+sky_color = Color( 0, 0.3, 1, 1 )
+
+[node name="Sky" type="WorldEnvironment" parent="Sun"]
+environment = SubResource( 5 )
+
+[node name="Crate" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.82551, -12.4535 )
+
+[node name="CampFire" parent="." instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.92772e-07, 0.723666, 5.47979 )
+visible = false
+
+[node name="Compass" parent="." instance=ExtResource( 13 )]
+
+[node name="Terrain" parent="." instance=ExtResource( 4 )]
