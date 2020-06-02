@@ -1,122 +1,122 @@
 [gd_resource type="AnimationNodeBlendTree" load_steps=26 format=2]
 
-[sub_resource type="AnimationNodeAnimation" id=50]
+[sub_resource type="AnimationNodeAnimation" id=1]
 animation = "c idle"
 
-[sub_resource type="AnimationNodeAnimation" id=23]
+[sub_resource type="AnimationNodeAnimation" id=2]
 animation = "Falling Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=24]
+[sub_resource type="AnimationNodeAnimation" id=3]
 animation = "idle"
 
-[sub_resource type="AnimationNodeBlend2" id=49]
+[sub_resource type="AnimationNodeBlend2" id=4]
 
-[sub_resource type="AnimationNodeAnimation" id=25]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "cwf"
 
-[sub_resource type="AnimationNodeAnimation" id=26]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "cwb"
 
-[sub_resource type="AnimationNodeAnimation" id=27]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "csrr"
 
-[sub_resource type="AnimationNodeAnimation" id=28]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "csrl"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=29]
-blend_point_0/node = SubResource( 25 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=9]
+blend_point_0/node = SubResource( 5 )
 blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 26 )
+blend_point_1/node = SubResource( 6 )
 blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 27 )
-blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 28 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 7 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 8 )
+blend_point_3/pos = Vector2( 1, 0 )
 
-[sub_resource type="AnimationNodeBlend2" id=30]
+[sub_resource type="AnimationNodeBlend2" id=10]
 
-[sub_resource type="AnimationNodeAnimation" id=31]
+[sub_resource type="AnimationNodeAnimation" id=11]
 animation = "Jump"
 
-[sub_resource type="AnimationNodeBlend2" id=32]
+[sub_resource type="AnimationNodeBlend2" id=12]
 
-[sub_resource type="AnimationNodeBlend2" id=33]
+[sub_resource type="AnimationNodeBlend2" id=13]
 
-[sub_resource type="AnimationNodeAnimation" id=34]
+[sub_resource type="AnimationNodeAnimation" id=14]
 animation = "rf"
 
-[sub_resource type="AnimationNodeAnimation" id=35]
+[sub_resource type="AnimationNodeAnimation" id=15]
 animation = "rb"
 
-[sub_resource type="AnimationNodeAnimation" id=36]
+[sub_resource type="AnimationNodeAnimation" id=16]
 animation = "str"
 
-[sub_resource type="AnimationNodeAnimation" id=37]
+[sub_resource type="AnimationNodeAnimation" id=17]
 animation = "stl"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=38]
-blend_point_0/node = SubResource( 34 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=18]
+blend_point_0/node = SubResource( 14 )
 blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 35 )
+blend_point_1/node = SubResource( 15 )
 blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 36 )
-blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 37 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 16 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 17 )
+blend_point_3/pos = Vector2( 1, 0 )
 
-[sub_resource type="AnimationNodeTimeSeek" id=39]
+[sub_resource type="AnimationNodeTimeSeek" id=19]
 
-[sub_resource type="AnimationNodeBlend3" id=40]
+[sub_resource type="AnimationNodeBlend3" id=20]
 
-[sub_resource type="AnimationNodeAnimation" id=41]
+[sub_resource type="AnimationNodeAnimation" id=21]
 animation = "sf"
 
-[sub_resource type="AnimationNodeAnimation" id=42]
+[sub_resource type="AnimationNodeAnimation" id=22]
 animation = "sb"
 
-[sub_resource type="AnimationNodeAnimation" id=43]
+[sub_resource type="AnimationNodeAnimation" id=23]
 animation = "sr"
 
-[sub_resource type="AnimationNodeAnimation" id=44]
+[sub_resource type="AnimationNodeAnimation" id=24]
 animation = "sl"
 
-[sub_resource type="AnimationNodeBlendSpace2D" id=45]
-blend_point_0/node = SubResource( 41 )
+[sub_resource type="AnimationNodeBlendSpace2D" id=25]
+blend_point_0/node = SubResource( 21 )
 blend_point_0/pos = Vector2( 0, 1 )
-blend_point_1/node = SubResource( 42 )
+blend_point_1/node = SubResource( 22 )
 blend_point_1/pos = Vector2( 0, -1 )
-blend_point_2/node = SubResource( 43 )
-blend_point_2/pos = Vector2( 1, 0 )
-blend_point_3/node = SubResource( 44 )
-blend_point_3/pos = Vector2( -1, 0 )
+blend_point_2/node = SubResource( 23 )
+blend_point_2/pos = Vector2( -1, 0 )
+blend_point_3/node = SubResource( 24 )
+blend_point_3/pos = Vector2( 1, 0 )
 
 [resource]
-graph_offset = Vector2( -267, 137 )
-nodes/Animation/node = SubResource( 24 )
+graph_offset = Vector2( -397, 18.25 )
+nodes/Animation/node = SubResource( 3 )
 nodes/Animation/position = Vector2( 0, 280 )
-"nodes/Animation 2/node" = SubResource( 50 )
+"nodes/Animation 2/node" = SubResource( 1 )
 "nodes/Animation 2/position" = Vector2( 0, 400 )
-"nodes/Animation 3/node" = SubResource( 23 )
+"nodes/Animation 3/node" = SubResource( 2 )
 "nodes/Animation 3/position" = Vector2( 400, 240 )
-nodes/crouch/node = SubResource( 29 )
+nodes/crouch/node = SubResource( 9 )
 nodes/crouch/position = Vector2( -200, 60 )
-"nodes/crouch idle/node" = SubResource( 49 )
+"nodes/crouch idle/node" = SubResource( 4 )
 "nodes/crouch idle/position" = Vector2( 200, 160 )
-nodes/custom/node = SubResource( 30 )
+nodes/custom/node = SubResource( 10 )
 nodes/custom/position = Vector2( 820, 60 )
-nodes/custom_anim/node = SubResource( 31 )
+nodes/custom_anim/node = SubResource( 11 )
 nodes/custom_anim/position = Vector2( 400, 360 )
-nodes/falling/node = SubResource( 32 )
+nodes/falling/node = SubResource( 12 )
 nodes/falling/position = Vector2( 600, 60 )
-nodes/idle/node = SubResource( 33 )
+nodes/idle/node = SubResource( 13 )
 nodes/idle/position = Vector2( 400, 60 )
 nodes/output/position = Vector2( 1020, 60 )
-nodes/run/node = SubResource( 38 )
+nodes/run/node = SubResource( 18 )
 nodes/run/position = Vector2( -200, 220 )
-nodes/seek/node = SubResource( 39 )
+nodes/seek/node = SubResource( 19 )
 nodes/seek/position = Vector2( 640, 240 )
-nodes/speed/node = SubResource( 40 )
+nodes/speed/node = SubResource( 20 )
 nodes/speed/position = Vector2( 0, 100 )
-nodes/sprint/node = SubResource( 45 )
+nodes/sprint/node = SubResource( 25 )
 nodes/sprint/position = Vector2( -200, 380 )
-node_connections = [ "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "seek", 0, "custom_anim", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "falling", 0, "idle", "falling", 1, "Animation 3", "custom", 0, "falling", "custom", 1, "seek" ]
+node_connections = [ "seek", 0, "custom_anim", "speed", 0, "crouch", "speed", 1, "run", "speed", 2, "sprint", "idle", 0, "speed", "idle", 1, "crouch idle", "output", 0, "custom", "crouch idle", 0, "Animation", "crouch idle", 1, "Animation 2", "custom", 0, "falling", "custom", 1, "seek", "falling", 0, "idle", "falling", 1, "Animation 3" ]

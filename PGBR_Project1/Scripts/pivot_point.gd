@@ -1,4 +1,5 @@
 # Enforces rotation limits, applies excess rotation onto the fallback_node, and can be made to target a global position
+tool
 class_name PivotPoint
 extends Spatial
 
@@ -13,14 +14,17 @@ export var limit_yaw := false
 export var turn_speed := 6.0		# used for interpolating to the target orientation
 export var sticky_parent := false	# if true, the fallback_node will always try to turn to its zero point
 
+var dont_save := ["fallback_node"]
 var _target_transform: Transform
+var _initial_transform: Transform
 
 onready var fallback_node := get_node(_fallback_node_path) as Spatial			# the node which excess rotation from this node will be dumped onto
-onready var _initial_transform := transform		# the initial orientation will become the zero point
 
 
 func _ready():
 	set_process(false)
+	if _initial_transform.is_equal_approx(Transform.IDENTITY):
+		_initial_transform = transform
 
 
 func biaxial_rotate(x: float, y: float) -> void:
@@ -51,7 +55,7 @@ func _process(delta):
 		set_process(false)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if sticky_parent:
 		var parent_transform: Transform
 		if fallback_node.has_method("get_final_transform"):

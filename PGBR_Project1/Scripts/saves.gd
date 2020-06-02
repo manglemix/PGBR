@@ -13,7 +13,6 @@ var _director_state: Dictionary
 func _ready():
 	_directory.open("res://")
 	
-	var file := File.new()
 	if _directory.file_exists("game_config.ini"):
 		game_config.load("game_config.ini")
 

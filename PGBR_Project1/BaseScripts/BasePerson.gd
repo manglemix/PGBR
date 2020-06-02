@@ -60,6 +60,7 @@ var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"
 
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var equipment := []
+var camera: Camera		# assuming this Person is controlled by the player, they would look through this camera
 
 var _branch: Node
 var _jump_charge_duration: float			# time since a jump began charging
@@ -73,7 +74,6 @@ var _jetpack_time := 0.0
 var _jump_time := 0.0
 
 onready var head := find_node("Head") as PivotPoint
-onready var camera := head.find_node("Camera") as Camera
 onready var _director := get_tree().get_current_scene() as Node
 
 
@@ -124,8 +124,9 @@ func _ready():
 		# if the value is false, the hand is free, otherwise the hand is not free
 		hands[get_node(path)] = false
 	
-	assert(is_instance_valid(head))
-	assert(is_instance_valid(camera))
+	if is_instance_valid(head):
+		camera = head.find_node("Camera")
+	
 	set_user_input(user_input)
 
 
@@ -198,7 +199,8 @@ func shoot_guns() -> void:
 func fully_face_target(target: Vector3) -> void:
 	# this turns both the Person and the arms towards the global vector given
 	global_turn_to_vector(target)
-	head.global_turn_to_vector(target)
+	if is_instance_valid(head):
+		head.global_turn_to_vector(target)
 	aim_guns(target)
 
 
@@ -218,6 +220,12 @@ func kill(code) -> void:
 	
 	emit_signal("died", code)
 	queue_free()
+
+
+func _integrate_velocity(vector: Vector3, delta: float) -> Vector3:
+	# determines how the input vector (representing the direction to move in global space and speed at which to move) affects velocity
+	# vector is the input vector, delta is the timestep, and the value returned should be the new velocity
+	return linear_velocity.linear_interpolate(vector, acceleration * delta)
 
 
 func _input(event):
@@ -243,7 +251,7 @@ func _input(event):
 		set_crouch(crouching)
 	
 	if event.is_action_pressed("change viewpoint"):
-		head.get_node("Camera").increment_transform()
+		camera.increment_transform()
 	
 	if event.is_action_pressed("aim"):
 		_director.mouse_sensitivity /= 1.5
@@ -255,7 +263,7 @@ func _input(event):
 		_director.show_mouse = not _director.show_mouse
 
 
-func _process(delta):
+func _process(_delta):
 	var direction := Vector3.ZERO
 	if Input.is_action_pressed("forward"):
 		direction += head.global_transform.basis.z
@@ -313,7 +321,8 @@ func _physics_process(delta):
 			var turn_angle := global_transform.basis.z.angle_to(_target_vector)
 			global_rotate(turn_axis, turn_angle * turn_speed * delta)
 			
-			head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
+			if is_instance_valid(head):
+				head.global_rotate(turn_axis, - turn_angle * turn_speed * delta)
 			
 			if turn_angle <= 0.0872:		# this is 5 degrees in radians
 				_target_vector = Vector3.ZERO
@@ -343,7 +352,7 @@ func _physics_process(delta):
 					tmp_vector = tmp_vector.rotated(axis, angle)
 		
 		# then we interpolate the velocity for smoother movement
-		linear_velocity = linear_velocity.linear_interpolate(tmp_vector, acceleration * delta)
+		linear_velocity = _integrate_velocity(tmp_vector, delta)
 		
 	else:
 		_time_since_floor += delta
@@ -376,13 +385,20 @@ func _physics_process(delta):
 			_jumped = true
 		
 		else:
+			var thrust_vector: Vector3
+			if is_zero_approx(movement_vector.length_squared()):
+				thrust_vector = global_transform.basis.y
+			else:
+				global_turn_to_vector(movement_vector)
+				# get the vector in between the up vector and the movement vector
+				thrust_vector = global_transform.basis.y.linear_interpolate(movement_vector.normalized(), 0.5)
+			
 			if is_zero_approx(_jetpack_time):
-				linear_velocity += head.global_transform.basis.y * jetpack_impulse
-				global_turn_to_vector(head.global_transform.basis.z)
+				linear_velocity += thrust_vector * jetpack_impulse
 			
 			# jetpack acceleration
 			if _jetpack_time < max_jetpack_time:
-				linear_velocity += head.global_transform.basis.y * jetpack_acceleration * delta
+				linear_velocity += thrust_vector * jetpack_acceleration * delta
 				_jetpack_time += delta
 				
 			else:
@@ -420,7 +436,9 @@ func _physics_process(delta):
 				global_transform = tmp
 				global_transform.origin += linear_velocity * delta
 				# this line moves the Body onto the floor
-				global_transform.origin += move_and_collide(Vector3.DOWN * step_height, true, true, true).travel
+				var result := move_and_collide(Vector3.DOWN * step_height, true, true, true)
+				if is_instance_valid(result):
+					global_transform.origin += result.travel
 				return
 	
 	linear_velocity = move_and_slide(linear_velocity, Vector3.UP, false, 4, max_slope_angle)
