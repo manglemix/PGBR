@@ -6,7 +6,8 @@ extends BoneData
 export var target_path := NodePath("..")
 export var active := true setget set_active
 export var compensate_rest := false		# if true, it is assumed that the parent's transform should be the absolute transform, and thus includes the rest pose
-export var ignore_origin := true	# if true, the parent's transform is not applied to the bone
+export var ignore_origin := true		# if true, the target's position is not applied to the bone
+export var override_animation := false
 
 onready var target := get_node(target_path) as Spatial
 
@@ -34,4 +35,10 @@ func _process(_delta):
 	if ignore_origin:
 		tmp.origin  = Vector3.ZERO
 	
-	skeleton.set_bone_pose(bone_idx, tmp)
+	if override_animation:
+		tmp = target.get_parent().global_transform * tmp
+		tmp = skeleton.global_transform.affine_inverse() * tmp
+		skeleton.set_bone_global_pose_override(bone_idx, tmp, 1.0, true)
+		
+	else:
+		skeleton.set_bone_pose(bone_idx, tmp)
