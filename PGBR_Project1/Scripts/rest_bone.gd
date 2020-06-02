@@ -5,4 +5,4 @@ extends BoneData
 
 
 func _process(_delta):
-	transform = skeleton.get_bone_global_pose(bone_idx) * skeleton.get_bone_pose(bone_idx).affine_inverse()
+	transform = skeleton.get_bone_global_pose(skeleton.get_bone_parent(bone_idx)) * skeleton.get_bone_rest(bone_idx)
