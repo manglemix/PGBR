@@ -33,10 +33,10 @@ onready var _magnet := get_node(_magnet_path) as Spatial
 
 
 func set_active(value: bool):
+	active = value
 	if not is_instance_valid(_root_attachment):
 		return
 	
-	active = value
 	set_process(value)
 	_root_attachment.get_node("Pose").active = value
 	_joint_attachment.get_node("Pose").active = value
