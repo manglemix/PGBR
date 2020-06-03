@@ -74,11 +74,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utility_AI/hostiles_environment.gd"
 }, {
-"base": "Spatial",
-"class": "IKtarget",
-"language": "GDScript",
-"path": "res://scripts/ik_target.gd"
-}, {
 "base": "Node",
 "class": "Interactable",
 "language": "GDScript",
@@ -88,11 +83,6 @@ _global_script_classes=[ {
 "class": "JumpPad",
 "language": "GDScript",
 "path": "res://scripts/jump_pad.gd"
-}, {
-"base": "Spatial",
-"class": "ManualSkeleton",
-"language": "GDScript",
-"path": "res://scripts/manual_skeleton.gd"
 }, {
 "base": "State",
 "class": "Maximiser",
@@ -193,10 +183,8 @@ _global_script_class_icons={
 "HTerrainDataSaver": "",
 "HealthBar": "",
 "HostilesEnvironment": "",
-"IKtarget": "",
 "Interactable": "",
 "JumpPad": "",
-"ManualSkeleton": "",
 "Maximiser": "",
 "MirrorBone": "",
 "MoveableNode": "",
