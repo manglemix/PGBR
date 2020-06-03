@@ -81,7 +81,7 @@ func get_collider():
 	return _raycast.get_collider()
 
 
-func shoot() -> void:
+func shoot() -> bool:
 	if not can_fire:
 		return false
 	
@@ -104,3 +104,4 @@ func shoot() -> void:
 			node2.damage(self)
 	
 	Debug.draw_dot(_raycast.get_collision_point(), Color.red)
+	return true
