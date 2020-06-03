@@ -7,7 +7,7 @@ export(Array, NodePath) var _handle_paths := []
 
 var dont_save := ["_player", "_handles", "_raycast"]
 
-var _player
+var _player: Node
 var _handles := {}
 
 onready var _raycast := get_node(_raycast_path) as RayCast
@@ -27,7 +27,7 @@ func _ready():
 		get_parent().owner.connect("ready", self, "equip_node", [get_parent().owner, true])
 
 
-func equip_node(node, try_assert:=false) -> bool:
+func equip_node(node: Node, try_assert:=false) -> bool:
 	# the try assert is to cause the game to crash if the gun could not be equipped
 	# useful if the gun did not get equipped at the start of the level during development
 	for handle in _handles:
@@ -55,12 +55,12 @@ func equip_node(node, try_assert:=false) -> bool:
 	return true
 
 
-func set_distance(distance: float):
+func set_distance(distance: float) -> void:
 	assert(distance > 0)
 	_raycast.cast_to = _raycast.cast_to.normalized() * distance
 
 
-func aim_towards(target: Vector3):
+func aim_towards(target: Vector3) -> void:
 	get_parent().look_at(target, Vector3.UP)
 	get_parent().rotate_object_local(Vector3.UP, PI)
 	
@@ -75,7 +75,7 @@ func get_collider():
 	return _raycast.get_collider()
 
 
-func shoot():
+func shoot() -> void:
 	_raycast.collide_with_areas = true
 	_raycast.collide_with_bodies = false
 	_raycast.force_raycast_update()
