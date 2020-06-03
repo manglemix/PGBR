@@ -1,4 +1,4 @@
-# A streamlined way to manage scenes, multiple cameras, and user input
+# A streamlined way to manage concurrent scenes, multiple cameras, and user input
 class_name Director
 extends Node
 
