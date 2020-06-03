@@ -1,4 +1,5 @@
 # For weapons which use bullets and have reload times
+class_name BallisticGun
 extends Hitscan
 
 
