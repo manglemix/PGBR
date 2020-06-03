@@ -9,10 +9,12 @@ signal clip_ammo_changed(clip_ammo)
 signal reloading
 signal reloaded
 
-export var total_ammo: int setget set_total_ammo
-export var clip_size: int setget set_clip_size
-export var clip_ammo: int setget set_clip_ammo
-export var reload_time: float
+export var total_ammo: int setget set_total_ammo	# the total amount of ammo available to be put into a clip
+export var clip_size: int setget set_clip_size		# the maximum number of bullets in a clip
+export var clip_ammo: int setget set_clip_ammo		# the current number of bullets in the clip
+export var reload_time: float						# time needed to reload in seconds
+
+var _last_shot_time: int	# the last system time in msecs when the gun shot
 
 
 func set_total_ammo(value: int):
@@ -39,20 +41,32 @@ func _ready():
 	connect("shooting", self, "decrement_clip")
 
 
-func reload() -> void:
-	if clip_ammo == clip_size:
-		return
+func reload() -> bool:
+	if clip_ammo == clip_size or total_ammo == 0:
+		return false
 	
 	emit_signal("reloading")
 	var timer = get_tree().create_timer(reload_time)
-	# let the timer emit the signal "reloaded" for us
-	timer.connect("timeout", self, "emit_signal", ["reloaded"])
+	timer.connect("timeout", self, "_reload_clip")
+	return true
 
 
-func decrement_clip():
-	if clip_ammo > 0:
+func _reload_clip() -> void:
+	if total_ammo >= clip_size:
+		clip_ammo = clip_size
+		total_ammo -= clip_size
+	
+	else:
+		clip_ammo = total_ammo
+		total_ammo = 0
+	
+	emit_signal("reloaded")
+
+
+func decrement_clip() -> void:
+	if (OS.get_system_time_msecs() - _last_shot_time) / 1000 >= reload_time and clip_ammo > 0:
 		clip_ammo -= 1
+		_last_shot_time = OS.get_system_time_msecs()
 		can_fire = true
 		
-	else:
-		can_fire = false
+	can_fire = false
