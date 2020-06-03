@@ -2,6 +2,9 @@ class_name BaseGun
 extends Spatial
 
 
+signal shooting		# emitted before a shot is checked and fired
+signal shot			# emitted when a shot is fired
+
 export var _raycast_path := NodePath("Muzzle")
 export(Array, NodePath) var _handle_paths := []
 export var clipping_distance := 1000.0 setget set_clipping_distance
@@ -82,6 +85,7 @@ func get_collider():
 
 
 func shoot() -> bool:
+	emit_signal("shooting")
 	if not can_fire:
 		return false
 	
@@ -104,4 +108,5 @@ func shoot() -> bool:
 			node2.damage(self)
 	
 	Debug.draw_dot(_raycast.get_collision_point(), Color.red)
+	emit_signal("shot")
 	return true
