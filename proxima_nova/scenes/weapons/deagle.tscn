@@ -1,10 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/deagle_default.gltf" type="PackedScene" id=1]
-[ext_resource path="res://base_scripts/base_gun.gd" type="Script" id=2]
-
-
-
+[ext_resource path="res://base_scripts/hitscan.gd" type="Script" id=2]
 
 [node name="Deagle" type="Spatial"]
 script = ExtResource( 2 )

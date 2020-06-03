@@ -24,11 +24,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utility_AI/auto_goto.gd"
 }, {
-"base": "Spatial",
-"class": "BaseGun",
-"language": "GDScript",
-"path": "res://base_scripts/base_gun.gd"
-}, {
 "base": "KinematicBody",
 "class": "BasePerson",
 "language": "GDScript",
@@ -68,6 +63,11 @@ _global_script_classes=[ {
 "class": "HealthBar",
 "language": "GDScript",
 "path": "res://scenes/hud/health_bar.gd"
+}, {
+"base": "Spatial",
+"class": "Hitscan",
+"language": "GDScript",
+"path": "res://base_scripts/hitscan.gd"
 }, {
 "base": "Maximiser",
 "class": "HostilesEnvironment",
@@ -173,7 +173,6 @@ _global_script_class_icons={
 "Animator": "",
 "Attack": "",
 "AutoGoto": "",
-"BaseGun": "",
 "BasePerson": "",
 "ChickenChain": "",
 "ChunkHider": "",
@@ -182,6 +181,7 @@ _global_script_class_icons={
 "HTerrainDataLoader": "",
 "HTerrainDataSaver": "",
 "HealthBar": "",
+"Hitscan": "",
 "HostilesEnvironment": "",
 "Interactable": "",
 "JumpPad": "",
