@@ -7,6 +7,7 @@ export(Array, NodePath) var _handle_paths := []
 export var clipping_distance := 1000.0 setget set_clipping_distance
 
 var dont_save := ["_player", "_handles", "_raycast"]
+var can_fire := true
 
 var _player: Node
 var _handles := {}
@@ -81,6 +82,9 @@ func get_collider():
 
 
 func shoot() -> void:
+	if not can_fire:
+		return false
+	
 	_raycast.collide_with_areas = true
 	_raycast.collide_with_bodies = false
 	_raycast.force_raycast_update()
