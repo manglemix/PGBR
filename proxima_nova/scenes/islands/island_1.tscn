@@ -2,7 +2,6 @@
 
 [ext_resource path="res://scenes/nature/nature.meshlib" type="MeshLibrary" id=1]
 
-
 [node name="Island" type="Spatial"]
 
 [node name="GridMap" type="GridMap" parent="."]

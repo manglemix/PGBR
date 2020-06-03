@@ -6,12 +6,6 @@
 [ext_resource path="res://scenes/compass/compass.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/islands/island_1.tscn" type="PackedScene" id=5]
 
-
-
-
-
-
-
 [sub_resource type="ProceduralSky" id=1]
 
 [sub_resource type="Environment" id=2]
