@@ -6,7 +6,7 @@ extends KinematicBody
 signal shoot				# when emitted, all gun nodes connected to this should shoot
 signal died(code)			# may or may not be needed, we'll be watched by the current scene
 signal aim(target)			# when emitted, all equipment and hands will aim towards the target (a global vector)
-signal jumped()				# emitted when the first jump was done
+signal jumped				# emitted when the first jump was done
 
 signal health_updated(health)
 signal max_health_updated(max_health)
