@@ -35,6 +35,10 @@ func set_clip_ammo(value: int):
 	emit_signal("ammo_changed", clip_ammo)
 
 
+func _ready():
+	connect("shooting", self, "decrement_clip")
+
+
 func reload() -> void:
 	if clip_ammo == clip_size:
 		return
@@ -43,3 +47,12 @@ func reload() -> void:
 	var timer = get_tree().create_timer(reload_time)
 	# let the timer emit the signal "reloaded" for us
 	timer.connect("timeout", self, "emit_signal", ["reloaded"])
+
+
+func decrement_clip():
+	if clip_ammo > 0:
+		clip_ammo -= 1
+		can_fire = true
+		
+	else:
+		can_fire = false
