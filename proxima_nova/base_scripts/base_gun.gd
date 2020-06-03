@@ -20,10 +20,10 @@ func _ready():
 	for path in _handle_paths:
 		_handles[get_node(path)] = null
 	
-	if get_parent() is KinematicBody:
+	if get_parent() is BasePerson:
 		get_parent().connect("ready", self, "equip_node", [get_parent(), true])
 	
-	elif get_parent().owner is KinematicBody:
+	elif get_parent().owner is BasePerson:
 		get_parent().owner.connect("ready", self, "equip_node", [get_parent().owner, true])
 
 
