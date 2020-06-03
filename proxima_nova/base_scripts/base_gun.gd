@@ -4,6 +4,7 @@ extends Spatial
 
 export var _raycast_path := NodePath("Muzzle")
 export(Array, NodePath) var _handle_paths := []
+export var clipping_distance := 1000.0 setget set_clipping_distance
 
 var dont_save := ["_player", "_handles", "_raycast"]
 
@@ -14,7 +15,7 @@ onready var _raycast := get_node(_raycast_path) as RayCast
 
 
 func _ready():
-	set_distance(1000)
+	set_clipping_distance(clipping_distance)
 	
 	assert(not _handle_paths.empty())
 	for path in _handle_paths:
@@ -55,8 +56,12 @@ func equip_node(node: Node, try_assert:=false) -> bool:
 	return true
 
 
-func set_distance(distance: float) -> void:
+func set_clipping_distance(distance: float) -> void:
+	if not is_instance_valid(_raycast):
+		return
+	
 	assert(distance > 0)
+	clipping_distance = distance
 	_raycast.cast_to = _raycast.cast_to.normalized() * distance
 
 
