@@ -50,6 +50,7 @@ func set_show_mouse(value: bool):
 
 func _ready():
 	if get_child_count() == 0:
+		Saves.read_save_data()
 		Saves.load_save_data()
 	else:
 		set_player(get_node_or_null(_player_path))
