@@ -7,6 +7,6 @@ func _ready():
 
 func play_game():
 	if Saves.read_save_data("") == OK:
-		get_tree().change_scene("res://LoadedGame.tscn")
+		get_tree().change_scene("res://loaded_game.tscn")
 	else:
-		get_tree().change_scene("res://FirstLevel.tscn")
+		get_tree().change_scene("res://first_level.tscn")
