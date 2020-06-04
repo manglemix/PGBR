@@ -1,4 +1,3 @@
-class_name ResourceQueue
 extends Reference
 
 
@@ -10,7 +9,7 @@ var queue = []
 var pending = {}
 
 
-func queue_resource(path: String, p_in_front:=false):
+func queue_resource(path, p_in_front:=false):
 	mutex.lock()
 	if path in pending:
 		mutex.unlock()
@@ -35,7 +34,7 @@ func queue_resource(path: String, p_in_front:=false):
 		return
 
 
-func cancel_resource(path: String):
+func cancel_resource(path):
 	mutex.lock()
 	if path in pending:
 		if pending[path] is ResourceInteractiveLoader:
@@ -44,7 +43,7 @@ func cancel_resource(path: String):
 	mutex.unlock()
 
 
-func get_progress(path: String) -> float:
+func get_progress(path) -> float:
 	mutex.lock()
 	var ret = -1
 	if path in pending:
@@ -56,7 +55,7 @@ func get_progress(path: String) -> float:
 	return ret
 
 
-func is_ready(path: String) -> bool:
+func is_ready(path) -> bool:
 	var ret
 	mutex.lock()
 	if path in pending:
@@ -67,7 +66,7 @@ func is_ready(path: String) -> bool:
 	return ret
 
 
-func _wait_for_resource(res: Resource, path: String):
+func _wait_for_resource(res, path):
 	mutex.unlock()
 	while true:
 		VisualServer.sync()
@@ -78,7 +77,7 @@ func _wait_for_resource(res: Resource, path: String):
 		mutex.unlock()
 
 
-func get_resource(path: String):
+func get_resource(path):
 	mutex.lock()
 	if path in pending:
 		if pending[path] is ResourceInteractiveLoader:
