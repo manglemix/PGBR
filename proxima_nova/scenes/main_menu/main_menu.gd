@@ -16,11 +16,19 @@ func _ready():
 
 
 func new_game_click():
-	assert(get_tree().change_scene_to(new_game_path) == OK)
+	var err := get_tree().change_scene("res://scenes/islands/first_level.tscn")
+	if err != OK:
+		printerr("An error occured while trying to load the first level: ", err)
 
 
 func load_game_click():
-	pass
+	if Saves.game_config.has_section_key("save_info", "last_save_name"):
+		var err := get_tree().change_scene("res://scenes/world/loaded_game.tscn")
+		if err != OK:
+			printerr("An error occured while trying to load the first level: ", err)
+	
+	else:
+		print_debug("no save game found")
 
 
 func options_click():
