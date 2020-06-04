@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/enemies/monkeybot.material" type="Material" id=1]
-[ext_resource path="res://assets/textures/Swatches/enemy_texture.png" type="Texture" id=2]
-[ext_resource path="res://shaders/Toon_Soft.shader" type="Shader" id=3]
+[ext_resource path="res://scenes/enemies/monkeybot_v2.material" type="Material" id=2]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Cube"
@@ -101,31 +100,7 @@ bind/25/name = "right_toe_end"
 bind/25/bone = -1
 bind/25/pose = Transform( -0.96496, 0.236272, -0.114131, -0.147511, -0.128751, 0.980644, 0.217004, 0.963119, 0.159092, -0.872172, -0.182039, 0.169169 )
 
-[sub_resource type="ShaderMaterial" id=3]
-shader = ExtResource( 3 )
-shader_param/use_shade = true
-shader_param/use_specular = false
-shader_param/use_rim = true
-shader_param/use_light = false
-shader_param/use_shadow = false
-shader_param/base_color = Color( 1, 1, 1, 1 )
-shader_param/shade_color = Color( 0.435294, 0.411765, 0.411765, 1 )
-shader_param/specular_tint = Color( 0.75, 0.75, 0.75, 0.75 )
-shader_param/rim_tint = Color( 0.141176, 0.572549, 0.988235, 0.74902 )
-shader_param/shade_threshold = 0.473
-shader_param/shade_softness = 0.01
-shader_param/specular_glossiness = 15.0
-shader_param/specular_threshold = 0.5
-shader_param/specular_softness = 0.1
-shader_param/rim_threshold = 0.508
-shader_param/rim_softness = 0.366
-shader_param/rim_spread = 0.521
-shader_param/shadow_threshold = 0.7
-shader_param/shadow_softness = 0.1
-shader_param/base_texture = ExtResource( 2 )
-shader_param/shade_texture = ExtResource( 2 )
-
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 1.63333
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:head")
@@ -275,7 +250,7 @@ tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1.63333, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 0.833333
 loop = true
 tracks/0/type = "transform"
@@ -461,7 +436,7 @@ tracks/25/imported = false
 tracks/25/enabled = true
 tracks/25/keys = PoolRealArray( 0, 1, -0.0921648, 0.0292307, 0.223803, 0, 0, 0, 1, 1, 1, 1, 0.0666667, 1, -0.089502, -0.00338775, 0.8761, 0, 0, 0, 1, 1, 1, 1, 0.2, 1, -0.0636307, 0.113971, 1.76164, 0, 0, 0, 1, 1, 1, 1, 0.333333, 1, 0.0273184, 0.0208488, 2.62128, 0, 0, 0, 1, 1, 1, 1, 0.466667, 1, 0.0782938, -0.0241307, 3.40144, 0, 0, 0, 1, 1, 1, 1, 0.6, 1, 0.0493053, 0.0676061, 4.24276, 0, 0, 0, 1, 1, 1, 1, 0.733333, 1, -0.0414793, -0.0245007, 5.11048, 0, 0, 0, 1, 1, 1, 1, 0.833333, 1, -0.0827165, -0.0256352, 5.75322, 0, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 0.0666667
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:head")
@@ -611,7 +586,7 @@ tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = PoolRealArray( 0, 1, 0.00764582, 0.000310153, 0.215324, 0, 0, 0, 1, 1, 1, 1, 0.0666667, 1, 0.00764582, 0.000310153, 0.215324, 0, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 length = 2.8
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:head")
@@ -761,7 +736,7 @@ tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = PoolRealArray( 0, 1, -0.18982, 0.0266323, 0.238412, 0, 0, 0, 1, 1, 1, 1, 2.8, 1, -0.18982, 0.0266323, 0.238412, 0, 0, 0, 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 1.5
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:head")
@@ -1050,14 +1025,14 @@ bones/25/bound_children = [  ]
 [node name="Cube" type="MeshInstance" parent="Armature/Skeleton"]
 mesh = SubResource( 1 )
 skin = SubResource( 2 )
-material/0 = SubResource( 3 )
+material/0 = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-"anims/Hit Reaction" = SubResource( 4 )
-anims/Runishen = SubResource( 5 )
-anims/T-Pose = SubResource( 6 )
-anims/punch = SubResource( 7 )
-anims/walk = SubResource( 8 )
+"anims/Hit Reaction" = SubResource( 3 )
+anims/Runishen = SubResource( 4 )
+anims/T-Pose = SubResource( 5 )
+anims/punch = SubResource( 6 )
+anims/walk = SubResource( 7 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.685005, -0.401927, 0.607637, 0, 0.83405, 0.55169, -0.728538, -0.37791, 0.571328, -0.31869, 0, 0.419419 )

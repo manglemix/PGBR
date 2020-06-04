@@ -9,23 +9,23 @@ export var new_game_path: PackedScene
 
 
 func _ready():
-	new_game.connect("pressed", self, "new_game_click")
-	load_game.connect("pressed", self, "load_game_click")
-	options.connect("pressed", self, "options_click")
-	quit.connect("pressed", self, "quit_click")
+    new_game.connect("pressed", self, "new_game_click")
+    load_game.connect("pressed", self, "load_game_click")
+    options.connect("pressed", self, "options_click")
+    quit.connect("pressed", self, "quit_click")
 
 
 func new_game_click():
-	assert(get_tree().change_scene_to(new_game_path) == OK)
+    assert(get_tree().change_scene_to(new_game_path) == OK)
 
 
 func load_game_click():
-	pass
+    pass
 
 
 func options_click():
-	pass
+    pass
 
 
 func quit_click():
-	get_tree().quit()
+    get_tree().quit()
