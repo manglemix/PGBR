@@ -132,7 +132,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "ResourceQueue",
 "language": "GDScript",
-"path": "res://scripts/resource_queue.gd"
+"path": "res://resource_queue.gd"
 }, {
 "base": "Spatial",
 "class": "RestBoneAttachment",
