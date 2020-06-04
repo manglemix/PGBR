@@ -129,6 +129,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://debugtools/property_watcher.gd"
 }, {
+"base": "Reference",
+"class": "ResourceQueue",
+"language": "GDScript",
+"path": "res://scripts/resource_queue.gd"
+}, {
 "base": "Spatial",
 "class": "RestBoneAttachment",
 "language": "GDScript",
@@ -199,6 +204,7 @@ _global_script_class_icons={
 "PivotPoint": "",
 "Player": "",
 "PropertyWatcher": "",
+"ResourceQueue": "",
 "RestBoneAttachment": "",
 "RootedPerson": "",
 "SqueezedCollider": "",
