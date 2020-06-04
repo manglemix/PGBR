@@ -223,7 +223,6 @@ run/main_scene="res://scenes/main_menu/main_menu.tscn"
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
 config/windows_native_icon="res://logo.ico"
-config]name="ProximaNova"
 
 [autoload]
 
