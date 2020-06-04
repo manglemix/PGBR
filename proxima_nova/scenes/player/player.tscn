@@ -6,7 +6,6 @@
 [ext_resource path="res://addons/motion_blur/motion_blur.tscn" type="PackedScene" id=4]
 [ext_resource path="res://shaders/toon_shader.tres" type="Material" id=5]
 
-
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 5 )
 size = Vector3( 0.2, 0.2, 1.5 )

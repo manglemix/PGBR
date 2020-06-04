@@ -21,11 +21,6 @@
 [ext_resource path="res://scenes/fonts/montserrat_regular_12.tres" type="DynamicFont" id=19]
 [ext_resource path="res://scenes/hud/gun_hud.gd" type="Script" id=20]
 
-
-
-
-
-
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/fonts/montserrat/montserrat_semi_bold.ttf"
 

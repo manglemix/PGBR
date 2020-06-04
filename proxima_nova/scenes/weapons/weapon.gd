@@ -14,7 +14,7 @@ export var weapon_name := "Weapon"
 export var is_gun := false
 
 
-onready var raycast := $"../../../../Head/Camera/WeaponRayCast" as RayCast
+onready var raycast := get_tree().get_root().find_node("WeaponRayCast", true, false) as RayCast
 
 
 var current_ammo := 0 setget _set_current_ammo
