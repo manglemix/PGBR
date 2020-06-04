@@ -1,7 +1,20 @@
 extends Area
 
 
-enum {DETECTED, CLOSE}
+signal detected
+signal body_nearby
+
+
+enum {DETECTED, NEARBY}
+
+
+func _ready():
+	connect("body_entered", self, "emit_signal", ["detected"])
+	$Close.connect("body_entered", self, "emit_signal", ["body_nearby"])
+
+
+func get_nearby_bodies() -> Array:
+	return $Close.get_overlapping_bodies()
 
 
 func get_proximities() -> Dictionary:
@@ -10,7 +23,8 @@ func get_proximities() -> Dictionary:
 	for body in get_overlapping_bodies():
 		bodies[body] = DETECTED
 	
+	
 	for body in $Close.get_overlapping_bodies():
-		bodies[body] = CLOSE
+		bodies[body] = NEARBY
 	
 	return bodies
