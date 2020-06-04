@@ -56,8 +56,9 @@ var fall_acceleration_factor := 1.0			# multiplied with gravity to get final fal
 var linear_velocity := Vector3.ZERO
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 var max_slope_angle: float setget set_max_slope_angle
-var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"]
+var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director", "is_ready"]
 
+var is_ready := false						# true once node is ready, used in equippable nodes
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var equipment := []
 var camera: Camera		# assuming this Person is controlled by the player, they would look through this camera
@@ -127,6 +128,7 @@ func _ready():
 	if is_instance_valid(head):
 		camera = head.find_node("Camera")
 	
+	is_ready = true
 	set_user_input(user_input)
 
 
