@@ -33,6 +33,7 @@ func load_resource(_u) -> void:
 			break
 		_last_error = _resource_loader.poll()
 	
+	_done = true
 	if _last_error == ERR_FILE_EOF:
 		_resource = _resource_loader.get_resource()
 	call_deferred("emit_signal", "done")
