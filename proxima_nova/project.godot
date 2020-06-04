@@ -154,11 +154,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utility_AI/state.gd"
 }, {
-"base": "Camera",
-"class": "TargetedCamera",
-"language": "GDScript",
-"path": "res://scripts/targeted_camera.gd"
-}, {
 "base": "Spatial",
 "class": "TransformProxy",
 "language": "GDScript",
@@ -209,7 +204,6 @@ _global_script_class_icons={
 "SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",
-"TargetedCamera": "",
 "TransformProxy": "",
 "UtilityTree": "",
 "Wander": "",
