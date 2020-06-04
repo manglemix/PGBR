@@ -10,16 +10,18 @@ var queue = []
 var pending = {}
 
 
-func queue_resource(path, p_in_front = false):
+func queue_resource(path: String, p_in_front:=false):
 	mutex.lock()
 	if path in pending:
 		mutex.unlock()
 		return
+		
 	elif ResourceLoader.has_cached(path):
 		var res = ResourceLoader.load(path)
 		pending[path] = res
 		mutex.unlock()
 		return
+		
 	else:
 		var res = ResourceLoader.load_interactive(path)
 		res.set_meta("path", path)
@@ -33,7 +35,7 @@ func queue_resource(path, p_in_front = false):
 		return
 
 
-func cancel_resource(path):
+func cancel_resource(path: String):
 	mutex.lock()
 	if path in pending:
 		if pending[path] is ResourceInteractiveLoader:
@@ -42,7 +44,7 @@ func cancel_resource(path):
 	mutex.unlock()
 
 
-func get_progress(path) -> float:
+func get_progress(path: String) -> float:
 	mutex.lock()
 	var ret = -1
 	if path in pending:
@@ -54,7 +56,7 @@ func get_progress(path) -> float:
 	return ret
 
 
-func is_ready(path) -> bool:
+func is_ready(path: String) -> bool:
 	var ret
 	mutex.lock()
 	if path in pending:
@@ -65,7 +67,7 @@ func is_ready(path) -> bool:
 	return ret
 
 
-func _wait_for_resource(res, path):
+func _wait_for_resource(res: Resource, path: String):
 	mutex.unlock()
 	while true:
 		VisualServer.sync()
@@ -76,7 +78,7 @@ func _wait_for_resource(res, path):
 		mutex.unlock()
 
 
-func get_resource(path):
+func get_resource(path: String):
 	mutex.lock()
 	if path in pending:
 		if pending[path] is ResourceInteractiveLoader:
