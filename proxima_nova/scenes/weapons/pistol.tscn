@@ -5,7 +5,7 @@
 
 [node name="Pistol" type="Spatial"]
 
-[node name="Mesh2 Group3 Group1 Model" type="MeshInstance" parent="."]
+[node name="Body" type="MeshInstance" parent="."]
 transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, -0.0793817, 0.00917709 )
 mesh = ExtResource( 2 )
 material/0 = null
@@ -22,7 +22,7 @@ material/10 = null
 material/11 = null
 material/12 = null
 
-[node name="Mesh1 Group2 Group1 Model" type="MeshInstance" parent="."]
+[node name="Body2" type="MeshInstance" parent="."]
 transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, -0.0793817, 0.00917709 )
 mesh = ExtResource( 1 )
 material/0 = null
