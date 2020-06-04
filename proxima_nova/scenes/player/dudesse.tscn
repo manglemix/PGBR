@@ -3961,7 +3961,7 @@ update_rotation = false
 update_scale = false
 
 [node name="RemoteTransform2" type="RemoteTransform" parent="Skeleton/BodyBone"]
-transform = Transform( 1, 2.27243e-07, 1.01328e-06, 3.72529e-09, 1.00002, -2.6077e-08, 2.98023e-08, 1.17533e-06, 1, 0.00412877, -0.451435, 0.0147561 )
+transform = Transform( 1, 2.36556e-07, 2.5034e-06, 3.72529e-09, 1.00002, -1.43982e-06, 2.98023e-08, 1.19209e-06, 1, 0.00412876, -0.451435, 0.0147561 )
 remote_path = NodePath("../../../BodyHitbox")
 update_rotation = false
 update_scale = false
@@ -3984,7 +3984,6 @@ bone_name = "head_top_end"
 [node name="RightArm" type="Spatial" parent="Skeleton"]
 transform = Transform( 0.3775, -0.579934, 0.721915, 0.404207, -0.598212, -0.691924, 0.833129, 0.553005, 0.00858906, -0.189606, 1.72726, -0.169978 )
 script = ExtResource( 8 )
-_skeleton_path = NodePath("")
 _bone_name = "right_arm"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightArm"]
@@ -4006,7 +4005,6 @@ initial_transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 [node name="RightForeArm" type="Spatial" parent="Skeleton"]
 transform = Transform( 0.555066, 0.415486, 0.7206, 0.463793, 0.564559, -0.682766, -0.690502, 0.713189, 0.120669, -0.342933, 1.5691, -0.0237715 )
 script = ExtResource( 8 )
-_skeleton_path = NodePath("")
 _bone_name = "right_fore_arm"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightForeArm"]
@@ -4028,7 +4026,6 @@ initial_transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0 )
 [node name="RightHand" type="Spatial" parent="Skeleton"]
 transform = Transform( 0.0528544, 0.527593, 0.847846, 0.695096, 0.590149, -0.410566, -0.71697, 0.611035, -0.335535, -0.189625, 1.77742, 0.239385 )
 script = ExtResource( 8 )
-_skeleton_path = NodePath("")
 _bone_name = "right_hand"
 
 [node name="Pose" type="Spatial" parent="Skeleton/RightHand"]
