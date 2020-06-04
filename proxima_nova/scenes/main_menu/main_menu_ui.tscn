@@ -1,0 +1,195 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://fonts/montserrat_regular_24.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/sprites/main_menu/title_bg.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/main_menu/menu_underlay.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/main_menu/button_hover_bg.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/main_menu/logo_arc.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/main_menu/button_bg.png" type="Texture" id=6]
+
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/fonts/montserrat/montserrat_bold.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+use_filter = true
+font_data = SubResource( 1 )
+
+[node name="MainMenuUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuBg" type="TextureRect" parent="."]
+anchor_bottom = 1.0
+margin_left = 150.0
+margin_right = 300.0
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuItems" type="VBoxContainer" parent="MenuBg"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -300.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NewGame" type="TextureButton" parent="MenuBg/MenuItems"]
+margin_right = 300.0
+margin_bottom = 50.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 6 )
+texture_focused = ExtResource( 4 )
+
+[node name="NewGame" type="Label" parent="MenuBg/MenuItems/NewGame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -15.5
+margin_right = 72.0
+margin_bottom = 15.5
+custom_fonts/font = ExtResource( 1 )
+text = "NEW GAME"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Load" type="TextureButton" parent="MenuBg/MenuItems"]
+margin_top = 60.0
+margin_right = 300.0
+margin_bottom = 110.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 6 )
+texture_focused = ExtResource( 4 )
+
+[node name="Load" type="Label" parent="MenuBg/MenuItems/Load"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -15.5
+margin_right = 72.0
+margin_bottom = 15.5
+custom_fonts/font = ExtResource( 1 )
+text = "Load"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Options" type="TextureButton" parent="MenuBg/MenuItems"]
+margin_top = 120.0
+margin_right = 300.0
+margin_bottom = 170.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 6 )
+texture_focused = ExtResource( 4 )
+
+[node name="Options" type="Label" parent="MenuBg/MenuItems/Options"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -15.5
+margin_right = 72.0
+margin_bottom = 15.5
+custom_fonts/font = ExtResource( 1 )
+text = "Options"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="TextureButton" parent="MenuBg/MenuItems"]
+margin_top = 180.0
+margin_right = 300.0
+margin_bottom = 230.0
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 6 )
+texture_focused = ExtResource( 4 )
+
+[node name="Quit" type="Label" parent="MenuBg/MenuItems/Quit"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.0
+margin_top = -15.5
+margin_right = 72.0
+margin_bottom = 15.5
+custom_fonts/font = ExtResource( 1 )
+text = "Quit"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TitleBg" type="TextureRect" parent="MenuBg"]
+anchor_right = 1.0
+margin_top = 60.0
+margin_bottom = 100.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="MenuBg/TitleBg"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -110.5
+margin_top = -39.5
+margin_right = 110.5
+margin_bottom = 39.5
+custom_fonts/font = SubResource( 2 )
+text = "Proxima
+Nova"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Arc" type="TextureRect" parent="MenuBg/TitleBg"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -116.5
+margin_top = -2.0
+margin_right = 116.5
+margin_bottom = 20.0
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

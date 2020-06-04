@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://shaders/dissolve_shader.tres" type="Material" id=1]
+
+[sub_resource type="SphereShape" id=1]
+
+[sub_resource type="SphereMesh" id=2]
+
+[node name="SphereEnemy" type="StaticBody" groups=[
+"Enemies",
+]]
+
+[node name="Shape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Body" type="MeshInstance" parent="."]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/models/mines/mines/TripMine.mesh" type="ArrayMesh" id=1]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.25019
+height = 0.199591
+
+[node name="TripMine" type="RigidBody"]
+
+[node name="Mesh" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="Shape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0950559, 0 )
+shape = SubResource( 1 )

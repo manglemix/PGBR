@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/models/mines/mines/LandMine.mesh" type="ArrayMesh" id=1]
+[ext_resource path="res://scenes/explosives/proximity_sensor.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.200105
+height = 0.889256
+
+[node name="LandMine" type="RigidBody"]
+
+[node name="Mesh" type="MeshInstance" parent="."]
+mesh = ExtResource( 1 )
+material/0 = null
+
+[node name="Shape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.444181, 0 )
+shape = SubResource( 1 )
+
+[node name="ProximitySensor" parent="." instance=ExtResource( 2 )]

@@ -1,0 +1,326 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/models/character/dude2.gltf" type="PackedScene" id=1]
+[ext_resource path="res://scenes/characters/skeleton.gd" type="Script" id=2]
+
+
+[sub_resource type="CapsuleShape" id=2]
+radius = 0.120016
+height = 0.00700897
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.05
+height = 0.0432757
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.175227
+height = 0.239937
+
+[sub_resource type="CapsuleShape" id=4]
+radius = 0.110553
+height = 0.321077
+
+[sub_resource type="CapsuleShape" id=5]
+radius = 0.0787229
+height = 0.268238
+
+[sub_resource type="CapsuleShape" id=6]
+radius = 0.0600494
+height = 0.169123
+
+[sub_resource type="CapsuleShape" id=7]
+radius = 0.0509811
+height = 0.250215
+
+[sub_resource type="CapsuleShape" id=8]
+radius = 0.0427381
+height = 0.157094
+
+[sub_resource type="CapsuleShape" id=9]
+radius = 0.027902
+height = 0.165669
+
+[sub_resource type="CapsuleShape" id=10]
+radius = 0.147553
+height = 0.002
+
+[node name="dude2" instance=ExtResource( 1 )]
+
+[node name="Skeleton" parent="Dudesse" index="0"]
+script = ExtResource( 2 )
+
+[node name="HeadBone" type="PhysicalBone" parent="Dudesse/Skeleton" index="1"]
+transform = Transform( 1, -3.74933e-15, 1.7053e-13, 8.00587e-14, 1, -2.09401e-07, -1.7053e-13, 2.09401e-07, 1, 0.000195954, 1.80054, -0.00802307 )
+joint_type = 3
+body_offset = Transform( 1, -1.33754e-22, 0, -1.82789e-21, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 6.0
+weight = 58.8
+bone_name = "head"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/HeadBone" index="0"]
+transform = Transform( 1, 0, -3.55494e-23, -1.82789e-21, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.0961213, 0.0192408 )
+shape = SubResource( 2 )
+
+[node name="NeckBone" type="PhysicalBone" parent="Dudesse/Skeleton" index="2"]
+transform = Transform( 1, -3.74934e-15, 1.7053e-13, 8.00587e-14, 1, -1.90255e-07, -1.7053e-13, 1.90255e-07, 1, 0.000195954, 1.68878, -0.0593685 )
+joint_type = 3
+body_offset = Transform( 1, 1.66738e-22, 0, 1.43722e-21, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 1.41
+weight = 13.818
+bone_name = "neck"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/NeckBone" index="0"]
+transform = Transform( 1, 4.06576e-20, 0, 1.43722e-21, 0.456974, 0.88948, 0, -0.88948, 0.456974, 0, 0.0334607, 0.0152625 )
+shape = SubResource( 1 )
+
+[node name="Torso" type="PhysicalBone" parent="Dudesse/Skeleton" index="3"]
+transform = Transform( 1, -4.58497e-13, 2.55795e-13, 5.34806e-13, 1, -1.93633e-07, -2.55796e-13, 1.93633e-07, 1, 0.000141769, 1.38074, -0.0358952 )
+joint_type = 1
+body_offset = Transform( 1, 4.67976e-21, 0, 4.67969e-21, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 41.0
+weight = 401.8
+bone_name = "spine_1"
+joint_constraints/bias = 0.3
+joint_constraints/damping = 1.0
+joint_constraints/impulse_clamp = 0.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/Torso" index="0"]
+transform = Transform( 1, 0, -1.72155e-20, 4.67969e-21, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, -0.014291, 0.0412544 )
+shape = SubResource( 3 )
+
+[node name="LeftThigh" type="PhysicalBone" parent="Dudesse/Skeleton" index="4"]
+transform = Transform( 1, 0.000152027, -1.92457e-08, -0.000152026, 0.999996, 0.00281249, 4.46821e-07, -0.00281249, 0.999996, 0.125107, 1.0848, -0.00149644 )
+joint_type = 3
+body_offset = Transform( 1, 3.87672e-10, 7.13385e-12, -5.21128e-12, 1, 6.0536e-09, -5.82645e-12, -6.0536e-09, 1, 0, 0, 0 )
+mass = 10.0
+weight = 98.0
+bone_name = "left_up_leg"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftThigh" index="0"]
+transform = Transform( 0.999436, -9.44693e-05, 0.0335911, 0.0335912, -1.7616e-06, -0.999436, 9.44751e-05, 1, 1.41142e-06, 0.00747316, -0.260839, 0.00751731 )
+shape = SubResource( 4 )
+
+[node name="RightThigh" type="PhysicalBone" parent="Dudesse/Skeleton" index="5"]
+transform = Transform( 1, 0.000150713, -3.20516e-08, -0.000150713, 0.999997, 0.00231956, 3.8164e-07, -0.00231956, 0.999997, -0.12511, 1.08478, -0.00179298 )
+joint_type = 3
+body_offset = Transform( 1, 2.4285e-12, 0, 2.4285e-12, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 10.0
+weight = 98.0
+bone_name = "right_up_leg"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightThigh" index="0"]
+transform = Transform( 0.999912, 3.69893e-05, -0.0133114, -0.0133114, 0.00281208, -0.999908, 4.4678e-07, 0.999997, 0.00281232, -0.00619289, -0.262491, 0.00873283 )
+shape = SubResource( 4 )
+
+[node name="LeftCalf" type="PhysicalBone" parent="Dudesse/Skeleton" index="6"]
+transform = Transform( 1, 0.000156565, -9.51646e-05, -0.000156929, 0.999992, -0.00383478, 9.45632e-05, 0.0038348, 0.999993, 0.136126, 0.568451, -0.00615943 )
+joint_type = 3
+body_offset = Transform( 1, -2.01794e-12, 0, -3.0127e-12, 1, 0, -2.76486e-10, 0, 1, 0, 0, 0 )
+mass = 4.5
+weight = 44.1
+bone_name = "left_leg"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 180.0
+joint_constraints/angular_limit_lower = 86.45
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftCalf" index="0"]
+transform = Transform( 0.999563, -0.000113349, -0.0295614, -0.0295614, 4.30853e-06, -0.999563, 0.000113413, 1, 9.57167e-07, 0.00665286, -0.22829, -0.043803 )
+shape = SubResource( 5 )
+
+[node name="RightCalf" type="PhysicalBone" parent="Dudesse/Skeleton" index="7"]
+transform = Transform( 1, 0.000147163, 8.108e-05, -0.000146897, 0.999995, -0.00326558, -8.15601e-05, 0.00326556, 0.999997, -0.136141, 0.568788, -0.00856769 )
+joint_type = 3
+body_offset = Transform( 1, -5.48397e-10, -9.45874e-11, 2.80608e-10, 1, 2.32831e-10, 0, -4.42378e-09, 1, 0, 0, 0 )
+mass = 4.5
+weight = 44.1
+bone_name = "right_leg"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -5.64
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightCalf" index="0"]
+transform = Transform( 0.997794, 0.000473448, 0.0663941, 0.0663955, -0.00380985, -0.997787, -0.000219448, 0.999994, -0.00383288, -0.00311893, -0.227926, -0.0422302 )
+shape = SubResource( 5 )
+
+[node name="LeftFeet" type="PhysicalBone" parent="Dudesse/Skeleton" index="8"]
+transform = Transform( 1, -1.91005e-09, 2.98387e-08, 1.81927e-09, 0.999999, -2.16765e-07, -2.98169e-08, 2.17231e-07, 0.999999, 0.125107, 0.125799, -0.0315251 )
+joint_type = 3
+body_offset = Transform( 1, -2.26303e-15, 3.55271e-14, -2.1334e-15, 0.999999, 2.98428e-13, 0, -1.98952e-13, 0.999999, 0, 0, 0 )
+mass = 1.24
+weight = 12.152
+bone_name = "left_foot"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = -66.19
+joint_constraints/angular_limit_lower = -103.99
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftFeet" index="0"]
+transform = Transform( 0.993459, 2.48186e-08, 0.114192, -2.47408e-08, 0.999999, -1.62528e-09, -0.114192, -1.20288e-09, 0.993458, 0.015795, -0.0650798, 0.0714784 )
+shape = SubResource( 6 )
+
+[node name="RightFeet" type="PhysicalBone" parent="Dudesse/Skeleton" index="9"]
+transform = Transform( 1, -4.08419e-11, -2.97805e-08, 1.87867e-11, 1, -2.1956e-07, 2.97514e-08, 2.18628e-07, 1, -0.12511, 0.125801, -0.0315249 )
+joint_type = 3
+body_offset = Transform( 1, 6.4618e-17, 3.37508e-14, -7.78423e-19, 1, -2.70006e-13, -3.37508e-14, 0, 1, 0, 0, 0 )
+mass = 1.24
+weight = 12.152
+bone_name = "right_foot"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 19.0
+joint_constraints/angular_limit_lower = -125.86
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightFeet" index="0"]
+transform = Transform( 0.982302, -0.000714351, -0.187304, 0.000761304, 1, 0.000178725, 0.187304, -0.000318161, 0.982303, -0.0116747, -0.0650799, 0.0717767 )
+shape = SubResource( 6 )
+
+[node name="LeftArm" type="PhysicalBone" parent="Dudesse/Skeleton" index="10"]
+transform = Transform( 1, -1.43396e-05, -4.30189e-05, 1.43396e-05, 1, -1.98064e-07, 4.30189e-05, 1.97447e-07, 1, 0.181925, 1.64863, -0.0585658 )
+joint_type = 3
+body_offset = Transform( 1, 3.08515e-13, 0, 3.08514e-13, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 2.76
+weight = 27.048
+bone_name = "left_arm"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftArm" index="0"]
+transform = Transform( -1.62461e-07, 0.00446776, 0.99999, -1.91479e-07, 0.99999, -0.00446776, -1, -1.92196e-07, -1.61621e-07, 0.115154, -0.0121027, -4.97699e-06 )
+shape = SubResource( 7 )
+
+[node name="RightArm" type="PhysicalBone" parent="Dudesse/Skeleton" index="11"]
+transform = Transform( 1, 2.15095e-05, -4.66038e-05, -2.15095e-05, 1, -1.97586e-07, 4.66038e-05, 1.98588e-07, 1, -0.181934, 1.64862, -0.0585657 )
+joint_type = 3
+body_offset = Transform( 1, 1.60034e-13, 0, 1.60034e-13, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 2.76
+weight = 27.048
+bone_name = "right_arm"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightArm" index="0"]
+transform = Transform( -3.74783e-06, -3.58491e-05, 1, 3.95318e-10, 1, 3.58491e-05, -1, 5.29482e-10, -3.74783e-06, -0.109431, -0.0102493, 4.91366e-06 )
+shape = SubResource( 7 )
+
+[node name="LeftForeArm" type="PhysicalBone" parent="Dudesse/Skeleton" index="12"]
+transform = Transform( 1, 1.41216e-05, -4.59028e-05, -1.41216e-05, 1, -7.51171e-08, 4.59028e-05, 7.57653e-08, 1, 0.460872, 1.64862, -0.0585656 )
+joint_type = 3
+body_offset = Transform( 1, -1.60139e-13, 0, -1.6014e-13, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 1.55
+weight = 15.19
+bone_name = "left_fore_arm"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = -30.0
+joint_constraints/angular_limit_lower = -180.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftForeArm" index="0"]
+transform = Transform( -1.6292e-07, -1.60139e-13, 1, 0, 1, -1.72484e-13, -1, 0, -1.6292e-07, 0.141125, -0.00714266, -6.49318e-06 )
+shape = SubResource( 8 )
+
+[node name="RightForeArm" type="PhysicalBone" parent="Dudesse/Skeleton" index="13"]
+transform = Transform( 1, 7.06078e-06, 3.53116e-05, -7.06077e-06, 1, -7.59892e-08, -3.53116e-05, 7.57399e-08, 1, -0.460883, 1.64863, -0.0585653 )
+joint_type = 3
+body_offset = Transform( 1, 5.39878e-14, 0, 5.39878e-14, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 1.55
+weight = 15.19
+bone_name = "right_fore_arm"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 180.0
+joint_constraints/angular_limit_lower = 30.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightForeArm" index="0"]
+transform = Transform( 8.10515e-05, 7.06078e-06, 1, -2.9749e-10, 1, -7.06077e-06, -1, 2.74774e-10, 8.10515e-05, -0.143313, -0.00715852, -5.39422e-06 )
+shape = SubResource( 8 )
+
+[node name="LeftHand" type="PhysicalBone" parent="Dudesse/Skeleton" index="14"]
+transform = Transform( 1, 0.000111127, -2.0302e-05, -0.000111126, 1, 3.41735e-05, 2.03058e-05, -3.41713e-05, 1, 0.744129, 1.64863, -0.0585665 )
+joint_type = 3
+body_offset = Transform( 1, -2.65926e-12, 0, -2.65921e-12, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 0.51
+weight = 4.998
+bone_name = "left_hand"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 180.0
+joint_constraints/angular_limit_lower = 70.17
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/LeftHand" index="0"]
+transform = Transform( -1.62921e-07, -6.93875e-10, 1, 0, 1, -6.88308e-10, -1, 3.63798e-12, -1.62925e-07, 0.109819, 1.16229e-05, -2.23145e-06 )
+shape = SubResource( 9 )
+
+[node name="RightHand" type="PhysicalBone" parent="Dudesse/Skeleton" index="15"]
+transform = Transform( 1, -5.05122e-05, -5.04151e-05, 5.05118e-05, 1, -7.43737e-06, 5.04154e-05, 7.43482e-06, 1, -0.744132, 1.64862, -0.0585649 )
+joint_type = 3
+body_offset = Transform( 1, 1.17795e-13, 0, 1.17822e-13, 1, 0, 0, 0, 1, 0, 0, 0 )
+mass = 0.51
+weight = 4.998
+bone_name = "right_hand"
+joint_constraints/angular_limit_enabled = true
+joint_constraints/angular_limit_upper = 90.0
+joint_constraints/angular_limit_lower = -90.0
+joint_constraints/angular_limit_bias = 0.3
+joint_constraints/angular_limit_softness = 0.9
+joint_constraints/angular_limit_relaxation = 1.0
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/RightHand" index="0"]
+transform = Transform( -3.02781e-05, 0.000161637, 1, -4.16093e-05, 1, -0.000161638, -1, -4.16142e-05, -3.02713e-05, -0.10295, 8.10623e-06, 3.57628e-06 )
+shape = SubResource( 9 )
+
+[node name="Root3" type="PhysicalBone" parent="Dudesse/Skeleton" index="16"]
+transform = Transform( 1, -1.34941e-05, -4.32819e-07, 1.34941e-05, 1, -1.8497e-07, 4.32822e-07, 1.84964e-07, 1, 0.000108837, 1.14519, -0.0179449 )
+body_offset = Transform( 1, 8.00566e-14, 0, 8.00566e-14, 1, 0, 0, 0, 1, 0, 0, 0 )
+bone_name = "hips"
+
+[node name="CollisionShape" type="CollisionShape" parent="Dudesse/Skeleton/Root3" index="0"]
+transform = Transform( 1, 4.87453e-15, 6.42907e-14, -7.18267e-15, 0.99938, 0.0352135, -6.67663e-14, -0.0352135, 0.99938, 0, -0.0187759, 0.043335 )
+shape = SubResource( 10 )

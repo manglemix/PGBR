@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scenes/terrain_gen/terrain.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/hud/hud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/pause_menu/pause_menu.tscn" type="PackedScene" id=4]
+
+
+
+
+
+
+
+[node name="World" type="Spatial"]
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
+
+[node name="PauseMenu" parent="." instance=ExtResource( 4 )]
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 121.109, 12.1752, 41.2471 )
+
+[node name="Terrain" parent="." instance=ExtResource( 1 )]
