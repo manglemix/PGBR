@@ -175,17 +175,31 @@ func global_turn_to_vector(position: Vector3) -> void:
 	turn_to_vector(position - global_transform.origin)
 
 
-func borrow_hand():
-	# returns the first free hand, or null if there are no free hands
+func borrow_hands(count := 1) -> Array:
+	# returns the first hands that are free, or an empty list if not enough
+	# hands labelled true are occupied
+	var reserved := []
 	for hand in hands:
 		if not hands[hand]:
-			hands[hand] = true
-			return hand
+			reserved.append(hand)
+			if reserved.size() == count:
+				break
+	
+	# if we went through the whole list of hands and there still weren';'t enough hands
+	if reserved.size() != count:
+		return []
+	
+	# this will set all reserved hands as occupied
+	for hand in reserved:
+		hands[hand] = true
+	
+	return reserved
 
 
-func return_hand(hand):
+func return_hands(used_hands: Array) -> void:
 	# sets the hand given to be free
-	hands[hand] = false
+	for hand in used_hands:
+		hands[hand] = false
 
 
 func aim_guns(position: Vector3) -> void:
