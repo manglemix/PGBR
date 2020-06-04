@@ -31,9 +31,6 @@ func set_clipping_distance(distance: float) -> void:
 func aim_towards(target: Vector3) -> void:
 	get_parent().look_at(target, Vector3.UP)
 	get_parent().rotate_object_local(Vector3.UP, PI)
-	
-	for handle in handles:
-		handles[handle].global_transform = handle.global_transform
 
 
 func get_collider():
