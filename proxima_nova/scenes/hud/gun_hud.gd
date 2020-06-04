@@ -13,7 +13,7 @@ onready var hand := player.find_node("HandTrigger", true, false)
 
 
 func _ready():
-	player.connect("weapon_switch", self, "_weapon_switched")
+	assert(player.connect("weapon_switch", self, "_weapon_switched") == OK)
 	_weapon_switched()
 
 
@@ -26,10 +26,10 @@ func _weapon_switched() -> void:
 	if hand.get_child_count() > 0:
 		gun = hand.get_child(0)
 	if gun is Weapon and gun.is_gun:
-		gun.connect("reloading", self, "_reloading")
-		gun.connect("current_ammo", self, "_current_ammo")
-		gun.connect("total_ammo", self, "_total_ammo")
-		gun.connect("out_of_ammo", self, "_out_of_ammo")
+		assert(gun.connect("reloading", self, "_reloading") == OK)
+		assert(gun.connect("current_ammo", self, "_current_ammo") == OK)
+		assert(gun.connect("total_ammo", self, "_total_ammo") == OK)
+		assert(gun.connect("out_of_ammo", self, "_out_of_ammo") == OK)
 		
 		_current_ammo(gun.current_ammo)
 		_total_ammo(gun.total_ammo)
@@ -48,8 +48,8 @@ func _reloading(check: bool, reload_time: float) -> void:
 		reloading_txt.set_text("Reloading...")
 		reloading.visible = true
 		print("reload_time: ", reload_time)
-		reload_tween.interpolate_property(reloading_bar, "value", 0, 100, reload_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
-		reload_tween.start()
+		assert(reload_tween.interpolate_property(reloading_bar, "value", 0, 100, reload_time, Tween.TRANS_SINE, Tween.EASE_IN_OUT))
+		assert(reload_tween.start())
 	else:
 		reloading.visible = false
 
