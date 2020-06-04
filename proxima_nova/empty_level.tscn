@@ -8,7 +8,8 @@
 [ext_resource path="res://utility_AI/attack.gd" type="Script" id=6]
 [ext_resource path="res://assets/train_arena.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://base_scripts/base_scene.gd" type="Script" id=8]
-[ext_resource path="res://monkeybot.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/enemies/monkeybot.tscn" type="PackedScene" id=9]
+
 
 
 
