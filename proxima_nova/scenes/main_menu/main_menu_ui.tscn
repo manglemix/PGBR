@@ -1,11 +1,12 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://scenes/fonts/montserrat_regular_24.tres" type="DynamicFont" id=1]
+[ext_resource path="res://fonts/montserrat_regular_24.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/sprites/main_menu/title_bg.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/main_menu/menu_underlay.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/main_menu/button_hover_bg.png" type="Texture" id=4]
 [ext_resource path="res://assets/sprites/main_menu/logo_arc.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/main_menu/button_bg.png" type="Texture" id=6]
+
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/fonts/montserrat/montserrat_bold.ttf"
