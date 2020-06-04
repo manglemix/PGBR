@@ -268,13 +268,6 @@ func _input(event):
 	
 	if event.is_action_pressed("change viewpoint"):
 		camera.increment_transform()
-	
-	if event.is_action_pressed("aim"):
-		_director.mouse_sensitivity /= 1.5
-	
-	elif event.is_action_released("aim"):
-		_director.mouse_sensitivity *= 1.5
-	
 
 
 func _process(_delta):
@@ -309,21 +302,6 @@ func _process(_delta):
 			speed = Speeds.RUN
 		
 		move_to_vector(direction, speed)
-	
-	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
-		var raycast := _director.camera_raycast(camera) as Dictionary
-		var target: Vector3
-		
-		if raycast.empty():
-			target = - camera.global_transform.basis.z * camera.far + camera.global_transform.origin
-		else:
-			target = raycast["position"]
-		
-		global_turn_to_vector(target)
-		aim_guns(target)
-		
-		if Input.is_action_pressed("shoot"):
-			shoot_guns()
 
 
 func _physics_process(delta):
