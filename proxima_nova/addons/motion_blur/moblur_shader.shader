@@ -4,7 +4,7 @@ render_mode depth_test_disable, depth_draw_never, unshaded, cull_disabled;
 uniform vec3 linear_velocity;
 uniform vec3 angular_velocity; //rads
 uniform int iteration_count: hint_range(2, 50);
-uniform float intensity: hint_range(0, 1);
+uniform float intensity: hint_range(0, 0.2);
 
 
 void fragment() {
