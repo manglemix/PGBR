@@ -56,8 +56,9 @@ var fall_acceleration_factor := 1.0			# multiplied with gravity to get final fal
 var linear_velocity := Vector3.ZERO
 var floor_collision: KinematicCollision		# holds information about the floor collider, null if there is no floor
 var max_slope_angle: float setget set_max_slope_angle
-var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director"]
+var dont_save := ["hands", "equipment", "_branch", "head", "camera", "_director", "is_ready"]
 
+var is_ready := false						# true once node is ready, used in equippable nodes
 var hands := {}								# a dict of nodes which were considered hands (from hand_paths), refer to _ready for more info
 var equipment := []
 var camera: Camera		# assuming this Person is controlled by the player, they would look through this camera
@@ -127,6 +128,7 @@ func _ready():
 	if is_instance_valid(head):
 		camera = head.find_node("Camera")
 	
+	is_ready = true
 	set_user_input(user_input)
 
 
@@ -175,17 +177,31 @@ func global_turn_to_vector(position: Vector3) -> void:
 	turn_to_vector(position - global_transform.origin)
 
 
-func borrow_hand():
-	# returns the first free hand, or null if there are no free hands
+func borrow_hands(count := 1) -> Array:
+	# returns the first hands that are free, or an empty list if not enough
+	# hands labelled true are occupied
+	var reserved := []
 	for hand in hands:
 		if not hands[hand]:
-			hands[hand] = true
-			return hand
+			reserved.append(hand)
+			if reserved.size() == count:
+				break
+	
+	# if we went through the whole list of hands and there still weren';'t enough hands
+	if reserved.size() != count:
+		return []
+	
+	# this will set all reserved hands as occupied
+	for hand in reserved:
+		hands[hand] = true
+	
+	return reserved
 
 
-func return_hand(hand):
+func return_hands(used_hands: Array) -> void:
 	# sets the hand given to be free
-	hands[hand] = false
+	for hand in used_hands:
+		hands[hand] = false
 
 
 func aim_guns(position: Vector3) -> void:
@@ -252,15 +268,6 @@ func _input(event):
 	
 	if event.is_action_pressed("change viewpoint"):
 		camera.increment_transform()
-	
-	if event.is_action_pressed("aim"):
-		_director.mouse_sensitivity /= 1.5
-	
-	elif event.is_action_released("aim"):
-		_director.mouse_sensitivity *= 1.5
-	
-	if event.is_action_pressed("hide_mouse"):
-		_director.show_mouse = not _director.show_mouse
 
 
 func _process(_delta):
@@ -295,21 +302,6 @@ func _process(_delta):
 			speed = Speeds.RUN
 		
 		move_to_vector(direction, speed)
-	
-	if Input.is_action_pressed("shoot") or Input.is_action_pressed("aim"):
-		var raycast := _director.camera_raycast(camera) as Dictionary
-		var target: Vector3
-		
-		if raycast.empty():
-			target = - camera.global_transform.basis.z * camera.far + camera.global_transform.origin
-		else:
-			target = raycast["position"]
-		
-		global_turn_to_vector(target)
-		aim_guns(target)
-		
-		if Input.is_action_pressed("shoot"):
-			shoot_guns()
 
 
 func _physics_process(delta):
