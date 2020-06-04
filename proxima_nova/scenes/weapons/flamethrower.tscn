@@ -6,6 +6,7 @@
 [node name="Flamethrower" type="Spatial"]
 
 [node name="Body" type="MeshInstance" parent="."]
+transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
@@ -41,6 +42,7 @@ material/30 = null
 material/31 = null
 
 [node name="Fuel" type="MeshInstance" parent="."]
+transform = Transform( 15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0 )
 mesh = ExtResource( 2 )
 material/0 = null
 material/1 = null
