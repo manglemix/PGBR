@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/concrete_roughness.jpg-904c58428d8b2224693a9852911c444f.s3tc.stex"
+path.etc2="res://.import/concrete_roughness.jpg-904c58428d8b2224693a9852911c444f.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/concrete/concrete_roughness.jpg"
-dest_files=[ "res://.import/concrete_roughness.jpg-904c58428d8b2224693a9852911c444f.s3tc.stex" ]
+dest_files=[ "res://.import/concrete_roughness.jpg-904c58428d8b2224693a9852911c444f.s3tc.stex", "res://.import/concrete_roughness.jpg-904c58428d8b2224693a9852911c444f.etc2.stex" ]
 
 [params]
 

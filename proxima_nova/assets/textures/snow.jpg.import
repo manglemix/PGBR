@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/snow.jpg-be211d8322ddb7c64c81b4683c7b6283.s3tc.stex"
+path.etc2="res://.import/snow.jpg-be211d8322ddb7c64c81b4683c7b6283.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/snow.jpg"
-dest_files=[ "res://.import/snow.jpg-be211d8322ddb7c64c81b4683c7b6283.s3tc.stex" ]
+dest_files=[ "res://.import/snow.jpg-be211d8322ddb7c64c81b4683c7b6283.s3tc.stex", "res://.import/snow.jpg-be211d8322ddb7c64c81b4683c7b6283.etc2.stex" ]
 
 [params]
 

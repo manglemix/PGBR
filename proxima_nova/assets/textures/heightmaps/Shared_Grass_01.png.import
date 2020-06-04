@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/Shared_Grass_01.png-a0838b10e99159349bbcd7cc644eff4e.s3tc.stex"
+path.etc2="res://.import/Shared_Grass_01.png-a0838b10e99159349bbcd7cc644eff4e.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/heightmaps/Shared_Grass_01.png"
-dest_files=[ "res://.import/Shared_Grass_01.png-a0838b10e99159349bbcd7cc644eff4e.s3tc.stex" ]
+dest_files=[ "res://.import/Shared_Grass_01.png-a0838b10e99159349bbcd7cc644eff4e.s3tc.stex", "res://.import/Shared_Grass_01.png-a0838b10e99159349bbcd7cc644eff4e.etc2.stex" ]
 
 [params]
 

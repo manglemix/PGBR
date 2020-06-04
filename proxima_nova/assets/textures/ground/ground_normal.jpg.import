@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/ground_normal.jpg-9b706819ba44f1685ff82a5792a38c4f.s3tc.stex"
+path.etc2="res://.import/ground_normal.jpg-9b706819ba44f1685ff82a5792a38c4f.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/ground/ground_normal.jpg"
-dest_files=[ "res://.import/ground_normal.jpg-9b706819ba44f1685ff82a5792a38c4f.s3tc.stex" ]
+dest_files=[ "res://.import/ground_normal.jpg-9b706819ba44f1685ff82a5792a38c4f.s3tc.stex", "res://.import/ground_normal.jpg-9b706819ba44f1685ff82a5792a38c4f.etc2.stex" ]
 
 [params]
 
