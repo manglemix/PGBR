@@ -90,3 +90,6 @@ func _input(event):
 	
 	if event.is_action_pressed("debug"):
 		Debug.enabled = not Debug.enabled
+	
+	if event.is_action_pressed("hide_mouse"):
+		set_show_mouse(not show_mouse)
