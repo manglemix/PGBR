@@ -1,3 +1,5 @@
+# A slightly modified script for asynchronously loading Resources, taken straight from the wiki
+# Will be deprecated for ResourceQueue
 extends Reference
 
 
