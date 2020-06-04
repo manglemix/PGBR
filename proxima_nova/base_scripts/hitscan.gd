@@ -1,5 +1,5 @@
 class_name Hitscan
-extends Equippable
+extends Spatial
 
 
 signal shooting		# emitted before a shot is checked and fired
