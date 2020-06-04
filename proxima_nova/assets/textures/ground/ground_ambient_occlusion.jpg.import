@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/ground_ambient_occlusion.jpg-37ae9e79dccab40b1ca251c4313f43e8.s3tc.stex"
+path.etc2="res://.import/ground_ambient_occlusion.jpg-37ae9e79dccab40b1ca251c4313f43e8.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/ground/ground_ambient_occlusion.jpg"
-dest_files=[ "res://.import/ground_ambient_occlusion.jpg-37ae9e79dccab40b1ca251c4313f43e8.s3tc.stex" ]
+dest_files=[ "res://.import/ground_ambient_occlusion.jpg-37ae9e79dccab40b1ca251c4313f43e8.s3tc.stex", "res://.import/ground_ambient_occlusion.jpg-37ae9e79dccab40b1ca251c4313f43e8.etc2.stex" ]
 
 [params]
 

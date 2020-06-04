@@ -223,6 +223,7 @@ run/main_scene="res://scenes/main_menu/main_menu.tscn"
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
 config/windows_native_icon="res://logo.ico"
+config]name="ProximaNova"
 
 [autoload]
 
@@ -372,11 +373,6 @@ holster={
 [rendering]
 
 threads/thread_model=2
-vram_compression/import_etc2=false
 environment/default_clear_color=Color( 0.188235, 0.188235, 0.188235, 1 )
 quality/filters/msaa=2
 environment/default_environment="res://default_env.tres"
-
-[}[application]
-
-config]name="ProximaNova"

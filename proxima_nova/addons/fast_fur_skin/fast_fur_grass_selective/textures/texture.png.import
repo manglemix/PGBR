@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/texture.png-99acb56667621d9fbc2c6eadf65d97c1.s3tc.stex"
+path.etc2="res://.import/texture.png-99acb56667621d9fbc2c6eadf65d97c1.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/fast_fur_skin/fast_fur_grass_selective/textures/texture.png"
-dest_files=[ "res://.import/texture.png-99acb56667621d9fbc2c6eadf65d97c1.s3tc.stex" ]
+dest_files=[ "res://.import/texture.png-99acb56667621d9fbc2c6eadf65d97c1.s3tc.stex", "res://.import/texture.png-99acb56667621d9fbc2c6eadf65d97c1.etc2.stex" ]
 
 [params]
 

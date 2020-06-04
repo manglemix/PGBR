@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/fire_01.png-48de61ed83308e235a33e3bc4d732f5c.s3tc.stex"
+path.etc2="res://.import/fire_01.png-48de61ed83308e235a33e3bc4d732f5c.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/sprites/particles/fire_01.png"
-dest_files=[ "res://.import/fire_01.png-48de61ed83308e235a33e3bc4d732f5c.s3tc.stex" ]
+dest_files=[ "res://.import/fire_01.png-48de61ed83308e235a33e3bc4d732f5c.s3tc.stex", "res://.import/fire_01.png-48de61ed83308e235a33e3bc4d732f5c.etc2.stex" ]
 
 [params]
 

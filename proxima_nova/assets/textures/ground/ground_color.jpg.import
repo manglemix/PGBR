@@ -3,15 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/ground_color.jpg-3c62a2f0c3f4d6b50b6802d84a33257d.s3tc.stex"
+path.etc2="res://.import/ground_color.jpg-3c62a2f0c3f4d6b50b6802d84a33257d.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc" ],
+"imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/ground/ground_color.jpg"
-dest_files=[ "res://.import/ground_color.jpg-3c62a2f0c3f4d6b50b6802d84a33257d.s3tc.stex" ]
+dest_files=[ "res://.import/ground_color.jpg-3c62a2f0c3f4d6b50b6802d84a33257d.s3tc.stex", "res://.import/ground_color.jpg-3c62a2f0c3f4d6b50b6802d84a33257d.etc2.stex" ]
 
 [params]
 
