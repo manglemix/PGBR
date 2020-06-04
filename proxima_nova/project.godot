@@ -173,11 +173,6 @@ _global_script_classes=[ {
 "class": "Wander",
 "language": "GDScript",
 "path": "res://utility_AI/wander.gd"
-}, {
-"base": "Node",
-"class": "Weapon",
-"language": "GDScript",
-"path": "res://scenes/weapons/weapon.gd"
 } ]
 _global_script_class_icons={
 "Animator": "",
@@ -212,8 +207,7 @@ _global_script_class_icons={
 "State": "",
 "TransformProxy": "",
 "UtilityTree": "",
-"Wander": "",
-"Weapon": ""
+"Wander": ""
 }
 
 [application]
