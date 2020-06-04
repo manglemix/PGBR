@@ -214,6 +214,7 @@ _global_script_class_icons={
 
 config/name="Proxima Nova"
 run/main_scene="res://scenes/main_menu/main_menu.tscn"
+boot_splash/image="res://assets/sprites/splash.png"
 boot_splash/bg_color=Color( 0.164706, 0.188235, 0.192157, 1 )
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
