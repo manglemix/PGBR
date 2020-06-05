@@ -45,45 +45,45 @@ var curr_stamina := max_stamina setget curr_stamina_set
 
 # Guns
 enum EquipmentSlots {
-	Primary1,
-	Primary2,
-	SideArm,
-	Melee,
-	Item1,
-	Item2,
-	Item3,
-	Item4
+    Primary1,
+    Primary2,
+    SideArm,
+    Melee,
+    Item1,
+    Item2,
+    Item3,
+    Item4
 }
 export(Dictionary) var equipped = {
-	EquipmentSlots.Primary1: {
-		"item": "res://scenes/weapons/uzi_gold_long.tscn",
-		"slot": EquipmentSlots.Primary1
-	},
-	EquipmentSlots.Primary2: {
-		"item": "res://scenes/weapons/sniper_camo.tscn",
-		"slot": EquipmentSlots.Primary2
-	},
-	EquipmentSlots.SideArm: {
-		"item": "res://scenes/weapons/pistol.tscn",
-		"slot": EquipmentSlots.SideArm
-	},
-	EquipmentSlots.Melee: {
-		"item": "res://scenes/weapons/knife_smooth.tscn",
-		"slot": EquipmentSlots.Melee
-	},
-	EquipmentSlots.Item1: {
-		"item": "res://scenes/weapons/grenade.tscn",
-		"slot": EquipmentSlots.Item1
-	},
-	EquipmentSlots.Item2: {
-		"item": "res://scenes/weapons/smoke_grenade.tscn",
-		"slot": EquipmentSlots.Item2
-	},
-	EquipmentSlots.Item3: {
-		"item": "res://scenes/weapons/flash_grenade.tscn",
-		"slot": EquipmentSlots.Item3
-	},
-	EquipmentSlots.Item4: {}
+    EquipmentSlots.Primary1: {
+        "item": "res://scenes/weapons/uzi_gold_long.tscn",
+        "slot": EquipmentSlots.Primary1
+    },
+    EquipmentSlots.Primary2: {
+        "item": "res://scenes/weapons/sniper_camo.tscn",
+        "slot": EquipmentSlots.Primary2
+    },
+    EquipmentSlots.SideArm: {
+        "item": "res://scenes/weapons/pistol.tscn",
+        "slot": EquipmentSlots.SideArm
+    },
+    EquipmentSlots.Melee: {
+        "item": "res://scenes/weapons/knife_smooth.tscn",
+        "slot": EquipmentSlots.Melee
+    },
+    EquipmentSlots.Item1: {
+        "item": "res://scenes/weapons/grenade.tscn",
+        "slot": EquipmentSlots.Item1
+    },
+    EquipmentSlots.Item2: {
+        "item": "res://scenes/weapons/smoke_grenade.tscn",
+        "slot": EquipmentSlots.Item2
+    },
+    EquipmentSlots.Item3: {
+        "item": "res://scenes/weapons/flash_grenade.tscn",
+        "slot": EquipmentSlots.Item3
+    },
+    EquipmentSlots.Item4: {}
 }
 var current_weapon = equipped[EquipmentSlots.Primary1];
 
@@ -102,232 +102,232 @@ onready var tail := $Tail/GroundCheck as RayCast
 
 # getters and setters
 func curr_health_set(new_val: float) -> void:
-	curr_health = clamp(new_val, 0, max_health)
-	emit_signal("update_health", curr_health)
-	if curr_health <= 0:
-		emit_signal("player_dead")
+    curr_health = clamp(new_val, 0, max_health)
+    emit_signal("update_health", curr_health)
+    if curr_health <= 0:
+        emit_signal("player_dead")
 
 
 func curr_stamina_set(new_val: float) -> void:
-	curr_stamina = clamp(new_val, 0, max_stamina)
-	emit_signal("sprint_time", curr_stamina)
+    curr_stamina = clamp(new_val, 0, max_stamina)
+    emit_signal("sprint_time", curr_stamina)
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		camera_change = (event.relative as Vector2) * mouse_sensitivity
+    if event is InputEventMouseMotion:
+        camera_change = (event.relative as Vector2) * mouse_sensitivity
 
 
 func _ready() -> void:
-	print("equipped: ", equipped)
-	camera.fov = fov
-	emit_signal("update_health", self.curr_health)
+    print("equipped: ", equipped)
+    camera.fov = fov
+    emit_signal("update_health", self.curr_health)
 
 
 func _physics_process(delta: float) -> void:
-	aim()
-	move(delta)
-	check_flashlight()
-	weapon_select()
+    aim()
+    move(delta)
+    check_flashlight()
+    weapon_select()
 
 
 func reparent(source: Node, target: Node) -> void:
-	source.get_parent().remove_child(source)
-	target.add_child(source)
-	source.set_owner(target)
+    source.get_parent().remove_child(source)
+    target.add_child(source)
+    source.set_owner(target)
 
 
 func aim() -> void:
-	if camera_change.length() > 0:
-		var cam_point
-		if third_person: # third person camera mode
-			cam_point = cam_pivot
-		else: # first person camera mode 
-			cam_point = camera
-		cam_point.rotate_x(deg2rad(-camera_change.y))
-		cam_point.rotation.x = clamp(cam_point.rotation.x, deg2rad(-camera_angle_stop), deg2rad(camera_angle_stop))
-		rotate_y(deg2rad(-camera_change.x)) # mouse moves in x axis but head should move in y axis
-		gun_pivot.rotate_x(deg2rad(-camera_change.y))
-		gun_pivot.rotation.x = clamp(cam_point.rotation.x, deg2rad(-camera_angle_stop), deg2rad(camera_angle_stop))
-		
-		if flashlight.is_visible_in_tree():
-			pass
-		
-		camera_change = Vector2.ZERO
+    if camera_change.length() > 0:
+        var cam_point
+        if third_person: # third person camera mode
+            cam_point = cam_pivot
+        else: # first person camera mode 
+            cam_point = camera
+        cam_point.rotate_x(deg2rad(-camera_change.y))
+        cam_point.rotation.x = clamp(cam_point.rotation.x, deg2rad(-camera_angle_stop), deg2rad(camera_angle_stop))
+        rotate_y(deg2rad(-camera_change.x)) # mouse moves in x axis but head should move in y axis
+        gun_pivot.rotate_x(deg2rad(-camera_change.y))
+        gun_pivot.rotation.x = clamp(cam_point.rotation.x, deg2rad(-camera_angle_stop), deg2rad(camera_angle_stop))
+        
+        if flashlight.is_visible_in_tree():
+            pass
+        
+        camera_change = Vector2.ZERO
 
 
 func move(delta: float) -> void:
-	compute_input_direction()
-	
-	# check movement speed
-	var speed := normal_speed
-	if Input.is_action_just_pressed("sprint") and not sprinting and is_on_floor():
-		sprinting = true
-		crouching = false
-		sprint_timer.start(self.curr_stamina)
-	elif (Input.is_action_just_pressed("sprint") and sprinting) or direction.length() <= 0: # stop sprinting if toggled or if movement stopped
-		sprinting = false
-		sprint_timer.stop()
-	
-	if sprinting and is_on_floor():
-		speed = sprint_speed
-		if sprint_timer.paused:
-			sprint_timer.paused = false
-		self.curr_stamina = sprint_timer.time_left
-		camera.set_fov(lerp(camera.fov, fov * 1.2, delta * 8))
-	if sprinting and not is_on_floor():
-		if not sprint_timer.paused:
-			sprint_timer.paused = true
-	if not sprinting:
-		# regen stamina
-		if self.curr_stamina < max_stamina:
-			self.curr_stamina += stamina_regen * delta
-	
-	if Input.is_action_just_pressed("crouch"):
-		if not crouching and is_on_floor():
-			crouching = true
-			sprinting = false
-		elif crouching:
-			crouching = false
-	
-	if crouching:
-		speed = crouch_speed
-		camera.set_fov(lerp(camera.fov, fov, delta * 8))
-	
-	if not sprinting and not crouching:
-		speed = normal_speed
-		camera.set_fov(lerp(camera.fov, fov, delta * 8)) # reset camera fov
-	
-	velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
-	
-	# apply gravity only in on floor or on a steep slope
-	if is_on_floor():
-		has_contact = true
-		var collision_norm := tail.get_collision_normal()
-		var floor_angle := rad2deg(acos(collision_norm.dot(Vector3.UP)))
-		if floor_angle > max_slope_angle:
-			velocity.y -= gravity * delta
-	else:
-		if not tail.is_colliding():
-			has_contact = false
-		velocity.y -= gravity * delta
-	
-	if has_contact and not is_on_floor():
-		move_and_collide(Vector3(0, -1, 0))
-	
-	var snap := Vector3.DOWN * 20
-	if Input.is_action_just_pressed("jump") and has_contact:
-		crouching = false
-		snap = Vector3.ZERO
-		velocity.y += jump_power
-		has_contact = false
-	
-	toggle_camera()
-	
-	velocity = move_and_slide_with_snap(velocity, snap, Vector3.UP, true, 20, deg2rad(45), false)
+    compute_input_direction()
+    
+    # check movement speed
+    var speed := normal_speed
+    if Input.is_action_just_pressed("sprint") and not sprinting and is_on_floor():
+        sprinting = true
+        crouching = false
+        sprint_timer.start(self.curr_stamina)
+    elif (Input.is_action_just_pressed("sprint") and sprinting) or direction.length() <= 0: # stop sprinting if toggled or if movement stopped
+        sprinting = false
+        sprint_timer.stop()
+    
+    if sprinting and is_on_floor():
+        speed = sprint_speed
+        if sprint_timer.paused:
+            sprint_timer.paused = false
+        self.curr_stamina = sprint_timer.time_left
+        camera.set_fov(lerp(camera.fov, fov * 1.2, delta * 8))
+    if sprinting and not is_on_floor():
+        if not sprint_timer.paused:
+            sprint_timer.paused = true
+    if not sprinting:
+        # regen stamina
+        if self.curr_stamina < max_stamina:
+            self.curr_stamina += stamina_regen * delta
+    
+    if Input.is_action_just_pressed("crouch"):
+        if not crouching and is_on_floor():
+            crouching = true
+            sprinting = false
+        elif crouching:
+            crouching = false
+    
+    if crouching:
+        speed = crouch_speed
+        camera.set_fov(lerp(camera.fov, fov, delta * 8))
+    
+    if not sprinting and not crouching:
+        speed = normal_speed
+        camera.set_fov(lerp(camera.fov, fov, delta * 8)) # reset camera fov
+    
+    velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
+    
+    # apply gravity only in on floor or on a steep slope
+    if is_on_floor():
+        has_contact = true
+        var collision_norm := tail.get_collision_normal()
+        var floor_angle := rad2deg(acos(collision_norm.dot(Vector3.UP)))
+        if floor_angle > max_slope_angle:
+            velocity.y -= gravity * delta
+    else:
+        if not tail.is_colliding():
+            has_contact = false
+        velocity.y -= gravity * delta
+    
+    if has_contact and not is_on_floor():
+        move_and_collide(Vector3(0, -1, 0))
+    
+    var snap := Vector3.DOWN * 20
+    if Input.is_action_just_pressed("jump") and has_contact:
+        crouching = false
+        snap = Vector3.ZERO
+        velocity.y += jump_power
+        has_contact = false
+    
+    toggle_camera()
+    
+    velocity = move_and_slide_with_snap(velocity, snap, Vector3.UP, true, 20, deg2rad(45), false)
 
 
 func compute_input_direction() -> void:
-	# detect movement direction
-	var head_basis := head.get_global_transform().basis
-	if has_contact: # move only if player is on ground
-		direction = Vector3.ZERO
-		if Input.is_action_pressed("move_forward"):
-			direction -= head_basis.z
-		elif Input.is_action_pressed("move_backward"):
-			direction += head_basis.z
-		
-		if Input.is_action_pressed("move_left"):
-			direction -= head_basis.x
-		elif Input.is_action_pressed("move_right"):
-			direction += head_basis.x
-		direction.y = 0
-		direction = direction.normalized()
+    # detect movement direction
+    var head_basis := head.get_global_transform().basis
+    if has_contact: # move only if player is on ground
+        direction = Vector3.ZERO
+        if Input.is_action_pressed("move_forward"):
+            direction -= head_basis.z
+        elif Input.is_action_pressed("move_backward"):
+            direction += head_basis.z
+        
+        if Input.is_action_pressed("move_left"):
+            direction -= head_basis.x
+        elif Input.is_action_pressed("move_right"):
+            direction += head_basis.x
+        direction.y = 0
+        direction = direction.normalized()
 
 
 func toggle_camera() -> void:
-	if Input.is_action_just_pressed("change_cam"):
-		third_person = not third_person
-		if third_person:
-			reparent(camera, cam_pivot.get_node("CameraBoom"))
-		else:
-			reparent(camera, head)
+    if Input.is_action_just_pressed("change_cam"):
+        third_person = not third_person
+        if third_person:
+            reparent(camera, cam_pivot.get_node("CameraBoom"))
+        else:
+            reparent(camera, head)
 
 
 func fly(delta: float) -> void:
-	# Input
-	direction = Vector3.ZERO
-	var aim := head.get_global_transform().basis
-	if Input.is_action_pressed("move_forward"):
-		direction -= aim.z
-	if Input.is_action_pressed("move_backward"):
-		direction += aim.z
-	if Input.is_action_pressed("move_left"):
-		direction -= aim.x
-	if Input.is_action_pressed("move_right"):
-		direction += aim.x
-	direction = direction.normalized()
-	
-	# Acceleration and Deacceleration
-	var target: Vector3 = direction * fly_speed
-	velocity = velocity.linear_interpolate(target, fly_accel * delta)
-	
-	# Move
-	velocity = move_and_slide(velocity)
+    # Input
+    direction = Vector3.ZERO
+    var aim := head.get_global_transform().basis
+    if Input.is_action_pressed("move_forward"):
+        direction -= aim.z
+    if Input.is_action_pressed("move_backward"):
+        direction += aim.z
+    if Input.is_action_pressed("move_left"):
+        direction -= aim.x
+    if Input.is_action_pressed("move_right"):
+        direction += aim.x
+    direction = direction.normalized()
+    
+    # Acceleration and Deacceleration
+    var target: Vector3 = direction * fly_speed
+    velocity = velocity.linear_interpolate(target, fly_accel * delta)
+    
+    # Move
+    velocity = move_and_slide(velocity)
 
 
 func check_flashlight() -> void:
-	if Input.is_action_just_pressed("flashlight"):
-		if flashlight.is_visible_in_tree():
-			flashlight.hide()
-		else:
-			flashlight.show()
+    if Input.is_action_just_pressed("flashlight"):
+        if flashlight.is_visible_in_tree():
+            flashlight.hide()
+        else:
+            flashlight.show()
 
 
 func weapon_select() -> void:
-	var change_equipment = current_weapon
-	if Input.is_action_just_pressed("primary_weapon"):
-		if current_weapon.hash() == equipped[EquipmentSlots.Primary1].hash():
-			change_equipment = equipped[EquipmentSlots.Primary2]
-		else:
-			change_equipment = equipped[EquipmentSlots.Primary1]
-	if Input.is_action_just_pressed("sidearm_weapon"):
-		change_equipment = equipped[EquipmentSlots.SideArm]
-	if Input.is_action_just_pressed("melee_weapon"):
-		change_equipment = equipped[EquipmentSlots.Melee]
-	if Input.is_action_just_pressed("item1"):
-		change_equipment = equipped[EquipmentSlots.Item1]
-	if Input.is_action_just_pressed("item2"):
-		change_equipment = equipped[EquipmentSlots.Item2]
-	if Input.is_action_just_pressed("item3"):
-		change_equipment = equipped[EquipmentSlots.Item3]
-	if Input.is_action_just_pressed("item4"):
-		change_equipment = equipped[EquipmentSlots.Item4]
-	if Input.is_action_just_pressed("holster"):
-		change_equipment = {}
-	
-	
-	if change_equipment != current_weapon:
-		if change_equipment:
-			if change_equipment.hash() != current_weapon.hash():
-				# change equipment
-				for item in hand_trigger.get_children():
-					item.free() # remove anything holding in hand
-				var weapon = load(change_equipment["item"]).instance()
-				hand_trigger.add_child(weapon) # draw the weapon into hand
-				current_weapon = change_equipment
-				emit_signal("weapon_switch")
-		else:
-			# unequip
-			for item in hand_trigger.get_children():
-				item.free() # remove anything holding in hand
-			current_weapon = change_equipment
-			emit_signal("weapon_switch")
+    var change_equipment = current_weapon
+    if Input.is_action_just_pressed("primary_weapon"):
+        if current_weapon.hash() == equipped[EquipmentSlots.Primary1].hash():
+            change_equipment = equipped[EquipmentSlots.Primary2]
+        else:
+            change_equipment = equipped[EquipmentSlots.Primary1]
+    if Input.is_action_just_pressed("sidearm_weapon"):
+        change_equipment = equipped[EquipmentSlots.SideArm]
+    if Input.is_action_just_pressed("melee_weapon"):
+        change_equipment = equipped[EquipmentSlots.Melee]
+    if Input.is_action_just_pressed("item1"):
+        change_equipment = equipped[EquipmentSlots.Item1]
+    if Input.is_action_just_pressed("item2"):
+        change_equipment = equipped[EquipmentSlots.Item2]
+    if Input.is_action_just_pressed("item3"):
+        change_equipment = equipped[EquipmentSlots.Item3]
+    if Input.is_action_just_pressed("item4"):
+        change_equipment = equipped[EquipmentSlots.Item4]
+    if Input.is_action_just_pressed("holster"):
+        change_equipment = {}
+    
+    
+    if change_equipment != current_weapon:
+        if change_equipment:
+            if change_equipment.hash() != current_weapon.hash():
+                # change equipment
+                for item in hand_trigger.get_children():
+                    item.free() # remove anything holding in hand
+                var weapon = load(change_equipment["item"]).instance()
+                hand_trigger.add_child(weapon) # draw the weapon into hand
+                current_weapon = change_equipment
+                emit_signal("weapon_switch")
+        else:
+            # unequip
+            for item in hand_trigger.get_children():
+                item.free() # remove anything holding in hand
+            current_weapon = change_equipment
+            emit_signal("weapon_switch")
 
 
 func _on_TestTimer_timeout():
-	self.curr_health = 20 if self.curr_health > 30 else 40
+    self.curr_health = 20 if self.curr_health > 30 else 40
 
 
 func _on_SprintTimer_timeout():
-	sprinting = false
+    sprinting = false

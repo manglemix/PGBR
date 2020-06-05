@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/enemies/monkeybot.material" type="Material" id=1]
 [ext_resource path="res://scenes/enemies/monkeybot_v2.material" type="Material" id=2]
@@ -102,6 +102,7 @@ bind/25/pose = Transform( -0.96496, 0.236272, -0.114131, -0.147511, -0.128751, 0
 
 [sub_resource type="Animation" id=3]
 length = 1.63333
+loop = true
 tracks/0/type = "transform"
 tracks/0/path = NodePath("Armature/Skeleton:head")
 tracks/0/interp = 1
@@ -886,6 +887,15 @@ tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = PoolRealArray( 0, 1, -0.0870088, -0.33239, 1.30865, 0, 0, 0, 1, 1, 1, 1, 0.0666667, 1, -0.0835606, -0.0544403, 0.721185, 0, 0, 0, 1, 1, 1, 1, 0.133333, 1, -0.0852322, -0.0210232, 0.834632, 0, 0, 0, 1, 1, 1, 1, 0.266667, 1, -0.0622167, -0.0599034, 1.0786, 0, 0, 0, 1, 1, 1, 1, 0.333333, 1, -0.0384986, -0.0908877, 1.2078, 0, 0, 0, 1, 1, 1, 1, 0.4, 1, -0.014457, -0.0576779, 1.3293, 0, 0, 0, 1, 1, 1, 1, 0.533333, 1, 0.0244568, -0.044243, 1.54897, 0, 0, 0, 1, 1, 1, 1, 0.666667, 1, 0.0480644, -0.0296434, 1.76107, 0, 0, 0, 1, 1, 1, 1, 0.8, 1, 0.0564268, -0.00742062, 1.96066, 0, 0, 0, 1, 1, 1, 1, 0.933333, 1, 0.0464411, -0.000453154, 2.15359, 0, 0, 0, 1, 1, 1, 1, 1.06667, 1, 0.0101757, -0.0549699, 2.38819, 0, 0, 0, 1, 1, 1, 1, 1.2, 1, -0.0348085, -0.0316612, 2.61991, 0, 0, 0, 1, 1, 1, 1, 1.33333, 1, -0.0640045, -0.0692631, 2.8239, 0, 0, 0, 1, 1, 1, 1, 1.46667, 1, -0.0791372, -0.0745251, 3.03796, 0, 0, 0, 1, 1, 1, 1, 1.5, 1, -0.080502, -0.06733, 3.09404, 0, 0, 0, 1, 1, 1, 1 )
 
+[sub_resource type="PlaneMesh" id=8]
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_color = Color( 0.392157, 0.686275, 0.188235, 1 )
+roughness = 0.73
+rim_enabled = true
+rim = 1.0
+rim_tint = 1.0
+
 [node name="monkey root V10" type="Spatial"]
 
 [node name="Armature" type="Spatial" parent="."]
@@ -1035,4 +1045,9 @@ anims/punch = SubResource( 6 )
 anims/walk = SubResource( 7 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
-transform = Transform( 0.685005, -0.401927, 0.607637, 0, 0.83405, 0.55169, -0.728538, -0.37791, 0.571328, -0.31869, 0, 0.419419 )
+transform = Transform( 0.665101, -0.190649, 0.722007, -0.163931, 0.906001, 0.390243, -0.728538, -0.37791, 0.571328, -0.31869, 0, 0.419419 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 27.3521, 0, 0, 0, 27.3521, 0, 0, 0, 27.3521, 0, 0, 0 )
+mesh = SubResource( 8 )
+material/0 = SubResource( 9 )

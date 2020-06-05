@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/enemy_texture.png-1030616ebfda5c8fe511326295e5ea51.s3tc.stex"
-path.etc2="res://.import/enemy_texture.png-1030616ebfda5c8fe511326295e5ea51.etc2.stex"
+path.s3tc="res://.import/enemy_texture_emit.png-9f8a8678cd7bc5f2ae145d3481ecc9ed.s3tc.stex"
+path.etc2="res://.import/enemy_texture_emit.png-9f8a8678cd7bc5f2ae145d3481ecc9ed.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/textures/Swatches/enemy_texture.png"
-dest_files=[ "res://.import/enemy_texture.png-1030616ebfda5c8fe511326295e5ea51.s3tc.stex", "res://.import/enemy_texture.png-1030616ebfda5c8fe511326295e5ea51.etc2.stex" ]
+source_file="res://assets/textures/Swatches/enemy_texture_emit.png"
+dest_files=[ "res://.import/enemy_texture_emit.png-9f8a8678cd7bc5f2ae145d3481ecc9ed.s3tc.stex", "res://.import/enemy_texture_emit.png-9f8a8678cd7bc5f2ae145d3481ecc9ed.etc2.stex" ]
 
 [params]
 

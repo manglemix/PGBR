@@ -9,12 +9,14 @@ uniform bool use_specular = false;
 uniform bool use_rim = false;
 uniform bool use_light = false;
 uniform bool use_shadow = false;
+uniform bool use_emit = false;
 
 
 uniform vec4 base_color : hint_color = vec4(1.0);
 uniform vec4 shade_color : hint_color = vec4(1.0);
 uniform vec4 specular_tint : hint_color = vec4(0.75);
 uniform vec4 rim_tint : hint_color = vec4(0.75);
+uniform vec4 emit : hint_color = vec4(1.0);
 
 
 uniform float shade_threshold : hint_range(-1.0, 1.0, 0.001) = 0.0;
@@ -33,19 +35,22 @@ uniform float shadow_softness : hint_range(0.0, 1.0, 0.001) = 0.1;
 
 uniform sampler2D base_texture: hint_albedo;
 uniform sampler2D shade_texture: hint_albedo;
+uniform sampler2D emit_texture: hint_albedo;
 
 
 void light()
 {
 	float NdotL = dot(NORMAL, LIGHT);
-    float NdotR = dot(-NORMAL, LIGHT);
-	float is_lit = step(shade_threshold, -NdotL);
+//    float NdotR = dot(-NORMAL, LIGHT);
+	float is_lit = step(shade_threshold, NdotL);
 	vec3 base = texture(base_texture, UV).rgb * base_color.rgb;
 	vec3 shade = texture(shade_texture, UV).rgb * shade_color.rgb;
     vec3 diffuse = base;
+    vec3 emitter = texture(emit_texture,UV).rgb * 1.0;
     
 
 //
+    
 	if (use_shade)
 	{
 		float shade_value = smoothstep(shade_threshold - shade_softness ,shade_threshold + shade_softness, NdotL);
@@ -58,6 +63,11 @@ void light()
 			diffuse = mix(shade, base, shade_value);
 			is_lit = step(shadow_threshold, shade_value);
 		}
+        if (use_emit)
+        {
+            
+            shade = mix(emitter,base,1.0);
+        }
 	}
 	
 	if (use_specular)
@@ -76,7 +86,7 @@ void light()
 		float inverted_rim_threshold = 1.0 - rim_threshold;
 		float inverted_rim_spread = 1.0 - rim_spread;
 		
-		float rim_value = iVdotN * pow(NdotR, inverted_rim_spread);
+		float rim_value = iVdotN * pow(NdotL, inverted_rim_spread);
 		rim_value = smoothstep(inverted_rim_threshold - rim_softness, inverted_rim_threshold + rim_softness, rim_value);
 		diffuse += rim_tint.rgb * rim_value * is_lit;
 	}
