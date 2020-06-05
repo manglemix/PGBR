@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/models/nature/cliff_top_rock/grass.tres" type="Material" id=1]
+[ext_resource path="res://scenes/characters/dude2.tscn" type="PackedScene" id=2]
+[ext_resource path="res://default_env.tres" type="Environment" id=3]
+[ext_resource path="res://scenes/characters/bone_test.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CubeMesh" id=1]
+material = ExtResource( 1 )
+size = Vector3( 30, 0.2, 30 )
+
+[sub_resource type="ConvexPolygonShape" id=2]
+points = PoolVector3Array( -15, 0.1, 15, 15, 0.1, -15, 15, 0.1, 15, -15, 0.1, -15, -15, -0.1, 15, 15, -0.1, -15, 15, -0.1, 15, -15, -0.1, -15, 15, 0.1, 15, -15, 0.1, -15, 15, 0.1, -15, -15, 0.1, 15, 15, -0.1, 15, -15, -0.1, -15, 15, -0.1, -15, -15, -0.1, 15, 15, 0.1, 15, -15, -0.1, 15, -15, 0.1, 15, 15, -0.1, 15, 15, 0.1, -15, -15, -0.1, -15, -15, 0.1, -15, 15, -0.1, -15 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 4, 0.2, 4 )
+
+[sub_resource type="ConvexPolygonShape" id=4]
+points = PoolVector3Array( -2, 0.1, 2, 2, 0.1, -2, 2, 0.1, 2, -2, 0.1, -2, -2, -0.1, 2, 2, -0.1, -2, 2, -0.1, 2, -2, -0.1, -2, 2, 0.1, 2, -2, 0.1, -2, 2, 0.1, -2, -2, 0.1, 2, 2, -0.1, 2, -2, -0.1, -2, 2, -0.1, -2, -2, -0.1, 2, 2, 0.1, 2, -2, -0.1, 2, -2, 0.1, 2, 2, -0.1, 2, 2, 0.1, -2, -2, -0.1, -2, -2, 0.1, -2, 2, -0.1, -2 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Floor" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Floor"]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 2 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 0.134715, 0.990492, 0.0278915, -0.540127, 0.049805, 0.840109, 0.830731, -0.12824, 0.541701, 0, 12.1893, 0 )
+
+[node name="Ramp1" type="StaticBody" parent="."]
+transform = Transform( 0.823453, -0.567384, 0, 0.567384, 0.823453, 0, 0, 0, 1, 1.37999, 4.30963, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ramp1"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ramp1"]
+shape = SubResource( 4 )
+
+[node name="Ramp2" type="StaticBody" parent="."]
+transform = Transform( 0.890816, 0.454364, 0, -0.454364, 0.890816, 0, 0, 0, 1, -0.950152, 7.68042, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Ramp2"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Ramp2"]
+shape = SubResource( 4 )
+
+[node name="dude2" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4517, 0 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.900281, 0.43531, 0, -0.43531, 0.900281, 0.00146484, 11.3176, 10.0921 )
+
+[node name="bone_test" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.65961, 0 )
+visible = false

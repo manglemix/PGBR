@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/nature/nature.meshlib" type="MeshLibrary" id=1]
+
+[node name="Island" type="Spatial"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource( 1 )
+cell_size = Vector3( 5, 5, 5 )
+cell_center_y = false
+cell_scale = 5.0
+data = {
+"cells": PoolIntArray( 65538, 0, 655421, 65539, 0, 655397, 131070, 0, 1441957, 131071, 0, 0, 131071, 1, 1048593, 65536, 2, 1048715, 65537, 2, 1441938, 65538, 2, 1441936, 65539, 2, 1441933, 65540, 2, 141, 131071, 2, 1441928, 65536, 3, 143, 65537, 3, 143, 65538, 3, 1441929, 65539, 3, 1441933, 65540, 3, 141, 131071, 3, 655497, 131068, 65531, 655403, 131069, 65531, 655403, 131068, 65532, 655403, 131069, 65532, 655403, 131070, 65532, 1441958, 131068, 65533, 655401, 65536, 65534, 29, 65537, 65535, 1048597, 65538, 65535, 655395, 65539, 65535, 655393 )
+}
+__meta__ = {
+"_editor_clip_": 0,
+"_editor_floor_": Vector3( 0, 0, 0 )
+}

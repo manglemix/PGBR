@@ -1,0 +1,1270 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://assets/sprites/inventory/inventory_slot_lg.png" type="Texture" id=1]
+[ext_resource path="res://fonts/montserrat_medium_16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/sprites/inventory/locked_slot.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/inventory/primary_bg.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/inventory/inventory_slot.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/inventory/inventory_bg.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/inventory/backpack_bg.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/inventory/inspect_bg.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/inventory/sidearm_bg.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/inventory/items_bg.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/inventory/common_md.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/inventory/stats_bg.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/inventory/inspect_item_bg.png" type="Texture" id=13]
+[ext_resource path="res://assets/sprites/inventory/attachments_bg.png" type="Texture" id=14]
+[ext_resource path="res://assets/sprites/inventory/melee_bg.png" type="Texture" id=15]
+[ext_resource path="res://fonts/montserrat_medium_12.tres" type="DynamicFont" id=16]
+[ext_resource path="res://assets/sprites/inventory/positive_arrow.png" type="Texture" id=17]
+[ext_resource path="res://assets/sprites/inventory/stats_bar.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/inventory/stats_bar_bg.png" type="Texture" id=19]
+
+
+
+
+[node name="Inventory" type="CanvasLayer"]
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Inventory" type="TextureRect" parent="UI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -404.5
+margin_top = -269.5
+margin_right = 404.5
+margin_bottom = 270.5
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Inventory"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -390.5
+margin_top = -262.0
+margin_right = 390.5
+margin_bottom = 262.0
+custom_constants/separation = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox" type="VBoxContainer" parent="UI/Inventory/HBoxContainer"]
+margin_right = 515.0
+margin_bottom = 524.0
+custom_constants/separation = 16
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox"]
+margin_right = 515.0
+margin_bottom = 350.0
+custom_constants/separation = 5
+
+[node name="BackPack" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer"]
+margin_right = 515.0
+margin_bottom = 25.0
+custom_constants/separation = 0
+
+[node name="BackPackBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/BackPack"]
+margin_right = 125.0
+margin_bottom = 25.0
+texture = ExtResource( 7 )
+
+[node name="BackPackTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/BackPack/BackPackBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "BACKPACK"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer"]
+margin_top = 30.0
+margin_right = 515.0
+margin_bottom = 350.0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 8
+
+[node name="Inventory1" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_right = 60.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="StackCount" type="Label" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer/Inventory1"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -33.2468
+margin_top = -21.0
+margin_right = -3.2468
+custom_fonts/font = ExtResource( 2 )
+text = "x64"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inventory2" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 65.0
+margin_right = 125.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory3" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 130.0
+margin_right = 190.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory4" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 195.0
+margin_right = 255.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory5" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 260.0
+margin_right = 320.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory6" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 325.0
+margin_right = 385.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory7" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 390.0
+margin_right = 450.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory8" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 455.0
+margin_right = 515.0
+margin_bottom = 60.0
+texture = ExtResource( 5 )
+
+[node name="Inventory9" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_top = 65.0
+margin_right = 60.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory10" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 65.0
+margin_right = 125.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory11" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 65.0
+margin_right = 190.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory12" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 65.0
+margin_right = 255.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory13" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 260.0
+margin_top = 65.0
+margin_right = 320.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory14" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 325.0
+margin_top = 65.0
+margin_right = 385.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory15" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 390.0
+margin_top = 65.0
+margin_right = 450.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory16" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 455.0
+margin_top = 65.0
+margin_right = 515.0
+margin_bottom = 125.0
+texture = ExtResource( 5 )
+
+[node name="Inventory17" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_top = 130.0
+margin_right = 60.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory18" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 130.0
+margin_right = 125.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory19" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 130.0
+margin_right = 190.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory20" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 130.0
+margin_right = 255.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory21" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 260.0
+margin_top = 130.0
+margin_right = 320.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory22" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 325.0
+margin_top = 130.0
+margin_right = 385.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory23" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 390.0
+margin_top = 130.0
+margin_right = 450.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory24" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 455.0
+margin_top = 130.0
+margin_right = 515.0
+margin_bottom = 190.0
+texture = ExtResource( 5 )
+
+[node name="Inventory25" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_top = 195.0
+margin_right = 60.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory26" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 195.0
+margin_right = 125.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory27" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 195.0
+margin_right = 190.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory28" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 195.0
+margin_right = 255.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory29" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 260.0
+margin_top = 195.0
+margin_right = 320.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory30" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 325.0
+margin_top = 195.0
+margin_right = 385.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory31" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 390.0
+margin_top = 195.0
+margin_right = 450.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory32" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 455.0
+margin_top = 195.0
+margin_right = 515.0
+margin_bottom = 255.0
+texture = ExtResource( 3 )
+
+[node name="Inventory33" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_top = 260.0
+margin_right = 60.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory34" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 65.0
+margin_top = 260.0
+margin_right = 125.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory35" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 130.0
+margin_top = 260.0
+margin_right = 190.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory36" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 195.0
+margin_top = 260.0
+margin_right = 255.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory37" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 260.0
+margin_top = 260.0
+margin_right = 320.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory38" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 325.0
+margin_top = 260.0
+margin_right = 385.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory39" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 390.0
+margin_top = 260.0
+margin_right = 450.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="Inventory40" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/VBoxContainer/GridContainer"]
+margin_left = 455.0
+margin_top = 260.0
+margin_right = 515.0
+margin_bottom = 320.0
+texture = ExtResource( 3 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox"]
+margin_top = 366.0
+margin_right = 515.0
+margin_bottom = 524.0
+custom_constants/separation = 5
+
+[node name="Primary" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer"]
+margin_right = 125.0
+margin_bottom = 158.0
+custom_constants/separation = 5
+
+[node name="PrimaryBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary"]
+margin_right = 125.0
+margin_bottom = 26.0
+texture = ExtResource( 4 )
+
+[node name="PrimaryTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary/PrimaryBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 0.148407
+margin_bottom = 0.148407
+custom_fonts/font = ExtResource( 2 )
+text = "PRIMARY"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PrimaryContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary"]
+margin_top = 31.0
+margin_right = 125.0
+margin_bottom = 156.0
+custom_constants/separation = 5
+
+[node name="PrimaryWeaponContainer1" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary/PrimaryContainer"]
+margin_right = 125.0
+margin_bottom = 60.0
+texture = ExtResource( 1 )
+
+[node name="PrimaryWeapon1" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary/PrimaryContainer/PrimaryWeaponContainer1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PrimaryWeaponContainer2" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary/PrimaryContainer"]
+margin_top = 65.0
+margin_right = 125.0
+margin_bottom = 125.0
+texture = ExtResource( 1 )
+
+[node name="PrimaryWeapon2" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Primary/PrimaryContainer/PrimaryWeaponContainer2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SideArm" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer"]
+margin_left = 130.0
+margin_right = 255.0
+margin_bottom = 158.0
+custom_constants/separation = 5
+
+[node name="SideArmBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/SideArm"]
+margin_right = 125.0
+margin_bottom = 26.0
+texture = ExtResource( 9 )
+
+[node name="SideArmTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/SideArm/SideArmBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "SIDEARM"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SideArmContainer" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/SideArm"]
+margin_top = 31.0
+margin_right = 125.0
+margin_bottom = 91.0
+texture = ExtResource( 1 )
+
+[node name="SideArmWeapon" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/SideArm/SideArmContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Melee" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer"]
+margin_left = 260.0
+margin_right = 385.0
+margin_bottom = 158.0
+custom_constants/separation = 5
+
+[node name="MeleeBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Melee"]
+margin_right = 125.0
+margin_bottom = 26.0
+texture = ExtResource( 15 )
+
+[node name="MeleeTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Melee/MeleeBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 0.195038
+margin_bottom = 0.195038
+custom_fonts/font = ExtResource( 2 )
+text = "MELEE"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MeleeContainer" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Melee"]
+margin_top = 31.0
+margin_right = 125.0
+margin_bottom = 91.0
+texture = ExtResource( 1 )
+
+[node name="MeleeWeapon" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Melee/MeleeContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Items" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer"]
+margin_left = 390.0
+margin_right = 515.0
+margin_bottom = 158.0
+custom_constants/separation = 5
+
+[node name="ItemsBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items"]
+margin_right = 125.0
+margin_bottom = 26.0
+texture = ExtResource( 10 )
+
+[node name="ItemsTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items/ItemsBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 0.195038
+margin_bottom = 0.195038
+custom_fonts/font = ExtResource( 2 )
+text = "ITEMS"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ItemsContainer" type="GridContainer" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items"]
+margin_top = 31.0
+margin_right = 125.0
+margin_bottom = 158.0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 2
+
+[node name="Item1" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items/ItemsContainer"]
+margin_right = 60.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
+
+[node name="Item2" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items/ItemsContainer"]
+margin_left = 65.0
+margin_right = 125.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
+
+[node name="Item3" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items/ItemsContainer"]
+margin_top = 66.0
+margin_right = 60.0
+margin_bottom = 127.0
+texture = ExtResource( 11 )
+
+[node name="Item4" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox/HBoxContainer/Items/ItemsContainer"]
+margin_left = 65.0
+margin_top = 66.0
+margin_right = 125.0
+margin_bottom = 127.0
+texture = ExtResource( 11 )
+
+[node name="VBox2" type="VBoxContainer" parent="UI/Inventory/HBoxContainer"]
+margin_left = 525.0
+margin_right = 781.0
+margin_bottom = 524.0
+custom_constants/separation = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Inspect" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2"]
+margin_right = 256.0
+margin_bottom = 280.0
+custom_constants/separation = 5
+
+[node name="InspectContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Inspect"]
+margin_right = 256.0
+margin_bottom = 25.0
+custom_constants/separation = 0
+
+[node name="InspectBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Inspect/InspectContainer"]
+margin_right = 125.0
+margin_bottom = 25.0
+texture = ExtResource( 8 )
+
+[node name="InspectTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Inspect/InspectContainer/InspectBg"]
+anchor_left = 0.00291406
+anchor_top = 0.00925232
+anchor_right = 1.00291
+anchor_bottom = 1.00925
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "INSPECT"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InspectItemBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Inspect"]
+margin_top = 30.0
+margin_right = 256.0
+margin_bottom = 280.0
+texture = ExtResource( 13 )
+
+[node name="InspectItem" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Inspect/InspectItemBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.231308
+margin_bottom = 0.231308
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stats" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2"]
+margin_top = 286.0
+margin_right = 256.0
+margin_bottom = 427.0
+custom_constants/separation = 5
+
+[node name="StatsContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats"]
+margin_right = 256.0
+margin_bottom = 25.0
+custom_constants/separation = 0
+
+[node name="StatsBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatsContainer"]
+margin_right = 125.0
+margin_bottom = 25.0
+texture = ExtResource( 12 )
+
+[node name="StatsTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatsContainer/StatsBg"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 0.195038
+margin_bottom = 0.195038
+custom_fonts/font = ExtResource( 2 )
+text = "STATS"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StatList" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats"]
+margin_top = 30.0
+margin_right = 256.0
+margin_bottom = 141.0
+custom_constants/separation = 3
+
+[node name="Damage" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Damage"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Damage/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Range" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_top = 19.0
+margin_right = 256.0
+margin_bottom = 35.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Range"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Range/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Accuracy" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_top = 38.0
+margin_right = 256.0
+margin_bottom = 54.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Accuracy"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Accuracy/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Handling" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_top = 57.0
+margin_right = 256.0
+margin_bottom = 73.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Handling"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/Handling/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RateOfFire" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_top = 76.0
+margin_right = 256.0
+margin_bottom = 92.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Rate of fire"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/RateOfFire/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReloadSpeed" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList"]
+margin_top = 95.0
+margin_right = 256.0
+margin_bottom = 111.0
+custom_constants/separation = 5
+
+[node name="StatTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed"]
+margin_right = 85.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 85, 0 )
+custom_fonts/font = ExtResource( 16 )
+text = "Reload Speed"
+valign = 1
+clip_text = true
+
+[node name="BarContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed"]
+margin_left = 90.0
+margin_right = 212.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Bar" type="Control" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/BarContainer"]
+margin_top = 4.0
+margin_right = 122.0
+margin_bottom = 12.0
+rect_min_size = Vector2( 122, 8 )
+
+[node name="Under" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 60.0
+texture_progress = ExtResource( 18 )
+tint_progress = Color( 0.360784, 0.87451, 0.47451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Over" type="TextureProgress" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/BarContainer/Bar"]
+margin_right = 122.0
+margin_bottom = 8.0
+value = 50.0
+texture_under = ExtResource( 19 )
+texture_progress = ExtResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed"]
+margin_left = 217.0
+margin_right = 232.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+text = "34"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DifferenceTxtContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed"]
+margin_left = 237.0
+margin_right = 256.0
+margin_bottom = 16.0
+custom_constants/separation = 1
+
+[node name="ArrowContainer" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/DifferenceTxtContainer"]
+margin_right = 7.0
+margin_bottom = 16.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="Arrow" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/DifferenceTxtContainer/ArrowContainer"]
+margin_top = 5.0
+margin_right = 7.0
+margin_bottom = 11.0
+texture = ExtResource( 17 )
+
+[node name="DifferenceTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Stats/StatList/ReloadSpeed/DifferenceTxtContainer"]
+margin_left = 8.0
+margin_right = 19.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 16 )
+custom_colors/font_color = Color( 0.360784, 0.87451, 0.47451, 1 )
+text = "12"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Attachments" type="VBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2"]
+margin_top = 433.0
+margin_right = 256.0
+margin_bottom = 524.0
+custom_constants/separation = 5
+
+[node name="AttachmentsContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Attachments"]
+margin_right = 256.0
+margin_bottom = 25.0
+
+[node name="AttachmentsBg" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsContainer"]
+margin_right = 148.0
+margin_bottom = 25.0
+texture = ExtResource( 14 )
+
+[node name="AttachmentsTxt" type="Label" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsContainer/AttachmentsBg"]
+anchor_top = 0.00780151
+anchor_right = 1.0
+anchor_bottom = 1.0078
+margin_left = 5.0
+custom_fonts/font = ExtResource( 2 )
+text = "ATTACHMENTS"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AttachmentsItemsContainer" type="HBoxContainer" parent="UI/Inventory/HBoxContainer/VBox2/Attachments"]
+margin_top = 30.0
+margin_right = 256.0
+margin_bottom = 91.0
+custom_constants/separation = 5
+
+[node name="Attachment1" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsItemsContainer"]
+margin_right = 60.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
+
+[node name="Attachment2" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsItemsContainer"]
+margin_left = 65.0
+margin_right = 125.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
+
+[node name="Attachment3" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsItemsContainer"]
+margin_left = 130.0
+margin_right = 190.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
+
+[node name="Attachment4" type="TextureRect" parent="UI/Inventory/HBoxContainer/VBox2/Attachments/AttachmentsItemsContainer"]
+margin_left = 195.0
+margin_right = 255.0
+margin_bottom = 61.0
+texture = ExtResource( 11 )
