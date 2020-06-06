@@ -34,6 +34,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://base_scripts/base_person.gd"
 }, {
+"base": "Spatial",
+"class": "CameraRig",
+"language": "GDScript",
+"path": "res://scenes/camera/camera_rig.gd"
+}, {
+"base": "State1",
+"class": "CameraState",
+"language": "GDScript",
+"path": "res://scenes/camera/camera_state.gd"
+}, {
 "base": "Node",
 "class": "ChickenChain",
 "language": "GDScript",
@@ -124,6 +134,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/player/player.gd"
 }, {
+"base": "KinematicBody",
+"class": "PlayerOld",
+"language": "GDScript",
+"path": "res://scenes/player/player_old.gd"
+}, {
+"base": "State1",
+"class": "PlayerState",
+"language": "GDScript",
+"path": "res://scenes/player/player_state.gd"
+}, {
 "base": "RichTextLabel",
 "class": "PropertyWatcher",
 "language": "GDScript",
@@ -159,6 +179,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://utility_AI/state.gd"
 }, {
+"base": "Node",
+"class": "State1",
+"language": "GDScript",
+"path": "res://scripts/state_machine/state.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://scripts/state_machine/state_machine.gd"
+}, {
 "base": "Spatial",
 "class": "TransformProxy",
 "language": "GDScript",
@@ -185,6 +215,8 @@ _global_script_class_icons={
 "AutoGoto": "",
 "BallisticGun": "",
 "BasePerson": "",
+"CameraRig": "",
+"CameraState": "",
 "ChickenChain": "",
 "ChunkHider": "",
 "Director": "",
@@ -203,6 +235,8 @@ _global_script_class_icons={
 "MuzzleFlash": "",
 "PivotPoint": "",
 "Player": "",
+"PlayerOld": "",
+"PlayerState": "",
 "PropertyWatcher": "",
 "ResourceQueue": "",
 "RestBoneAttachment": "",
@@ -210,6 +244,8 @@ _global_script_class_icons={
 "SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",
+"State1": "",
+"StateMachine": "",
 "TransformProxy": "",
 "UtilityTree": "",
 "Wander": "",
@@ -220,7 +256,7 @@ _global_script_class_icons={
 
 config/name="Proxima Nova"
 run/main_scene="res://scenes/main_menu/main_menu.tscn"
-boot_splash/image="res://assets/sprites/splash.png"
+boot_splash/image="res://assets/sprites/ezgif.com-apng-maker.apng"
 boot_splash/bg_color=Color( 0.164706, 0.188235, 0.192157, 1 )
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"
@@ -368,6 +404,45 @@ holster={
 primary_fire={
 "deadzone": 0.5,
 "events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+look_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
+ ]
+}
+look_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777233,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":1.0,"script":null)
+ ]
+}
+look_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":-1.0,"script":null)
+ ]
+}
+look_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":1.0,"script":null)
+ ]
+}
+zoom_in={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":4,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+zoom_out={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":5,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+toggle_fullscreen={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"unicode":0,"echo":false,"script":null)
  ]
 }
 

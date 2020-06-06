@@ -1,5 +1,4 @@
-tool
-class_name Player
+class_name PlayerOld
 extends KinematicBody
 
 signal update_health(dmg_value)
@@ -36,7 +35,6 @@ export var stamina_regen := 0.5 # seconds
 export var health_regen := 1.0
 var curr_health := max_health setget curr_health_set
 var curr_stamina := max_stamina setget curr_stamina_set
-
 
 # Guns
 enum EquipmentSlots {
@@ -85,8 +83,6 @@ var current_weapon = equipped[EquipmentSlots.Primary1];
 # Instances
 onready var head := $Head as Spatial
 onready var camera := $CameraRig as CameraRig
-#onready var skin := $Mannequiny as Mannequiny
-onready var state_machine := $StateMachine as StateMachine
 onready var flashlight := $Head/HeadLamp/FlashLight as SpotLight
 onready var ground_check := $Tail/GroundCheck as RayCast
 onready var gun_pivot := $GunPivot as Spatial
@@ -109,13 +105,121 @@ func curr_stamina_set(new_val: float) -> void:
 	emit_signal("sprint_time", curr_stamina)
 
 
-func _get_configuration_warning() -> String:
-	return "Missing camera node" if not camera else ""
-
-
 func _ready() -> void:
 	print("equipped: ", equipped)
 	emit_signal("update_health", self.curr_health)
+
+
+func _physics_process(delta: float) -> void:
+	move(delta)
+	check_flashlight()
+	weapon_select()
+
+
+func move(delta: float) -> void:
+	compute_input_direction()
+	
+	# check movement speed
+	var speed := normal_speed
+	if Input.is_action_just_pressed("sprint") and not sprinting and is_on_floor():
+		sprinting = true
+		crouching = false
+		sprint_timer.start(self.curr_stamina)
+	elif (Input.is_action_just_pressed("sprint") and sprinting) or direction.length() <= 0: # stop sprinting if toggled or if movement stopped
+		sprinting = false
+		sprint_timer.stop()
+	
+	if sprinting and is_on_floor():
+		speed = sprint_speed
+		if sprint_timer.paused:
+			sprint_timer.paused = false
+		self.curr_stamina = sprint_timer.time_left
+	if sprinting and not is_on_floor():
+		if not sprint_timer.paused:
+			sprint_timer.paused = true
+	if not sprinting:
+		# regen stamina
+		if self.curr_stamina < max_stamina:
+			self.curr_stamina += stamina_regen * delta
+	
+	if Input.is_action_just_pressed("crouch"):
+		if not crouching and is_on_floor():
+			crouching = true
+			sprinting = false
+		elif crouching:
+			crouching = false
+	
+	if crouching:
+		speed = crouch_speed
+	
+	if not sprinting and not crouching:
+		speed = normal_speed
+	
+	velocity = velocity.linear_interpolate(direction * speed, acceleration * delta)
+	
+	
+	if is_on_floor():
+		has_contact = true
+		var collision_norm := tail.get_collision_normal()
+		var floor_angle := rad2deg(acos(collision_norm.dot(Vector3.UP)))
+		if floor_angle > max_slope_angle:
+			velocity.y -= gravity * delta # apply gravity in on floor and on a steep slope
+	else:
+		if not tail.is_colliding():
+			has_contact = false
+		velocity.y -= gravity * delta
+	
+	if has_contact and not is_on_floor():
+		move_and_collide(Vector3(0, -1, 0))
+	
+	var snap := Vector3.DOWN * 20
+	if Input.is_action_just_pressed("jump") and has_contact:
+		crouching = false
+		snap = Vector3.ZERO
+		velocity.y += jump_power
+		has_contact = false
+	
+	velocity = move_and_slide_with_snap(velocity, snap, Vector3.UP, true, 20, deg2rad(45), false)
+
+
+func compute_input_direction() -> void:
+	# detect movement direction
+	var head_basis := head.get_global_transform().basis
+	if has_contact: # move only if player is on ground
+		direction = Vector3.ZERO
+		if Input.is_action_pressed("move_forward"):
+			direction -= head_basis.z
+		elif Input.is_action_pressed("move_backward"):
+			direction += head_basis.z
+		
+		if Input.is_action_pressed("move_left"):
+			direction -= head_basis.x
+		elif Input.is_action_pressed("move_right"):
+			direction += head_basis.x
+		direction.y = 0
+		direction = direction.normalized()
+
+
+func fly(delta: float) -> void:
+	# Input
+	direction = Vector3.ZERO
+	var aim := head.get_global_transform().basis
+	if Input.is_action_pressed("move_forward"):
+		direction -= aim.z
+	if Input.is_action_pressed("move_backward"):
+		direction += aim.z
+	if Input.is_action_pressed("move_left"):
+		direction -= aim.x
+	if Input.is_action_pressed("move_right"):
+		direction += aim.x
+	direction = direction.normalized()
+	
+	# Acceleration and Deacceleration
+	var target: Vector3 = direction * fly_speed
+	velocity = velocity.linear_interpolate(target, fly_accel * delta)
+	
+	# Move
+	velocity = move_and_slide(velocity)
 
 
 func check_flashlight() -> void:
@@ -173,4 +277,3 @@ func _on_TestTimer_timeout():
 
 func _on_SprintTimer_timeout():
 	sprinting = false
-
