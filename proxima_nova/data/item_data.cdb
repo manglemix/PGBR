@@ -1,0 +1,86 @@
+{
+	"sheets": [
+		{
+			"name": "ItemData",
+			"columns": [
+				{
+					"typeStr": "1",
+					"name": "ItemName"
+				},
+				{
+					"typeStr": "1",
+					"name": "ItemDescription",
+					"opt": true,
+					"display": null
+				},
+				{
+					"typeStr": "5:Weapon,Healing,Ammo",
+					"name": "ItemType"
+				},
+				{
+					"typeStr": "5:I,II,III,IV,V,VI",
+					"name": "ItemClass",
+					"display": null
+				},
+				{
+					"typeStr": "3",
+					"name": "ItemStackableAmount"
+				}
+			],
+			"lines": [
+				{
+					"ItemName": "uzi_gold_long",
+					"ItemType": 0,
+					"ItemClass": 0,
+					"ItemStackableAmount": 0
+				},
+				{
+					"ItemName": "sniper_camo",
+					"ItemType": 0,
+					"ItemClass": 1,
+					"ItemStackableAmount": 0
+				},
+				{
+					"ItemName": "pistol",
+					"ItemType": 0,
+					"ItemClass": 2,
+					"ItemStackableAmount": 0
+				},
+				{
+					"ItemName": "health_sm",
+					"ItemType": 1,
+					"ItemClass": 0,
+					"ItemStackableAmount": 10
+				},
+				{
+					"ItemName": "health_md",
+					"ItemType": 1,
+					"ItemClass": 0,
+					"ItemStackableAmount": 5
+				},
+				{
+					"ItemName": "health_lg",
+					"ItemType": 1,
+					"ItemClass": 0,
+					"ItemStackableAmount": 3
+				},
+				{
+					"ItemName": "uzi_ammo",
+					"ItemType": 2,
+					"ItemClass": 0,
+					"ItemStackableAmount": 500
+				},
+				{
+					"ItemName": "sniper_ammo",
+					"ItemType": 2,
+					"ItemClass": 0,
+					"ItemStackableAmount": 20
+				}
+			],
+			"separators": [],
+			"props": {}
+		}
+	],
+	"customTypes": [],
+	"compress": false
+}
