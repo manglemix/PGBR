@@ -3,23 +3,23 @@ extends Node
 
 var saves_paths: PoolStringArray
 var game_config := ConfigFile.new()
+var data_directory := Directory.new()
 
-var _directory := Directory.new()
 var _hierarchies: Array
 var _states: Array
 var _director_state: Dictionary
 
 
 func _ready():
-	_directory.open("res://")
+	data_directory.open("res://")
 	
-	if _directory.file_exists("game_config.ini"):
+	if data_directory.file_exists("game_config.ini"):
 		game_config.load("game_config.ini")
 
-	_directory.list_dir_begin(true, true)
+	data_directory.list_dir_begin(true, true)
 
 	while true:
-		var filename = _directory.get_next()
+		var filename = data_directory.get_next()
 		if filename.empty():
 			break
 		

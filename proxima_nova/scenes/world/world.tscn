@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/hud/hud.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/world/sun.gd" type="Script" id=2]
+[ext_resource path="res://dynamic_env.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/world/world.gd" type="Script" id=3]
 [ext_resource path="res://scenes/terrain_gen/terrain.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scenes/pause_menu/pause_menu.tscn" type="PackedScene" id=6]
@@ -81,26 +81,9 @@ light_indirect_energy = 2.0
 shadow_enabled = true
 spot_range = 50.0
 
-[node name="Sun" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.862937, -0.505258, 0, 0.505258, 0.862937, 0, 86.8362, 0 )
-light_color = Color( 0.597891, 0.397891, 0.503163, 1 )
-light_energy = 2.0
-light_indirect_energy = 0.0
-shadow_enabled = true
-shadow_reverse_cull_face = true
-directional_shadow_blend_splits = true
-directional_shadow_depth_range = 1
-directional_shadow_max_distance = 2000.0
-script = ExtResource( 2 )
-day_cycle = 10
-dawn = Color( 0.8, 0.6, 0.2, 1 )
-midday = Color( 0.8, 0.8, 0.6, 1 )
-evening = Color( 0.8, 0.4, 0.3, 1 )
-night = Color( 0.4, 0.2, 0.8, 1 )
-sky_color = Color( 0, 0.3, 1, 1 )
-
-[node name="Sky" type="WorldEnvironment" parent="Sun"]
-environment = SubResource( 5 )
+[node name="Sun" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, -0.982739, -0.185165, 0, 0.185165, -0.982739, 0, 86.8362, 0 )
+light_color = Color( 0.725936, 0.362968, 0.39258, 1 )
 
 [node name="Crate" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.82551, -12.4535 )

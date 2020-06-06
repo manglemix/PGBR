@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/world/sun.gd" type="Script" id=1]
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0.296149, 0.371149, 0.735776, 1 )
+background_energy = 0.75
+ambient_light_color = Color( 0.296149, 0.371149, 0.735776, 1 )
+fog_enabled = true
+fog_color = Color( 0.296149, 0.371149, 0.735776, 1 )
+fog_depth_end = 313.0
+fog_depth_curve = 0.757858
+
+[node name="Sun" type="DirectionalLight"]
+transform = Transform( 1, 0, 0, 0, 0.934999, -0.354739, 0, 0.354739, 0.934999, 0, 86.8362, 0 )
+light_color = Color( 0.658109, 0.458109, 0.412836, 1 )
+light_energy = 2.0
+light_indirect_energy = 0.0
+shadow_enabled = true
+shadow_reverse_cull_face = true
+directional_shadow_blend_splits = true
+directional_shadow_depth_range = 1
+directional_shadow_max_distance = 2000.0
+script = ExtResource( 1 )
+day_cycle = 10
+dawn = Color( 0.8, 0.6, 0.2, 1 )
+midday = Color( 0.8, 0.8, 0.6, 1 )
+evening = Color( 0.8, 0.4, 0.3, 1 )
+night = Color( 0.4, 0.2, 0.8, 1 )
+sky_color = Color( 0, 0.3, 1, 1 )
+
+[node name="Sky" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )

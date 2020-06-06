@@ -1,21 +1,28 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/deagle_default.gltf" type="PackedScene" id=1]
-[ext_resource path="res://base_scripts/hitscan.gd" type="Script" id=2]
+[ext_resource path="res://scripts/ballistic_gun.gd" type="Script" id=2]
 [ext_resource path="res://base_scripts/equippable.gd" type="Script" id=3]
 
 [node name="Deagle" type="Spatial"]
-script = ExtResource( 2 )
-
-[node name="Equippable" type="Node" parent="."]
 script = ExtResource( 3 )
+_handle_paths = [ NodePath("Grip") ]
 
 [node name="Deagle Default " parent="." instance=ExtResource( 1 )]
 transform = Transform( 6.55671e-09, 0, -0.05, 0, 0.05, 0, 0.05, 0, 6.55671e-09, -7.70706e-09, -0.0778103, 0.110664 )
 
-[node name="Muzzle" type="RayCast" parent="."]
+[node name="Gun" type="RayCast" parent="."]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0.288 )
 enabled = true
 exclude_parent = false
 cast_to = Vector3( 0, 0, -1 )
 collide_with_areas = true
+script = ExtResource( 2 )
+total_ammo = 100
+clip_size = 10
+clip_ammo = 10
+cooldown_time = 0.1
+reload_time = 2.0
+
+[node name="Grip" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.114149, 0 )

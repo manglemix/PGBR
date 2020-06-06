@@ -4,7 +4,7 @@ extends Area
 
 export var horizontal_distance := 320.0
 export var air_time := 5.0
-export var new_branch_path: String
+export(String, FILE, "*.tscn") var new_branch_path: String
 export var scene_transform := Transform.IDENTITY
 
 
