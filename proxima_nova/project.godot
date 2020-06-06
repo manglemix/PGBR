@@ -59,7 +59,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenictools/director.gd"
 }, {
-"base": "Node",
+"base": "Spatial",
 "class": "Equippable",
 "language": "GDScript",
 "path": "res://base_scripts/equippable.gd"
@@ -84,7 +84,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/hud/health_bar.gd"
 }, {
-"base": "Spatial",
+"base": "RayCast",
 "class": "Hitscan",
 "language": "GDScript",
 "path": "res://base_scripts/hitscan.gd"
@@ -152,7 +152,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "ResourceQueue",
 "language": "GDScript",
-"path": "res://scripts/resource_queue.gd"
+"path": "res://resource_queue.gd"
 }, {
 "base": "Spatial",
 "class": "RestBoneAttachment",
