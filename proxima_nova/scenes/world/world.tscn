@@ -12,12 +12,6 @@
 [ext_resource path="res://scenes/enemies/sphere_enemy/sphere_enemy.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/compass/compass.tscn" type="PackedScene" id=13]
 
-
-
-
-
-
-
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.839216, 0.12549, 0.12549, 1 )
 
@@ -30,11 +24,11 @@ material = SubResource( 1 )
 
 [sub_resource type="Environment" id=5]
 background_mode = 1
-background_color = Color( 0.36, 0.51572, 0.80144, 1 )
+background_color = Color( 0.269051, 0.344051, 0.776423, 1 )
 background_energy = 0.75
-ambient_light_color = Color( 0.36, 0.51572, 0.80144, 1 )
+ambient_light_color = Color( 0.269051, 0.344051, 0.776423, 1 )
 fog_enabled = true
-fog_color = Color( 0.36, 0.51572, 0.80144, 1 )
+fog_color = Color( 0.269051, 0.344051, 0.776423, 1 )
 fog_depth_end = 313.0
 fog_depth_curve = 0.757858
 
@@ -88,8 +82,8 @@ shadow_enabled = true
 spot_range = 50.0
 
 [node name="Sun" type="DirectionalLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.442273, 0.896923, 0, -0.896923, 0.442273, 0, 86.8362, 0 )
-light_color = Color( 0.8, 0.779378, 0.558756, 1 )
+transform = Transform( 1, 0, 0, 0, 0.862937, -0.505258, 0, 0.505258, 0.862937, 0, 86.8362, 0 )
+light_color = Color( 0.597891, 0.397891, 0.503163, 1 )
 light_energy = 2.0
 light_indirect_energy = 0.0
 shadow_enabled = true
