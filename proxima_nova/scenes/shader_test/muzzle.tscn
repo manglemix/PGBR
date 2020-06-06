@@ -4,8 +4,6 @@
 [ext_resource path="res://scenes/shader_test/muzzle_01.tres" type="QuadMesh" id=2]
 [ext_resource path="res://assets/sprites/particles/star_04.png" type="Texture" id=3]
 
-
-
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.591304, 1 )
 colors = PoolColorArray( 0.991075, 1, 0, 1, 0.995013, 0.909504, 0, 1, 1, 0.355608, 0, 1 )
@@ -44,7 +42,7 @@ curve = SubResource( 8 )
 
 [sub_resource type="ParticlesMaterial" id=10]
 direction = Vector3( 0, 10, 0 )
-gravity = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 0, 0 )
 initial_velocity = 1.0
 angular_velocity = 200.0
 angular_velocity_random = 1.0
@@ -52,7 +50,7 @@ radial_accel = 1.0
 radial_accel_random = 1.0
 angle = 267.7
 angle_random = 1.0
-scale = 0.2
+scale = 0.1
 scale_curve = SubResource( 9 )
 color_ramp = SubResource( 7 )
 
@@ -70,22 +68,28 @@ albedo_texture = ExtResource( 3 )
 material = SubResource( 11 )
 
 [node name="MuzzleFlash" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
 script = ExtResource( 1 )
 
 [node name="FlashParticles" type="Particles" parent="."]
-emitting = false
 amount = 1
-one_shot = true
+speed_scale = 10.0
+visibility_aabb = AABB( -0.587918, -1.17913, -0.603405, 1.17584, 2.35826, 1.20681 )
+process_material = SubResource( 5 )
+draw_pass_1 = ExtResource( 2 )
+
+[node name="FlashParticles2" type="Particles" parent="."]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
+amount = 1
 speed_scale = 10.0
 visibility_aabb = AABB( -0.587918, -1.17913, -0.603405, 1.17584, 2.35826, 1.20681 )
 process_material = SubResource( 5 )
 draw_pass_1 = ExtResource( 2 )
 
 [node name="SparkParticles" type="Particles" parent="."]
-emitting = false
-one_shot = true
-speed_scale = 4.0
-explosiveness = 0.58
+amount = 12
+speed_scale = 6.0
+explosiveness = 0.77
 randomness = 1.0
 visibility_aabb = AABB( -0.586809, -1.17502, -0.60856, 1.17362, 2.35003, 1.21712 )
 process_material = SubResource( 10 )

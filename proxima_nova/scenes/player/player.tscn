@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/player/crosshair1.png" type="Texture" id=1]
 [ext_resource path="res://scenes/player/player.gd" type="Script" id=2]
-[ext_resource path="res://scenes/interaction.gd" type="Script" id=3]
-[ext_resource path="res://addons/motion_blur/motion_blur.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/camera/camera_rig.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/state_machine/state_machine.gd" type="Script" id=4]
 [ext_resource path="res://shaders/toon_shader.tres" type="Material" id=5]
+[ext_resource path="res://scenes/player/player_move.gd" type="Script" id=6]
+[ext_resource path="res://scenes/player/player_idle.gd" type="Script" id=7]
+[ext_resource path="res://scenes/player/player_air.gd" type="Script" id=8]
+[ext_resource path="res://scenes/player/player_run.gd" type="Script" id=9]
 
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 5 )
@@ -15,12 +19,46 @@ radius = 0.5
 height = 1.5
 
 [sub_resource type="CapsuleMesh" id=3]
+material = ExtResource( 5 )
 radius = 0.5
 mid_height = 1.5
 
 [node name="Player" type="KinematicBody"]
 collision_layer = 4
 script = ExtResource( 2 )
+equipped = {
+0: {
+"item": "res://scenes/weapons/uzi_gold_long.tscn",
+"slot": 0
+},
+1: {
+"item": "res://scenes/weapons/sniper_camo.tscn",
+"slot": 1
+},
+2: {
+"item": "res://scenes/weapons/pistol.tscn",
+"slot": 2
+},
+3: {
+"item": "res://scenes/weapons/knife_smooth.tscn",
+"slot": 3
+},
+4: {
+"item": "res://scenes/weapons/grenade.tscn",
+"slot": 4
+},
+5: {
+"item": "res://scenes/weapons/smoke_grenade.tscn",
+"slot": 5
+},
+6: {
+"item": "res://scenes/weapons/flash_grenade.tscn",
+"slot": 6
+},
+7: {
+
+}
+}
 
 [node name="Head" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.993526, 0 )
@@ -40,22 +78,6 @@ __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="Camera" type="Camera" parent="Head"]
-current = true
-far = 1000.0
-
-[node name="WeaponRayCast" type="RayCast" parent="Head/Camera"]
-enabled = true
-cast_to = Vector3( 0, 0, -1000 )
-
-[node name="InteractionRayCast" type="RayCast" parent="Head/Camera"]
-enabled = true
-cast_to = Vector3( 0, 0, -2 )
-collision_mask = 2
-script = ExtResource( 3 )
-
-[node name="MotionBlur" parent="Head/Camera" instance=ExtResource( 4 )]
-
 [node name="GunPivot" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.8, 0 )
 
@@ -66,12 +88,6 @@ material/0 = null
 
 [node name="HandTrigger" type="Spatial" parent="GunPivot/Arm"]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0.0562232, -0.738269 )
-
-[node name="CamPivot" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.994, 0 )
-
-[node name="CameraBoom" type="SpringArm" parent="CamPivot"]
-spring_length = 5.0
 
 [node name="Shape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
@@ -87,6 +103,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.874789, 0 )
 
 [node name="GroundCheck" type="RayCast" parent="Tail"]
 enabled = true
+
+[node name="CameraRig" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.068, 0.544611 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -117,5 +136,23 @@ autostart = true
 [node name="SprintTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 4 )
+initial_state = NodePath("Move/Idle")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
+
+[node name="Idle" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 7 )
+
+[node name="Air" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 8 )
+
+[node name="Run" type="Node" parent="StateMachine/Move"]
+script = ExtResource( 9 )
+
+[node name="Crouch" type="Node" parent="StateMachine/Move"]
 [connection signal="timeout" from="TestTimer" to="." method="_on_TestTimer_timeout"]
 [connection signal="timeout" from="SprintTimer" to="." method="_on_SprintTimer_timeout"]

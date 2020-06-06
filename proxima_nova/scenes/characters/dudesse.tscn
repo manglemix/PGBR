@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://shaders/toon_soft.shader" type="Shader" id=1]
+[ext_resource path="res://assets/textures/swatches_base.png" type="Texture" id=2]
+[ext_resource path="res://assets/dudesse_rig_3.gltf" type="PackedScene" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/use_shade = true
+shader_param/use_specular = false
+shader_param/use_rim = false
+shader_param/use_light = true
+shader_param/use_shadow = true
+shader_param/base_color = Color( 0.835294, 0.835294, 0.835294, 1 )
+shader_param/shade_color = Color( 0.65098, 0.65098, 0.65098, 1 )
+shader_param/specular_tint = Color( 0.75, 0.75, 0.75, 0.75 )
+shader_param/rim_tint = Color( 0.75, 0.75, 0.75, 0.75 )
+shader_param/shade_threshold = 0.0
+shader_param/shade_softness = 0.01
+shader_param/specular_glossiness = 15.0
+shader_param/specular_threshold = 0.5
+shader_param/specular_softness = 0.1
+shader_param/rim_threshold = 0.648
+shader_param/rim_softness = 0.05
+shader_param/rim_spread = 0.5
+shader_param/shadow_threshold = 0.7
+shader_param/shadow_softness = 0.1
+shader_param/base_texture = ExtResource( 2 )
+shader_param/shade_texture = ExtResource( 2 )
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "idle"
+
+[sub_resource type="AnimationNodeStateMachine" id=3]
+states/idle/node = SubResource( 2 )
+states/idle/position = Vector2( 490, 112 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=4]
+
+[node name="Dudesse" instance=ExtResource( 3 )]
+
+[node name="dudesse" parent="Armature/Skeleton" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource( 3 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 4 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="3"]
+transform = Transform( 0.810768, 0, 0.585368, 0, 1, 0, -0.585368, 0, 0.810768, 0, 4.72694, 1.81019 )
+shadow_enabled = true
