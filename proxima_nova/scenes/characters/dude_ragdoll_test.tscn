@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/models/nature/cliff_top_rock/grass.tres" type="Material" id=1]
 [ext_resource path="res://scenes/characters/dude2.tscn" type="PackedScene" id=2]
 [ext_resource path="res://default_env.tres" type="Environment" id=3]
-[ext_resource path="res://scenes/characters/bone_test.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 1 )
@@ -60,7 +59,3 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.4517, 0 )
 
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.900281, 0.43531, 0, -0.43531, 0.900281, 0.00146484, 11.3176, 10.0921 )
-
-[node name="bone_test" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.65961, 0 )
-visible = false
