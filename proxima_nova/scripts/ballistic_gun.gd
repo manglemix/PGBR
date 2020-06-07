@@ -45,7 +45,7 @@ func _ready():
 
 
 func reload() -> bool:
-	if clip_ammo == clip_size or total_ammo == 0:
+	if clip_ammo == clip_size or total_ammo == 0 or reloading:
 		return false
 	
 	emit_signal("reloading")
