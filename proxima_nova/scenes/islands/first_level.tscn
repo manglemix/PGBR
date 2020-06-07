@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenictools/director.gd" type="Script" id=1]
 [ext_resource path="res://scenes/islands/empty_level.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/weapons/deagle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/player/dudesse.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/enemies/turret.tscn" type="PackedScene" id=5]
 [ext_resource path="res://dynamic_env.tscn" type="PackedScene" id=12]
 
 [node name="Director" type="Node"]
@@ -11,8 +12,8 @@ script = ExtResource( 1 )
 _player_path = NodePath("Draft/Dudesse")
 
 [node name="Sun" parent="." instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 0.574165, 0.818705, 0, -0.818705, 0.574165, 0, 86.8362, 0 )
-light_color = Color( 0.8, 0.763746, 0.527491, 1 )
+transform = Transform( 1, 0, 0, 0, 0.895537, 0.444548, 0, -0.444548, 0.895537, 0, 86.8362, 0 )
+light_color = Color( 0.8, 0.688927, 0.377854, 1 )
 
 [node name="Draft" parent="." instance=ExtResource( 2 )]
 
@@ -20,3 +21,6 @@ light_color = Color( 0.8, 0.763746, 0.527491, 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.67865, 8.44299, -33.4117 )
 
 [node name="Deagle" parent="Draft/Dudesse" instance=ExtResource( 3 )]
+
+[node name="TurretBase" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.26568, 4.80631, -8.61267 )
