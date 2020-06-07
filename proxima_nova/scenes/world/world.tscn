@@ -22,16 +22,6 @@ material = SubResource( 1 )
 
 [sub_resource type="BoxShape" id=4]
 
-[sub_resource type="Environment" id=5]
-background_mode = 1
-background_color = Color( 0.269051, 0.344051, 0.776423, 1 )
-background_energy = 0.75
-ambient_light_color = Color( 0.269051, 0.344051, 0.776423, 1 )
-fog_enabled = true
-fog_color = Color( 0.269051, 0.344051, 0.776423, 1 )
-fog_depth_end = 313.0
-fog_depth_curve = 0.757858
-
 [node name="World" type="Spatial"]
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
 script = ExtResource( 3 )
@@ -45,6 +35,39 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 51.6219, 9.44697, 128.588 )
+equipped = {
+0: {
+"item": "res://scenes/weapons/uzi_gold_long.tscn",
+"slot": 0
+},
+1: {
+"item": "res://scenes/weapons/sniper_camo.tscn",
+"slot": 1
+},
+2: {
+"item": "res://scenes/weapons/pistol.tscn",
+"slot": 2
+},
+3: {
+"item": "res://scenes/weapons/knife_smooth.tscn",
+"slot": 3
+},
+4: {
+"item": "res://scenes/weapons/grenade.tscn",
+"slot": 4
+},
+5: {
+"item": "res://scenes/weapons/smoke_grenade.tscn",
+"slot": 5
+},
+6: {
+"item": "res://scenes/weapons/flash_grenade.tscn",
+"slot": 6
+},
+7: {
+
+}
+}
 
 [node name="Enemies" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 52.1411, -1.66604, 52.0168 )
@@ -82,8 +105,8 @@ shadow_enabled = true
 spot_range = 50.0
 
 [node name="Sun" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, -0.982739, -0.185165, 0, 0.185165, -0.982739, 0, 86.8362, 0 )
-light_color = Color( 0.725936, 0.362968, 0.39258, 1 )
+transform = Transform( 1, 0, 0, 0, 0.182908, -0.983143, 0, 0.983143, 0.182908, 0, 86.8362, 0 )
+light_color = Color( 0.406748, 0.206748, 0.789878, 1 )
 
 [node name="Crate" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.82551, -12.4535 )

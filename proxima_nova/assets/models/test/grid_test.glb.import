@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/dudesse.glb-3ef70458bab8380362e3952699277c9f.scn"
+path="res://.import/grid_test.glb-8f963831064b7521b549bf1629315832.scn"
 
 [deps]
 
-source_file="res://assets/models/character/dudesse.glb"
-dest_files=[ "res://.import/dudesse.glb-3ef70458bab8380362e3952699277c9f.scn" ]
+source_file="res://assets/models/test/grid_test.glb"
+dest_files=[ "res://.import/grid_test.glb-8f963831064b7521b549bf1629315832.scn" ]
 
 [params]
 
@@ -17,11 +17,11 @@ nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
 materials/location=1
-materials/storage=1
+materials/storage=2
 materials/keep_on_reimport=false
 meshes/compress=true
 meshes/ensure_tangents=true
-meshes/storage=0
+meshes/storage=1
 meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
 skins/use_named_skins=true
@@ -29,7 +29,7 @@ external_files/store_in_subdir=true
 animation/import=true
 animation/fps=15
 animation/filter_script=""
-animation/storage=1
+animation/storage=false
 animation/keep_custom_tracks=false
 animation/optimizer/enabled=true
 animation/optimizer/max_linear_error=0.05

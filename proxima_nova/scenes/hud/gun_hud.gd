@@ -25,7 +25,7 @@ func _weapon_switched() -> void:
 	var gun
 	if hand.get_child_count() > 0:
 		gun = hand.get_child(0)
-	if gun is Weapon and gun.is_gun:
+	if gun is Equippable and gun.is_gun:
 		assert(gun.connect("reloading", self, "_reloading") == OK)
 		assert(gun.connect("current_ammo", self, "_current_ammo") == OK)
 		assert(gun.connect("total_ammo", self, "_total_ammo") == OK)

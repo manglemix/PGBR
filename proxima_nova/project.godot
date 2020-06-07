@@ -164,6 +164,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scripts/rooted_person.gd"
 }, {
+"base": "Node",
+"class": "SimpleStateMachine",
+"language": "GDScript",
+"path": "res://scripts/state_machine/simple_state_machine.gd.gd"
+}, {
 "base": "CollisionShape",
 "class": "SqueezedCollider",
 "language": "GDScript",
@@ -236,6 +241,7 @@ _global_script_class_icons={
 "ResourceQueue": "",
 "RestBoneAttachment": "",
 "RootedPerson": "",
+"SimpleStateMachine": "",
 "SqueezedCollider": "",
 "StaminaBar": "",
 "State": "",
@@ -250,7 +256,7 @@ _global_script_class_icons={
 
 config/name="Proxima Nova"
 run/main_scene="res://scenes/main_menu/main_menu.tscn"
-boot_splash/image="res://assets/sprites/ezgif.com-apng-maker.apng"
+boot_splash/image="res://assets/sprites/splash.png"
 boot_splash/bg_color=Color( 0.164706, 0.188235, 0.192157, 1 )
 config/icon="res://icon.png"
 config/macos_native_icon="res://icon.icns"

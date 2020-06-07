@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/pause_menu/pause_menu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/compass/compass.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scenes/islands/island_1.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/islands/tiny_island_1_block_out.tscn" type="PackedScene" id=5]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -14,10 +14,41 @@ background_sky = SubResource( 1 )
 
 [node name="World" type="Spatial"]
 
-[node name="Island" parent="." instance=ExtResource( 5 )]
-
 [node name="Player" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 16.5997, -3.72331 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55.7319, 6.93431, 1.82523 )
+equipped = {
+0: {
+"item": "res://scenes/weapons/uzi_gold_long.tscn",
+"slot": 0
+},
+1: {
+"item": "res://scenes/weapons/sniper_camo.tscn",
+"slot": 1
+},
+2: {
+"item": "res://scenes/weapons/pistol.tscn",
+"slot": 2
+},
+3: {
+"item": "res://scenes/weapons/knife_smooth.tscn",
+"slot": 3
+},
+4: {
+"item": "res://scenes/weapons/grenade.tscn",
+"slot": 4
+},
+5: {
+"item": "res://scenes/weapons/smoke_grenade.tscn",
+"slot": 5
+},
+6: {
+"item": "res://scenes/weapons/flash_grenade.tscn",
+"slot": 6
+},
+7: {
+
+}
+}
 
 [node name="HUD" parent="." instance=ExtResource( 1 )]
 
@@ -31,3 +62,5 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
+
+[node name="Spatial" parent="." instance=ExtResource( 5 )]
