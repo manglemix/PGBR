@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/motion_blur/moblur_shader.tres" type="Material" id=1]
+[ext_resource path="res://addons/motion_blur/motion_blur.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/camera/interaction.gd" type="Script" id=3]
+[ext_resource path="res://addons/motion_blur/motion_blur.gd" type="Script" id=4]
+
+
+
+[sub_resource type="QuadMesh" id=1]
+size = Vector2( 40, 20 )
+
+[node name="CamPivot" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.994, 0 )
+
+[node name="CameraBoom" type="SpringArm" parent="."]
+spring_length = 5.0
+
+[node name="Camera" type="Camera" parent="CameraBoom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.000474036, 0 )
+current = true
+far = 1000.0
+
+[node name="WeaponRayCast" type="RayCast" parent="CameraBoom/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -1000 )
+
+[node name="InteractionRayCast" type="RayCast" parent="CameraBoom/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -2 )
+collision_mask = 2
+script = ExtResource( 3 )
+
+[node name="MotionBlur" type="MeshInstance" parent="CameraBoom/Camera" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
+cast_shadow = 0
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+script = ExtResource( 4 )
