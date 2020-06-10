@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://shaders/water2/water.shader" type="Shader" id=1]
+
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/wave_speed = 0.25
+shader_param/depthOffset = 1.0
+shader_param/wave1 = Plane( 0.05, 0.05, 0.15, 0.3 )
+shader_param/wave2 = Plane( 0.08, 0.26, 0.3, 0.155 )
+shader_param/wave3 = Plane( 0.15, 0.08, 0.25, 0.09 )
+shader_param/foam_level = 0.025
+shader_param/colorDeep = Color( 0.584314, 0.870588, 0.843137, 1 )
+shader_param/colorShallow = Color( 1, 1, 1, 1 )
