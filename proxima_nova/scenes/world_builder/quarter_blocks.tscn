@@ -924,6 +924,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 0 )
 mesh = ExtResource( 55 )
 material/0 = ExtResource( 35 )
 material/1 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody" type="StaticBody" parent="cliff_blockSlopeHalfWalls_rock"]
 
@@ -935,6 +938,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 0 )
 mesh = ExtResource( 54 )
 material/0 = ExtResource( 32 )
 material/1 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody" type="StaticBody" parent="cliff_blockSlopeHalfWalls_stone"]
 
@@ -947,6 +953,9 @@ mesh = ExtResource( 61 )
 material/0 = ExtResource( 35 )
 material/1 = ExtResource( 31 )
 material/2 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody10" type="StaticBody" parent="cliff_halfCornerInner_rock"]
 
@@ -966,6 +975,9 @@ mesh = ExtResource( 56 )
 material/0 = ExtResource( 32 )
 material/1 = ExtResource( 31 )
 material/2 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody12" type="StaticBody" parent="cliff_halfCornerInner_stone"]
 
@@ -984,6 +996,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, 3 )
 mesh = ExtResource( 59 )
 material/0 = ExtResource( 31 )
 material/1 = ExtResource( 35 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody2" type="StaticBody" parent="cliff_halfCorner_rock"]
 
@@ -995,6 +1010,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, 3 )
 mesh = ExtResource( 57 )
 material/0 = ExtResource( 31 )
 material/1 = ExtResource( 32 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody3" type="StaticBody" parent="cliff_halfCorner_stone"]
 
@@ -1006,6 +1024,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -1.5 )
 mesh = ExtResource( 60 )
 material/0 = ExtResource( 35 )
 material/1 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody9" type="StaticBody" parent="cliff_half_rock"]
 
@@ -1018,6 +1039,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0, -1.5 )
 mesh = ExtResource( 58 )
 material/0 = ExtResource( 32 )
 material/1 = ExtResource( 31 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="StaticBody10" type="StaticBody" parent="cliff_half_stone"]
 
